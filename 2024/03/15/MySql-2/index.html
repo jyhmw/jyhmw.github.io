@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="MySql基础与深入，包括索引、日志等等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySql-2">
+<meta property="og:url" content="http://jyhmw.github.io/2024/03/15/MySql-2/index.html">
+<meta property="og:site_name" content="MWBlog">
+<meta property="og:description" content="MySql基础与深入，包括索引、日志等等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jyhmw.github.io/2024/03/15/MySql-2/MySql-2/image-20240315174255724.png">
+<meta property="article:published_time" content="2024-03-15T09:29:54.000Z">
+<meta property="article:modified_time" content="2024-03-15T09:51:49.200Z">
+<meta property="article:author" content="Jyh">
+<meta property="article:tag" content="MySql">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jyhmw.github.io/2024/03/15/MySql-2/MySql-2/image-20240315174255724.png">
+
+
+<link rel="canonical" href="http://jyhmw.github.io/2024/03/15/MySql-2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jyhmw.github.io/2024/03/15/MySql-2/","path":"2024/03/15/MySql-2/","title":"MySql-2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MySql-2 | MWBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MWBlog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">麻木的智力抑制状态</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MySql%E4%BA%8B%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">MySql事务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9B%9B%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">1.1.</span> <span class="nav-text">事务的四种隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E6%9C%AA%E6%8F%90%E4%BA%A4-RU"><span class="nav-number">1.1.1.</span> <span class="nav-text">读未提交 RU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E5%B7%B2%E6%8F%90%E4%BA%A4-RC"><span class="nav-number">1.1.2.</span> <span class="nav-text">读已提交 RC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB-RR"><span class="nav-number">1.1.3.</span> <span class="nav-text">可重复读 RR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%B2%E8%A1%8C%E5%8C%96Serializable"><span class="nav-number">1.1.4.</span> <span class="nav-text">串行化Serializable</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">三种问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%84%8F%E8%AF%BB"><span class="nav-number">1.2.1.</span> <span class="nav-text">脏读</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB"><span class="nav-number">1.2.2.</span> <span class="nav-text">不可重复读</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%BB%E8%AF%BB"><span class="nav-number">1.2.3.</span> <span class="nav-text">幻读</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%90%E5%BC%8F%E6%8F%90%E4%BA%A4"><span class="nav-number">1.3.</span> <span class="nav-text">隐式提交</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7"><span class="nav-number">1.4.</span> <span class="nav-text">事务四大特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A%E5%8E%9F%E5%AD%90%E6%80%A7"><span class="nav-number">1.4.1.</span> <span class="nav-text">A原子性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C%E4%B8%80%E8%87%B4%E6%80%A7"><span class="nav-number">1.4.2.</span> <span class="nav-text">C一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#I%E9%9A%94%E7%A6%BB%E6%80%A7"><span class="nav-number">1.4.3.</span> <span class="nav-text">I隔离性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MVCC%E5%AE%9E%E7%8E%B0%EF%BC%88MVCC%E5%A4%9A%E7%89%88%E6%9C%AC%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6%EF%BC%89"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">MVCC实现（MVCC多版本并发控制）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#D%E6%8C%81%E4%B9%85%E6%80%A7"><span class="nav-number">1.4.4.</span> <span class="nav-text">D持久性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySql%E9%94%81"><span class="nav-number">2.</span> <span class="nav-text">MySql锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E9%94%81"><span class="nav-number">2.1.</span> <span class="nav-text">全局锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E9%94%81"><span class="nav-number">2.2.</span> <span class="nav-text">表锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E9%94%81-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">表锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E6%95%B0%E6%8D%AE%E9%94%81"><span class="nav-number">2.2.2.</span> <span class="nav-text">元数据锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%84%8F%E5%90%91%E9%94%81"><span class="nav-number">2.2.3.</span> <span class="nav-text">意向锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%8C%E9%94%81"><span class="nav-number">2.3.</span> <span class="nav-text">行锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E9%94%81%E6%97%B6%E6%9C%BA"><span class="nav-number">2.3.1.</span> <span class="nav-text">加锁时机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E9%94%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.3.2.</span> <span class="nav-text">两种锁实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E9%94%81"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">共享锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%AE%83%E9%94%81"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">排它锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%B4%E9%9A%99%E9%94%81"><span class="nav-number">2.4.</span> <span class="nav-text">间隙锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.4.1.</span> <span class="nav-text">原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%BB%E9%94%81"><span class="nav-number">2.5.</span> <span class="nav-text">死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%EF%BC%9F"><span class="nav-number">2.5.1.</span> <span class="nav-text">怎么解决？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">MySql主从复制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%BB%BA%E7%AB%8B%E4%B8%BB%E4%BB%8E%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="nav-number">3.1.</span> <span class="nav-text">为什么要建立主从模型？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E8%BF%87%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">主从复制过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql5-6%E4%B9%8B%E5%89%8D"><span class="nav-number">3.2.1.</span> <span class="nav-text">mysql5.6之前</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">存在的问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql5-6"><span class="nav-number">3.2.2.</span> <span class="nav-text">mysql5.6</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98-1"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">存在的问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql5-7"><span class="nav-number">3.2.3.</span> <span class="nav-text">mysql5.7</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-1"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">原理</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">其他问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86%EF%BC%9F"><span class="nav-number">4.1.</span> <span class="nav-text">遇到慢查询怎么处理？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E5%AD%97%E6%AE%B5%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="nav-number">4.2.</span> <span class="nav-text">如何选择字段建立索引？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F"><span class="nav-number">4.3.</span> <span class="nav-text">什么时候刷脏页？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%8C%E8%AE%B0%E5%BD%95%E7%9A%84%E4%B8%8D%E5%8F%AF%E8%A7%81%E7%9A%84%E5%AD%97%E6%AE%B5"><span class="nav-number">4.4.</span> <span class="nav-text">行记录的不可见的字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8emoji%E8%A1%A8%E6%83%85%EF%BC%9F"><span class="nav-number">4.5.</span> <span class="nav-text">如何存储emoji表情？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%A2%9EID%E7%94%A8%E5%AE%8C%E4%BA%86%E4%BC%9A%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">4.6.</span> <span class="nav-text">自增ID用完了会发生什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E8%87%AA%E5%A2%9EID%E7%94%A8%E5%AE%8C%E4%BA%86%EF%BC%9F%EF%BC%9F"><span class="nav-number">4.7.</span> <span class="nav-text">怎么解决自增ID用完了？？</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jyh"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jyh</p>
+  <div class="site-description" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jyhmw.github.io/2024/03/15/MySql-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jyh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MWBlog">
+      <meta itemprop="description" content="莫听穿林打叶声，何妨吟啸且徐行。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MySql-2 | MWBlog">
+      <meta itemprop="description" content="MySql基础与深入，包括索引、日志等等。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySql-2
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-03-15 17:29:54 / 修改时间：17:51:49" itemprop="dateCreated datePublished" datetime="2024-03-15T17:29:54+08:00">2024-03-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%AB%E8%82%A1/" itemprop="url" rel="index"><span itemprop="name">八股</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">MySql基础与深入，包括索引、日志等等。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="MySql事务"><a href="#MySql事务" class="headerlink" title="MySql事务"></a>MySql事务</h1><h2 id="事务的四种隔离级别"><a href="#事务的四种隔离级别" class="headerlink" title="事务的四种隔离级别"></a>事务的四种隔离级别</h2><h3 id="读未提交-RU"><a href="#读未提交-RU" class="headerlink" title="读未提交 RU"></a>读未提交 RU</h3><p>有脏读，不可重复读，幻读问题</p>
+<h3 id="读已提交-RC"><a href="#读已提交-RC" class="headerlink" title="读已提交 RC"></a>读已提交 RC</h3><blockquote>
+<p>Oracle 默认</p>
+</blockquote>
+<p>有幻读，不可重复读问题</p>
+<h3 id="可重复读-RR"><a href="#可重复读-RR" class="headerlink" title="可重复读 RR"></a>可重复读 RR</h3><blockquote>
+<p>MySql默认</p>
+</blockquote>
+<p>有幻读问题</p>
+<h3 id="串行化Serializable"><a href="#串行化Serializable" class="headerlink" title="串行化Serializable"></a>串行化Serializable</h3><p>没有问题</p>
+<h2 id="三种问题"><a href="#三种问题" class="headerlink" title="三种问题"></a>三种问题</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><p>脏读是指一个事务读取到了另一个事务尚未提交的数据变更。如果那个事务最终回滚，那么读取到的数据将是无效的。脏读通常在最低的隔离级别（如读未提交 Read Uncommitted）下可能发生。</p>
+<h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h3><p>不可重复读是指在一个事务执行过程中，多次读取同一数据集合时，由于其他事务的介入，后续读取的结果与前面的读取结果不一致。这通常是由于其他事务在这两次读取之间更新了数据。</p>
+<h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h3><p>幻读是指在一个事务执行过程中，多次执行相同的查询，由于其他事务插入或删除了符合查询条件的数据，导致后续的查询结果包含了之前不存在的记录（幻影行）。幻读通常发生在可重复读（Repeatable Read）或更高的隔离级别下。</p>
+<h2 id="隐式提交"><a href="#隐式提交" class="headerlink" title="隐式提交"></a>隐式提交</h2><blockquote>
+<p>没有使用指令</p>
+</blockquote>
+<ul>
+<li>执行了DDL语句：create、drop、alter</li>
+<li>开启了一个新的事务</li>
+<li>使用了锁</li>
+<li>使用了加载操作</li>
+</ul>
+<h2 id="事务四大特性"><a href="#事务四大特性" class="headerlink" title="事务四大特性"></a>事务四大特性</h2><h3 id="A原子性"><a href="#A原子性" class="headerlink" title="A原子性"></a>A原子性</h3><blockquote>
+<p>即事务要么都成功，要么都失败</p>
+</blockquote>
+<ul>
+<li><p>通过undo log实现的</p>
+<p>undo log其实记录的是一个链表，链首为最新更改数据的信息，链尾为最早更改数据的信息（信息中其实就是改行所以的字段，通过不可见字段trx_id标记事务的id）</p>
+</li>
+<li><p>undo log会配合每一行记录的隐藏字段 row_ptr回滚指针实现回滚</p>
+</li>
+</ul>
+<h3 id="C一致性"><a href="#C一致性" class="headerlink" title="C一致性"></a>C一致性</h3><blockquote>
+<p>事务执行前后，数据库的完整性约束不会发生变化</p>
+</blockquote>
+<h3 id="I隔离性"><a href="#I隔离性" class="headerlink" title="I隔离性"></a>I隔离性</h3><blockquote>
+<p>事务之间相互隔离</p>
+</blockquote>
+<h4 id="MVCC实现（MVCC多版本并发控制）"><a href="#MVCC实现（MVCC多版本并发控制）" class="headerlink" title="MVCC实现（MVCC多版本并发控制）"></a>MVCC实现（MVCC多版本并发控制）</h4><ul>
+<li><p>制定了关于快照读和当前读的相关内容</p>
+<ul>
+<li><p>当前读：比如update、insert、delete以及加锁的select语句都会修改当前读</p>
+</li>
+<li><p>快照读：select语句读取的是快照读<br>快照什么时候建立？</p>
+<p>RC级别 每次快照读，都会建立新的快照<br>RR级别 第一次需要快照读的时候建立，之后会使用第一次的快照读</p>
+</li>
+</ul>
+</li>
+<li><p>如何判断一个事务A能否看见B事务的值？</p>
+<ul>
+<li><p>A事务自己的操作自己能看到</p>
+</li>
+<li><p>如果B事务没有提交看不到</p>
+</li>
+<li><p>如果B事务提交了</p>
+<ul>
+<li>如果A事务快照建立在B事务提交之前，看不到</li>
+<li>如果A事务快照建立在B事务提交之后，能看到</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="D持久性"><a href="#D持久性" class="headerlink" title="D持久性"></a>D持久性</h3><p>通过redo log 两阶段提交，保证crash safe</p>
+<h1 id="MySql锁"><a href="#MySql锁" class="headerlink" title="MySql锁"></a>MySql锁</h1><h2 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a>全局锁</h2><blockquote>
+<p> FTWRL</p>
+<p> 命令 flush table with read lock</p>
+</blockquote>
+<ul>
+<li>给库做备份的时候用，为了哪些没有事务的存储引擎使用</li>
+<li>给库做备份也可以用Innodb开启一个事务进行备份</li>
+</ul>
+<h2 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h2><h3 id="表锁-1"><a href="#表锁-1" class="headerlink" title="表锁"></a>表锁</h3><ul>
+<li>对于没有索引的遍历，都会加表锁</li>
+<li>加锁：Lock Table</li>
+<li>解锁：Unlock Table</li>
+</ul>
+<h3 id="元数据锁"><a href="#元数据锁" class="headerlink" title="元数据锁"></a>元数据锁</h3><ul>
+<li>更改表结构的时候会自动加元数据锁</li>
+<li>加元数据锁会阻碍之后的所有操作，因此给表加字段最好加一个超时时间</li>
+</ul>
+<h3 id="意向锁"><a href="#意向锁" class="headerlink" title="意向锁"></a>意向锁</h3><blockquote>
+<p>为了使行锁和表锁共存（多粒度锁机制）</p>
+</blockquote>
+<ul>
+<li>加锁之前必须获取意向锁</li>
+<li>可以减小加表锁时，还需要去遍历判断是不是有行锁的开销</li>
+<li>意向共享锁IS<br>共享锁允许多个事务读取同一数据项，但不允许任何事务修改它。当事务想要在某个数据项上加共享锁时，它首先必须在该数据项上设置一个意向共享锁。这个锁告诉其他事务，有一个事务正在尝试读取这个数据项。</li>
+<li>意向排它锁IX<br>排他锁允许事务对数据项进行读取和修改，但不允许其他事务读取或修改同一个数据项。当事务想要在某个数据项上加排他锁时，它首先必须在该数据项上设置一个意向排他锁。这个锁告诉其他事务，有一个事务正在尝试修改这个数据项。</li>
+</ul>
+<h2 id="行锁"><a href="#行锁" class="headerlink" title="行锁"></a>行锁</h2><h3 id="加锁时机"><a href="#加锁时机" class="headerlink" title="加锁时机"></a>加锁时机</h3><blockquote>
+<p>原理 给索引加锁，因此如果有另外一个SQL在遍历时使用了该索引，那么也会进入阻塞</p>
+</blockquote>
+<p>行锁在需要的时候会自动加上，但是不需要的时候不会立即释放，只有事务提交了才会释放行锁</p>
+<h3 id="两种锁实现"><a href="#两种锁实现" class="headerlink" title="两种锁实现"></a>两种锁实现</h3><h4 id="共享锁"><a href="#共享锁" class="headerlink" title="共享锁"></a>共享锁</h4><p>select in share mode</p>
+<h4 id="排它锁"><a href="#排它锁" class="headerlink" title="排它锁"></a>排它锁</h4><p>select..for update<br>update、insert、delete语句自动加排他锁</p>
+<p>加行锁之前都得先去获得意向锁</p>
+<h2 id="间隙锁"><a href="#间隙锁" class="headerlink" title="间隙锁"></a>间隙锁</h2><blockquote>
+<p>解决幻读问题<br>当查询的是一个范围的时候，Innodb会给所有关联内的数据加锁，就是所谓间隙锁</p>
+</blockquote>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>给一个范围加了一把锁，导致其他事务不能去操作，也就解决了幻读</p>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><blockquote>
+<p>如果两个事务，执行过程中分别拿了对面的锁，那么就会死锁</p>
+</blockquote>
+<h3 id="怎么解决？"><a href="#怎么解决？" class="headerlink" title="怎么解决？"></a>怎么解决？</h3><ul>
+<li>1、可以设定一个超时时间</li>
+<li>2、主动发起死锁检测，死锁后，主动回滚其中的一条事务，就可以解决（这也是Mysql的默认方式）</li>
+<li>3、最好的办法是从设计上解决，可以控制并发量；可以将共享的数据多分几行，然后获取总数时加起来；</li>
+</ul>
+<h1 id="MySql主从复制"><a href="#MySql主从复制" class="headerlink" title="MySql主从复制"></a>MySql主从复制</h1><h2 id="为什么要建立主从模型？"><a href="#为什么要建立主从模型？" class="headerlink" title="为什么要建立主从模型？"></a>为什么要建立主从模型？</h2><p>mysql是一个小型数据库，为了解决mysql小的问题，可以建立mysql集群，保证高并发下的稳定性</p>
+<h2 id="主从复制过程"><a href="#主从复制过程" class="headerlink" title="主从复制过程"></a>主从复制过程</h2><h3 id="mysql5-6之前"><a href="#mysql5-6之前" class="headerlink" title="mysql5.6之前"></a>mysql5.6之前</h3><h4 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h4><ol>
+<li>主库将数据写入bin log中</li>
+<li>从库有IO线程网络读取bin log日志</li>
+<li>IO会将读取的数据存放在relay log内</li>
+<li>另一个线程SQL log会去执行relay log的数据，实现主从复制</li>
+</ol>
+<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>主要就是复制过程太慢，主从延迟严重，主要就是因为第四步影响了复制的速度（因为这个过程是读数据往磁盘写，而操作磁盘是最慢的操作）</p>
+<h3 id="mysql5-6"><a href="#mysql5-6" class="headerlink" title="mysql5.6"></a>mysql5.6</h3><blockquote>
+<p>实现了并行复制</p>
+</blockquote>
+<p><img src="MySql-2/image-20240315174255724.png" alt="image-20240315174255724"></p>
+<p>引入了协调者线程Coordinator，负责将不同库的信息分线程去执行，增快速度</p>
+<h4 id="存在的问题-1"><a href="#存在的问题-1" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>分的粒度太粗，是库级别的，其实性能并没有提高很多</p>
+<h3 id="mysql5-7"><a href="#mysql5-7" class="headerlink" title="mysql5.7"></a>mysql5.7</h3><blockquote>
+<p>真正实现了并行复制，解决了主从复制的延迟问题</p>
+</blockquote>
+<h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><p><strong>组提交</strong>：</p>
+<ul>
+<li>每个日志都有一个序列号 LSN，这个值单调递增，一段很短的时间内，可能有多个事务，比如100,120,150，提交时将LSN&lt;150的一起提交</li>
+<li>当事务同时提交时，它们将在单个操作中写入到二进制日志中。 如果事务能同时提交成功，那么它们就不会共享任何锁，这意味着它们没有冲突，因此可以在 Slave 上并行执行。所以通过在主机上的二进制日志中添加组提交信息，这些 Slave 可以并行地安全地运行事务。</li>
+</ul>
+<h1 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h1><h2 id="遇到慢查询怎么处理？"><a href="#遇到慢查询怎么处理？" class="headerlink" title="遇到慢查询怎么处理？"></a>遇到慢查询怎么处理？</h2><ol>
+<li>重复运行几次，看看是不是每次都这么慢<br>如果不是每次都慢，说明慢的那一次是在刷脏页</li>
+<li>看是不是没索引</li>
+<li>看索引是不是用错了<br>用错了？<ul>
+<li>1、analyze table 表名 重新计算统计信息，说不定能用对索引</li>
+<li>2、新建一个索引</li>
+<li>3、force index强制使用一个索引</li>
+</ul>
+</li>
+<li>如果还慢，就要看慢查询日志，查看具体慢的原因了</li>
+</ol>
+<h2 id="如何选择字段建立索引？"><a href="#如何选择字段建立索引？" class="headerlink" title="如何选择字段建立索引？"></a>如何选择字段建立索引？</h2><ol>
+<li>小于2000行的表无需建立索引</li>
+<li>选择基数大的（区分度大的）作为索引，可以用show index查看</li>
+<li>优先用普通索引，可以利用changebuffer，将随机读变为顺序读</li>
+<li>不要选择太长的字段，因为每个辅助索引都会记录聚簇索引的值</li>
+</ol>
+<h2 id="什么时候刷脏页？"><a href="#什么时候刷脏页？" class="headerlink" title="什么时候刷脏页？"></a>什么时候刷脏页？</h2><ol>
+<li>redo log日志写满了，如果继续写会覆盖之前的内容，所以需要把之前的脏页写回磁盘</li>
+<li>Mysql当前很忙，请求很多，导致需要频繁的置换页面，当置换脏页的时候，就得写磁盘</li>
+<li>Mysql很闲的时候，判断当前很闲，就会刷脏页</li>
+<li>Mysql关闭的时候，需要把所有脏页写回磁盘</li>
+</ol>
+<h2 id="行记录的不可见的字段"><a href="#行记录的不可见的字段" class="headerlink" title="行记录的不可见的字段"></a>行记录的不可见的字段</h2><ol>
+<li>row_ptr：回滚指针，与undo log配合实现回滚操作</li>
+<li>row_id：隐藏主键，如果你没有设定主键，那么会选择唯一键当主键，如果没有唯一键，就会创建一个6字节的隐藏字段row_id作为主键</li>
+<li>trx_id：修改当前记录的事务的id号</li>
+</ol>
+<h2 id="如何存储emoji表情？"><a href="#如何存储emoji表情？" class="headerlink" title="如何存储emoji表情？"></a>如何存储emoji表情？</h2><p>使用utf-8mb4而不是utf-8，否则会乱码</p>
+<h2 id="自增ID用完了会发生什么？"><a href="#自增ID用完了会发生什么？" class="headerlink" title="自增ID用完了会发生什么？"></a>自增ID用完了会发生什么？</h2><ol>
+<li>自己设置的非空唯一主键，如果用完了，mysql会报错</li>
+<li>如果是row_id，就会覆盖掉原本的数据</li>
+</ol>
+<h2 id="怎么解决自增ID用完了？？"><a href="#怎么解决自增ID用完了？？" class="headerlink" title="怎么解决自增ID用完了？？"></a>怎么解决自增ID用完了？？</h2><ol>
+<li>换一个索引，比方说换到邮戳类型</li>
+<li>使用bigInteger存</li>
+<li>建立联合索引，用主键和其他字段建立联合索引</li>
+<li>使用UUID或是SnowFlake</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MySql/" rel="tag"># MySql</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/03/13/MySql/" rel="prev" title="MySql">
+                  <i class="fa fa-angle-left"></i> MySql
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/03/16/Redis/" rel="next" title="Redis">
+                  Redis <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jyh</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
