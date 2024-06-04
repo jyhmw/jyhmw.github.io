@@ -27,7 +27,7 @@
 <meta property="og:description" content="Mybatis工作原理，等等知识。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-20T13:40:56.000Z">
-<meta property="article:modified_time" content="2024-03-20T14:12:39.590Z">
+<meta property="article:modified_time" content="2024-06-04T13:30:30.053Z">
 <meta property="article:author" content="Jyh">
 <meta property="article:tag" content="SSM">
 <meta name="twitter:card" content="summary">
@@ -139,7 +139,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MyBatis"><span class="nav-number">1.</span> <span class="nav-text">MyBatis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ORM%E6%A1%86%E6%9E%B6"><span class="nav-number">1.1.</span> <span class="nav-text">ORM框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MyBatis-%E4%B8%8E-Hibernate%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.1.</span> <span class="nav-text">MyBatis 与 Hibernate的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8Mybatis"><span class="nav-number">1.1.2.</span> <span class="nav-text">为什么要使用Mybatis?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">MyBatis工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">全局配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E5%85%83%E7%B4%A0configuration"><span class="nav-number">1.3.1.</span> <span class="nav-text">根元素configuration</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%A0%E5%B0%84%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.</span> <span class="nav-text">映射文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mapper-xml%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.1.</span> <span class="nav-text">mapper.xml文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86"><span class="nav-number">1.4.2.</span> <span class="nav-text">参数处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.4.3.</span> <span class="nav-text">#{}与${}的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resultmap%E5%AE%9E%E7%8E%B0%E9%AB%98%E7%BA%A7%E6%98%A0%E5%B0%84"><span class="nav-number">1.4.4.</span> <span class="nav-text">resultmap实现高级映射</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98"><span class="nav-number">1.5.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mybatis%E6%9C%89%E4%B8%A4%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">1.5.1.</span> <span class="nav-text">Mybatis有两级缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E9%A1%BA%E5%BA%8F"><span class="nav-number">1.5.2.</span> <span class="nav-text">查询顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AEcache"><span class="nav-number">1.5.3.</span> <span class="nav-text">二级缓存配置cache</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MyBatis"><span class="nav-number">1.</span> <span class="nav-text">MyBatis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ORM%E6%A1%86%E6%9E%B6"><span class="nav-number">1.1.</span> <span class="nav-text">ORM框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MyBatis-%E4%B8%8E-Hibernate%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.1.</span> <span class="nav-text">MyBatis 与 Hibernate的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8Mybatis"><span class="nav-number">1.1.2.</span> <span class="nav-text">为什么要使用Mybatis?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">MyBatis工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">全局配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E5%85%83%E7%B4%A0configuration"><span class="nav-number">1.3.1.</span> <span class="nav-text">根元素configuration</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%A0%E5%B0%84%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.</span> <span class="nav-text">映射文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mapper-xml%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.1.</span> <span class="nav-text">mapper.xml文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86"><span class="nav-number">1.4.2.</span> <span class="nav-text">参数处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.4.3.</span> <span class="nav-text">#{}与${}的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resultmap%E5%AE%9E%E7%8E%B0%E9%AB%98%E7%BA%A7%E6%98%A0%E5%B0%84"><span class="nav-number">1.4.4.</span> <span class="nav-text">resultmap实现高级映射</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98"><span class="nav-number">1.5.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mybatis%E6%9C%89%E4%B8%A4%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">1.5.1.</span> <span class="nav-text">Mybatis有两级缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E9%A1%BA%E5%BA%8F"><span class="nav-number">1.5.2.</span> <span class="nav-text">查询顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AEcache"><span class="nav-number">1.5.3.</span> <span class="nav-text">二级缓存配置cache</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%92%8C"><span class="nav-number">1.6.</span> <span class="nav-text">#{}和${}</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -220,9 +220,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-03-20 21:40:56 / 修改时间：22:12:39" itemprop="dateCreated datePublished" datetime="2024-03-20T21:40:56+08:00">2024-03-20</time>
+      <time title="创建时间：2024-03-20 21:40:56" itemprop="dateCreated datePublished" datetime="2024-03-20T21:40:56+08:00">2024-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-06-04 21:30:30" itemprop="dateModified" datetime="2024-06-04T21:30:30+08:00">2024-06-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -406,6 +412,20 @@
 </ul>
 <h4 id="flushInterval"><a href="#flushInterval" class="headerlink" title="flushInterval"></a>flushInterval</h4><p>配置多久时间清空一次缓存，默认不清空</p>
 <h4 id="type"><a href="#type" class="headerlink" title="type"></a>type</h4><p>我们可以自己实现缓存，实现接口cache，然后将实现类的全限定类名作为type的值即可</p>
+<h2 id="和"><a href="#和" class="headerlink" title="#{}和${}"></a>#{}和${}</h2><blockquote>
+<p>#{}是预编译处理，是占位符，${}是字符串替换，是拼接符</p>
+</blockquote>
+<ul>
+<li>Mybatis处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement来赋值</li>
+<li>Mybatis在处理${}时，就是把${}替换成变量的值Statement来赋值</li>
+<li>#{}的变量替换是在DBMS中，变量替换后，#{}对应的变量自动加上单引号</li>
+<li>${}的变量替换是在DBMS外，变量替换后，${}对应的变量不会加上单引号</li>
+<li>使用#{}可以有效的防止SQL注入，提高系统安全性<ol>
+<li>占位符会将输入的值视为参数数据而不是SQL代码</li>
+<li>拼接符会当做SQL代码，如果被恶意注入比如输入SELECT * FROM users WHERE username &#x3D; ‘admin’; DROP TABLE users; *–’;<em>，这里的</em>- -*是SQL语句的注释符号，会导致后面的内容被忽略</li>
+</ol>
+</li>
+</ul>
 
     </div>
 
