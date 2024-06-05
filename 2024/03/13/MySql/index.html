@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://img.jyhmw.cn/image-20240605130322948.png">
 <meta property="og:image" content="https://img.jyhmw.cn/image-20240605130349453.png">
 <meta property="article:published_time" content="2024-03-13T03:03:55.000Z">
-<meta property="article:modified_time" content="2024-06-05T08:32:19.706Z">
+<meta property="article:modified_time" content="2024-06-05T09:17:27.906Z">
 <meta property="article:author" content="Jyh">
 <meta property="article:tag" content="MySql">
 <meta property="article:tag" content="数据库">
@@ -243,7 +243,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-06-05 16:32:19" itemprop="dateModified" datetime="2024-06-05T16:32:19+08:00">2024-06-05</time>
+      <time title="修改时间：2024-06-05 17:17:27" itemprop="dateModified" datetime="2024-06-05T17:17:27+08:00">2024-06-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -964,7 +964,17 @@
 <p><strong>roll_pointer</strong>：每次对哪条聚簇索引记录有修改的时候，都会把老版本写入undo日志中。这个roll_pointer就是存了一个指针，它指向这条聚簇索引记录的上一个版本的位置，通过它来获得上一个版本的记录信息。</p>
 </li>
 </ul>
-<p>而读已提交和可重复读的区别就在于它们生成</p>
+<p>而读已提交和可重复读的区别就在于它们生成ReadView的策略不同</p>
+<ul>
+<li>开始事务时创建readView，readView维护当前活动的事务id，即未提交的事务id，排序生成一个数组</li>
+<li>访问数据，获取数据中的事务id（获取的是事务id最大的记录），对比readView:<ul>
+<li>如果在readView的左边（比readView都小），可以访问（在左边意味着事务已经提交）</li>
+<li>如果在readView的右边（比readView都大）或者就在readView中，不可以访问，获取roll_pointer，取上一版本重新对比（在右边意味着，该事务在readView生成之后出现，在readView中意味着该事务还未提交）</li>
+</ul>
+</li>
+<li><strong>读已提交</strong>隔离级别下的事务在每次查询的开始都会生成一个独立的readView，而<strong>可重复读</strong>隔离级别则在第一次读的时候生成一个readView，之后的读都复用之前的readView</li>
+</ul>
+<p>这就是Mysql的MVCC，通过版本链，实现多版本，可并发读-写，写-读。通过readView生成策略的不同实现不同的隔离级别</p>
 
     </div>
 
