@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="UDP、TCP、Http等计算机网络知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络">
+<meta property="og:url" content="https://jyhmw.github.io/2024/03/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.html">
+<meta property="og:site_name" content="MWBlog">
+<meta property="og:description" content="UDP、TCP、Http等计算机网络知识">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.jyhmw.cn/image-20240318200907799.png">
+<meta property="og:image" content="https://img.jyhmw.cn/image-20240319180555403.png">
+<meta property="og:image" content="https://img.jyhmw.cn/image-20240319182209169.png">
+<meta property="article:published_time" content="2024-03-17T13:30:19.000Z">
+<meta property="article:modified_time" content="2024-06-04T05:55:39.011Z">
+<meta property="article:author" content="Jyh">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.jyhmw.cn/image-20240318200907799.png">
+
+
+<link rel="canonical" href="https://jyhmw.github.io/2024/03/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jyhmw.github.io/2024/03/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/","path":"2024/03/17/计算机网络/","title":"计算机网络"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>计算机网络 | MWBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MWBlog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">麻木的智力抑制状态</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=1822761395&auto=0&height=66"></iframe>
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="nav-number">1.</span> <span class="nav-text">计算机网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%EF%BC%88OSI%E6%A8%A1%E5%9E%8B%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">七层模型（OSI模型）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="nav-number">1.1.1.</span> <span class="nav-text">应用层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E7%A4%BA%E5%B1%82"><span class="nav-number">1.1.2.</span> <span class="nav-text">表示层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D%E5%B1%82"><span class="nav-number">1.1.3.</span> <span class="nav-text">会话层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="nav-number">1.1.4.</span> <span class="nav-text">传输层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-number">1.1.5.</span> <span class="nav-text">网络层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-number">1.1.6.</span> <span class="nav-text">数据链路层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="nav-number">1.1.7.</span> <span class="nav-text">物理层</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">五层模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82-1"><span class="nav-number">1.3.</span> <span class="nav-text">应用层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">1.3.1.</span> <span class="nav-text">DNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP"><span class="nav-number">1.3.2.</span> <span class="nav-text">HTTP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82-1"><span class="nav-number">1.4.</span> <span class="nav-text">传输层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP"><span class="nav-number">1.4.1.</span> <span class="nav-text">UDP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP"><span class="nav-number">1.4.2.</span> <span class="nav-text">TCP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98"><span class="nav-number">1.5.</span> <span class="nav-text">其他问题</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jyh"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jyh</p>
+  <div class="site-description" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jyhmw.github.io/2024/03/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jyh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MWBlog">
+      <meta itemprop="description" content="莫听穿林打叶声，何妨吟啸且徐行。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="计算机网络 | MWBlog">
+      <meta itemprop="description" content="UDP、TCP、Http等计算机网络知识">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计算机网络
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-03-17 21:30:19" itemprop="dateCreated datePublished" datetime="2024-03-17T21:30:19+08:00">2024-03-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-06-04 13:55:39" itemprop="dateModified" datetime="2024-06-04T13:55:39+08:00">2024-06-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%AB%E8%82%A1/" itemprop="url" rel="index"><span itemprop="name">八股</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">UDP、TCP、Http等计算机网络知识</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><h2 id="七层模型（OSI模型）"><a href="#七层模型（OSI模型）" class="headerlink" title="七层模型（OSI模型）"></a>七层模型（OSI模型）</h2><h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><ul>
+<li>为应用软件提供网络服务，如文件传输，电子邮件和其他网络软件服务</li>
+<li>协议示例 HTTP、FTP、SMTP（简单邮件传输协议）</li>
+</ul>
+<h3 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h3><ul>
+<li>确保一个系统发送的信息能被另一个系统的应用层读取，进行数据的翻译和加密</li>
+<li>协议示例：ASCII，JPEG，SSL&#x2F;TSL（安全层协议）</li>
+</ul>
+<h3 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h3><ul>
+<li>管理和控制应用程序之间的会话，提供数据交换的同步和组织</li>
+<li>协议实例：SOCKS（代理服务器协议）、RPC</li>
+</ul>
+<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><ul>
+<li>负责提供端到端的数据传输服务，确保数据的完整性和顺序</li>
+<li>协议示例：TCP、UDP</li>
+</ul>
+<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><ul>
+<li>负责数据包从源到目的地的传输和路由选择，处理数据包在网络中的移动</li>
+<li>协议示例：IP、ICMP（互联网控制消息协议）</li>
+</ul>
+<h3 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h3><ul>
+<li>负责在相邻节点之间的物理链路上传输数据帧，处理帧的寻址、错误检测和纠正</li>
+<li>协议示例：Ethernet（以太网）、PPP（点对点协议）</li>
+</ul>
+<h3 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h3><ul>
+<li>负责在物理媒介上传输原始的比特流，定义了电气、机械、过程和功能标准</li>
+<li>协议示例：RS-232、V.35、Fiber Optic（光纤）</li>
+</ul>
+<blockquote>
+<p>五层模型只出现在计算机网络学习教学过程中，他是对七层模型和四层模型的一个折中，及综合了OSI和TCP&#x2F;IP 体系结构的优点，这样既简洁又能将概念阐述清楚，（主要是因为官方的7层模型太过麻烦复杂）因此主要差别是去掉了会话层和表示层，而传输层改为了运输层，因为他们觉得运输名字更贴切。</p>
+</blockquote>
+<h2 id="五层模型"><a href="#五层模型" class="headerlink" title="五层模型"></a>五层模型</h2><ul>
+<li>应用层<br>最顶层，提供应用程序与网络通信的接口，如HTTP，SMTP，FTP等协议。</li>
+<li>传输层<br>负责端到端的数据传输，提供可靠的数据传输服务，如TCP、UDP协议。</li>
+<li>网络层<br>负责在网络中建立和维护节点之间的连接，并选择最佳的路径进行数据传输，如IP协议。</li>
+<li>数据链路层<br>负责将数据帧从一个节点传输到相邻节点，提供了一些错误检测和纠正的功能，如以太网协议。</li>
+<li>物理层<br>最底层，负责传输原始比特流通过物理介质，如电缆、光纤或无线电波。</li>
+</ul>
+<h2 id="应用层-1"><a href="#应用层-1" class="headerlink" title="应用层"></a>应用层</h2><h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><h4 id="域名服务器"><a href="#域名服务器" class="headerlink" title="域名服务器"></a>域名服务器</h4><ul>
+<li>本地域名服务器</li>
+<li>根域名服务器</li>
+<li>顶级域名服务器</li>
+<li>权限域名服务器</li>
+</ul>
+<h4 id="递归查询"><a href="#递归查询" class="headerlink" title="递归查询"></a>递归查询</h4><p>本地域名服务器代替我们进行DNS查询，查找到IP，或者确认ip不存在</p>
+<h4 id="迭代查询"><a href="#迭代查询" class="headerlink" title="迭代查询"></a>迭代查询</h4><p>各个级别的域名服务器分工合作，得到最终的域名服务器</p>
+<h4 id="当我们在地址栏输入一个网址后的过程"><a href="#当我们在地址栏输入一个网址后的过程" class="headerlink" title="当我们在地址栏输入一个网址后的过程"></a>当我们在地址栏输入一个网址后的过程</h4><p><img data-src="https://img.jyhmw.cn/image-20240318200907799.png" alt="image-20240318200907799"></p>
+<ol>
+<li>输入网址<a target="_blank" rel="noopener" href="https://www.xxx.xxx.xx/">https://www.xxx.xxx.xx</a></li>
+<li>不知道ip时（只有域名），就会进行DNS查询，将域名转换为IP地址<ul>
+<li>查询浏览器缓存</li>
+<li>查询系统缓存 –》hosts文件</li>
+<li>查询路由表</li>
+<li>查询本地域名服务器，本地域名服务器代理我们访问其域名服务器<ul>
+<li>查询根域名服务器 得到顶级域名服务器地址</li>
+<li>查询顶级域名服务器 得到二级域名服务器（权威域名服务器地址）</li>
+<li>查询权威名称服务器</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>知道ip后，开始TCP三次握手</li>
+<li>连接建立后开始TLS&#x2F;SSL握手</li>
+<li>开始安全通信</li>
+</ol>
+<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><blockquote>
+<p>HTTP(Hyper Transfer Protocol超文本传输协议)</p>
+<p>无状态</p>
+<p>无需连接（底层需要TCP连接）</p>
+<p>半双工</p>
+</blockquote>
+<h4 id="HTTP报文结构"><a href="#HTTP报文结构" class="headerlink" title="HTTP报文结构"></a>HTTP报文结构</h4><h5 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h5><h6 id="请求行"><a href="#请求行" class="headerlink" title="请求行"></a>请求行</h6><ul>
+<li>结构是方法、网址、版本号：GET<a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a> HTTP&#x2F;1.1</li>
+<li>RESTFUL风格方法<ul>
+<li>GET</li>
+<li>POST<ul>
+<li>GET POST的区别<ol>
+<li>get幂等安全，post不幂等不安全。幂等：请求多少次都一样，安全：请求不会更改服务器资源</li>
+<li>get参数有限，明文传输；post参数无限</li>
+<li>get没有请求体</li>
+<li>get请求会被浏览器缓存，post不会</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="请求头"><a href="#请求头" class="headerlink" title="请求头"></a>请求头</h6><ul>
+<li>多种字段</li>
+<li>Accept：text&#x2F;heml,image&#x2F;* 支持的数据类型</li>
+<li>Host:<a target="_blank" rel="noopener" href="http://www.xxx.xxx.xx/">www.xxx.xxx.xx</a> 想要访问的主机</li>
+<li>Referer：防盗链，浏览器告诉服务器自己从哪个页面而来</li>
+<li>User-Agent: Mozilla&#x2F;4.0 (compatible; MSIE 5.5; Windows NT 5.0) 浏览器内核</li>
+<li>Cookie</li>
+<li>Connection：Close&#x2F;Keep-Alive  本次请求后连接是否断开</li>
+</ul>
+<h6 id="请求空行"><a href="#请求空行" class="headerlink" title="请求空行"></a>请求空行</h6><p>分隔请求头和请求体</p>
+<h6 id="请求体"><a href="#请求体" class="headerlink" title="请求体"></a>请求体</h6><h5 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h5><h6 id="响应行"><a href="#响应行" class="headerlink" title="响应行"></a>响应行</h6><ul>
+<li>HTTP&#x2F;1.1 200ok</li>
+<li>状态码<ul>
+<li>200 正常</li>
+<li>301 资源永久重定向</li>
+<li>302 资源临时重定向，会将 POST 转化为 GET(默认情况下，重定向请求的方法应该与原始请求的方法相同,但POST不幂等，不安全，对服务器有影响,也是为了防止重复提交)</li>
+<li>307 同302，但不会更改post为get</li>
+<li>400 请求的报文有误，是一个笼统的状态码</li>
+<li>401 需要确认身份</li>
+<li>403 禁止访问，权限不允许</li>
+<li>404 资源找不到</li>
+<li>5xx 服务端错误</li>
+</ul>
+</li>
+</ul>
+<h6 id="响应头"><a href="#响应头" class="headerlink" title="响应头"></a>响应头</h6><ul>
+<li>Set-Cookie 设置Cookie</li>
+<li>Connection: close&#x2F;Keep-Alive  连接状态</li>
+<li>Location  跳转的网页</li>
+<li>Cache-Control: no-cache 是否设置缓存 替代Expires和Last-Modified</li>
+<li>Last-Modified: Tue, 11 Jul 2000 18:23:51 GMT 上次更改时间</li>
+<li>Content-Type: text&#x2F;html; charset&#x3D;GB2312 响应数据的类型</li>
+</ul>
+<h6 id="响应空行"><a href="#响应空行" class="headerlink" title="响应空行"></a>响应空行</h6><p>分隔响应头和响应体</p>
+<h6 id="响应体"><a href="#响应体" class="headerlink" title="响应体"></a>响应体</h6><h5 id="HTTP1-0"><a href="#HTTP1-0" class="headerlink" title="HTTP1.0"></a>HTTP1.0</h5><h6 id="端口80"><a href="#端口80" class="headerlink" title="端口80"></a>端口80</h6><h6 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h6><ul>
+<li>非持续连接<ul>
+<li>每个请求和响应体都需要一个单独的TCP发送</li>
+<li>10张图片我们就得TCP连接10次</li>
+</ul>
+</li>
+<li>队头阻塞 有一个HTTP请求阻塞，之后的都会阻塞</li>
+<li>一次响应一次发送 只有等待第一个请求响应后，才能发送第二个请求</li>
+<li>无状态 不保存任何状态</li>
+<li>数据明文传输</li>
+</ul>
+<h5 id="HTTP1-1"><a href="#HTTP1-1" class="headerlink" title="HTTP1.1"></a>HTTP1.1</h5><h6 id="改进点"><a href="#改进点" class="headerlink" title="改进点"></a>改进点</h6><ul>
+<li>持续连接<ul>
+<li>多个请求和响应可以使用同一个TCP连接</li>
+<li>Connection:Keep-Alive</li>
+</ul>
+</li>
+<li>管道网络传输<ul>
+<li>无需等待响应就可以发出第二个</li>
+<li>没有解决队头阻塞，有一个响应出现丢包，依然会阻塞</li>
+<li>实际上没有多少浏览器支持了这项功能，而是使用其他方式</li>
+</ul>
+</li>
+<li>改进无状态 使用Cookie保存数据</li>
+</ul>
+<h6 id="依然存在的问题"><a href="#依然存在的问题" class="headerlink" title="依然存在的问题"></a>依然存在的问题</h6><ul>
+<li>队头阻塞</li>
+<li>请求响应头部很大，没有压缩，传输压力大</li>
+<li>没有请求优先级控制</li>
+<li>请求只能从客户端发起</li>
+<li>明文传输</li>
+</ul>
+<h5 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h5><h6 id="端口443"><a href="#端口443" class="headerlink" title="端口443"></a>端口443</h6><h6 id="加了TLS-SSL传输层安全协议"><a href="#加了TLS-SSL传输层安全协议" class="headerlink" title="加了TLS&#x2F;SSL传输层安全协议"></a>加了TLS&#x2F;SSL传输层安全协议</h6><h6 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h6><ul>
+<li>对称加密+非对称加密</li>
+<li>摘要算法，负责校验数据完整性</li>
+<li>数字证书，验证数据是否安全</li>
+</ul>
+<h6 id="SSL握手过程（发生在HTTP三次握手建立后）"><a href="#SSL握手过程（发生在HTTP三次握手建立后）" class="headerlink" title="SSL握手过程（发生在HTTP三次握手建立后）"></a>SSL握手过程（发生在HTTP三次握手建立后）</h6><ol>
+<li>客户端发起握手：发送ClientHello消息 包含TLS版本、加密套件、第一随机数</li>
+<li>服务器收到回应：发送ServerHello消息 包含TLS版本、加密套件、第二随机数</li>
+<li>服务器发送数字证书给客户端：发送Certificate消息（可选） 包含公钥和证书信息</li>
+<li>服务器端发送ServerKeyExchange消息 <ul>
+<li>对于RSA算法，它的公钥在证书内，不需要发送此消息</li>
+<li>对于DH算法，需要在此消息中协商DH参数</li>
+</ul>
+</li>
+<li>服务器端发送ServerHelloDone：表示消息发送完毕</li>
+<li>客户端认证证书，进行秘钥交换<ul>
+<li>浏览器收到证书，对照信任证书列表，确认是否可信</li>
+<li>如果可信，RSA算法从证书获得公钥，生成48字节的预主秘钥（第三随机数）用公钥加密，发给服务器，服务器用自己的私钥解密，得到预主秘钥</li>
+<li>预主秘钥是一个临时的对称秘钥</li>
+</ul>
+</li>
+<li>服务器和客户端都使用第一随机数和第二随机数生成对称加密秘钥，用于后续通信</li>
+</ol>
+<h5 id="HTTP2-0"><a href="#HTTP2-0" class="headerlink" title="HTTP2.0"></a>HTTP2.0</h5><h6 id="优化了之前存在的问题"><a href="#优化了之前存在的问题" class="headerlink" title="优化了之前存在的问题"></a>优化了之前存在的问题</h6><ul>
+<li>头部压缩 HPACK算法，即客户端和服务器各自维护一个头信息表，这样减少每次发送的头信息的大小</li>
+<li>二进制化 消息头和消息体不再明文传输，而是二进制格式发送</li>
+<li>无序发送 同一个连接里面连续的数据包，可能属于不同的回应</li>
+<li>解决队头阻塞 <ul>
+<li>可以并发进行请求，并且可以并发响应，还不用按顺序，因为数据帧有流标识符标记</li>
+<li>如何解决的？<ul>
+<li>每一个数据包称为一个数据流</li>
+<li>每一个数据流都有一个编号，客户端发出的数据流编号为奇数， 服务器发出的数据流编号为偶数</li>
+<li>客户端还可以指定数据流的优先级</li>
+<li>报文含有流标识符，这样解决无序响应的问题</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>服务器可以主动推送信息</li>
+</ul>
+<h6 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h6><p>TCP性能出现短板 多个HTTP请求复用一个TCP连接，一旦TCP连接丢包，就会触发TCP的重传机制，这样所有的HTTP请求都必须等待丢包重传</p>
+<h5 id="HTTP3-0"><a href="#HTTP3-0" class="headerlink" title="HTTP3.0"></a>HTTP3.0</h5><blockquote>
+<p>基于QUIC协议</p>
+<p>本质上QUIC协议是为了取代TCP协议而出现的</p>
+<p>QUIC协议依托于UDP协议</p>
+<p>整合了TLS1.3、HTTP2.0、TCP的握手、流量控制、拥塞控制</p>
+</blockquote>
+<h6 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>连接建立快</li>
+<li>扛丢包能力强</li>
+<li>自带加密，多路复用</li>
+<li>握手<ul>
+<li>HTTP2.0需要TCP3次握手+TLS三次握手&#x3D;6次</li>
+<li>QUIC只需要3次</li>
+</ul>
+</li>
+</ul>
+<h6 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>吃CPU性能</li>
+<li>兼容性和部署问题</li>
+</ul>
+<h6 id="如何使用UDP实现可靠传输？"><a href="#如何使用UDP实现可靠传输？" class="headerlink" title="如何使用UDP实现可靠传输？"></a>如何使用UDP实现可靠传输？</h6><p>QUIC</p>
+<p>在UDP上层封装一层协议，使用UDP进行丢失重传、流量控制、拥塞控制、加上序列号、超时机制</p>
+<h2 id="传输层-1"><a href="#传输层-1" class="headerlink" title="传输层"></a>传输层</h2><h3 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h3><h4 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>无连接</li>
+<li>尽最大努力交付，但是不一定发送成功</li>
+<li>面向报文</li>
+<li>支持一对一，一对多，多对多</li>
+</ul>
+<h4 id="UDP首部（8字节）"><a href="#UDP首部（8字节）" class="headerlink" title="UDP首部（8字节）"></a>UDP首部（8字节）</h4><ul>
+<li>源端口</li>
+<li>目的端口</li>
+<li>长度</li>
+<li>检验和<ul>
+<li>检验需要加伪首部，伪首部只用于校验是否正确，并不会具体发送<ul>
+<li>源IP</li>
+<li>目的IP</li>
+<li>全0 1个字节，全是0</li>
+<li>协议 </li>
+<li>长度</li>
+</ul>
+</li>
+<li>检验时，使用首部、伪首部、数据字段检验，三者求和取反码，将结果存入检验和字</li>
+</ul>
+</li>
+</ul>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><h4 id="特点-3"><a href="#特点-3" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>需要建立连接</li>
+<li>可靠交付</li>
+<li>面向字节流</li>
+<li>只支持一对一</li>
+</ul>
+<h4 id="首部"><a href="#首部" class="headerlink" title="首部"></a>首部</h4><blockquote>
+<p>20 固定+ 40 可选<br>可选部分支持安全、时间戳等额外的功能。可选部分的长度是可变的，最多可以有 40 字节</p>
+</blockquote>
+<ul>
+<li>源端口</li>
+<li>目的端口</li>
+<li>序号 本报文段要发送的第一个字节的字节号，TCP按字节编号</li>
+<li>确认号 期望收到的下一个字节的编号 确认号为N，代表N-1全部收到</li>
+<li>数据偏移 就是首部长度</li>
+<li>保留 全为0，今后使用，目前无实际意义</li>
+<li>URG 紧急，如果为1表示此报文段优先传输  比如Ctrl+c命令</li>
+<li>ACK 确认收到</li>
+<li>PSH 推送，无需等待到缓存慢再发，直接发送</li>
+<li>PST复位，表明要断开连接，重新建立</li>
+<li>SYN 同步，建立连接使用</li>
+<li>SYN 终止：表明发送方已经发送完毕，要求终止连接</li>
+<li>窗口 接受窗口的大小</li>
+<li>检验和 同UDP的检验，需要与伪首部、首部、数据一同计算</li>
+<li>紧急指针</li>
+<li>选项（可变长度，最长是40字节）<ul>
+<li>MSS最大报文段长度 默认536（不包括头）</li>
+<li>窗口扩大选项</li>
+<li>时间戳<ul>
+<li>用于计算RTT时间（往返时间）</li>
+<li>判断序号是否重复使用</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="如何实现可靠传输？"><a href="#如何实现可靠传输？" class="headerlink" title="如何实现可靠传输？"></a>如何实现可靠传输？</h4><h5 id="首部字段：序号和确认号"><a href="#首部字段：序号和确认号" class="headerlink" title="首部字段：序号和确认号"></a>首部字段：序号和确认号</h5><ul>
+<li><p>序号本报文段要发送的第一个字节的字节号，TCP按字节编号</p>
+</li>
+<li><p>确认号</p>
+<ul>
+<li>期望收到的下一个字节的编号</li>
+<li>确认号为N，代表N-1全部收到</li>
+</ul>
+</li>
+<li><p>连续ARQ协议：规定发送方每收到一个确认请求，就将窗口向前推进一个位置；接收方进行累积确认</p>
+<p>累积确认：对按序到达的最后一个分组发送确认<br>回退N：如果丢了一个包，则需要重新发送丢包及其之后的所有包</p>
+</li>
+</ul>
+<h5 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h5><ul>
+<li>3个窗口+1门限<ul>
+<li>发送窗口</li>
+<li>接收窗口</li>
+<li>拥塞窗口</li>
+<li>慢开始门限</li>
+</ul>
+</li>
+<li>滑动窗口协议<ul>
+<li>TCP 通信双方均维护一个发送缓存与接收缓存（实现全双工）</li>
+<li>发送缓存<br>存放两种数据<ol>
+<li>还没发出去的数据</li>
+<li>已经发出去还没确认的数据</li>
+</ol>
+</li>
+<li>接收缓存<ol>
+<li>按序到达，但是尚未读取的</li>
+<li>未能按序到达的数据</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h5><blockquote>
+<p>什么是cwnd？</p>
+<ul>
+<li>用于控制发送方可以发送到网络上未经确认的数据量，以避免网络拥塞。cwnd的大小会影响数据流量的控制和网络吞吐量</li>
+<li>具体来说，cwnd表示了当前发送方可以发送的数据量大小，单位为字节。发送发发送数据时，会根据cwnd的大小来控制发送的数据量，确保网络中的数据包不会过多导致拥塞</li>
+<li>TCP的拥塞控制算法使用cwnd来动态调整发送数据的速率。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>什么是sshresh?</p>
+<ul>
+<li>sshresh(Slow Start Threshold) 是TCP拥塞控制算法中的一个参数，用于指示拥塞避免阶段的门限。当TCP进入拥塞避免阶段时，拥塞窗口cwnd的速率会由指数增长变为线性增长，而sshresh就是触发这个阶段转换的门限值</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>如何判断出现了阻塞？</p>
+<ul>
+<li>出现了超时重传（快重传）</li>
+<li>出现了丢包</li>
+<li>出现了ACK延迟或是重复</li>
+</ul>
+</li>
+<li><p>拥塞窗口cwnd</p>
+<ul>
+<li><p>发送方维持</p>
+</li>
+<li><p>拥塞控制，慢开始门限ssthresh</p>
+<ol>
+<li><p>cwnd&lt;ssthresh  (慢开始门限)  每经过一个RTT就翻倍cwnd</p>
+<ol>
+<li>cwnd&#x3D;ssthresh 二者选一</li>
+</ol>
+</li>
+<li><p>cwnd&gt;ssthresh 拥塞避免 经过一个RTT线性增长cwnd</p>
+</li>
+<li><p>出现拥塞</p>
+<ul>
+<li>将ssthresh&#x3D;cwnd&#x2F;2</li>
+<li>将cwnd &#x3D; 1</li>
+</ul>
+</li>
+<li><p>出现三个重复的ACK</p>
+<ul>
+<li><p>快重传<br>收到3个重复的确认信息，就判断当前的网络不好，要求接收方进行快重传；<br>快重传的意思是：即使是收到了乱序的报文段，也要立即发送确认；并且不要再等待缓存满再发送了，ACK要直接进行发送</p>
+</li>
+<li><p>快恢复<br>一般与快重传一起使用，会设置拥塞窗口更大一点</p>
+<p>拥塞窗口设置为当前值cwnd &#x3D; ssthresh，而不是设置为1</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="计时器"><a href="#计时器" class="headerlink" title="计时器"></a>计时器</h5><ul>
+<li>连接计时器</li>
+<li>重传计时器</li>
+<li>保活计时器</li>
+<li>FIN_WAIT_2计时器</li>
+<li>TIME_WAIT定时器</li>
+</ul>
+<h4 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h4><p><img data-src="https://img.jyhmw.cn/image-20240319180555403.png" alt="image-20240319180555403"></p>
+<h5 id="第一次握手（SYN-1，seq-x）"><a href="#第一次握手（SYN-1，seq-x）" class="headerlink" title="第一次握手（SYN&#x3D;1，seq&#x3D;x）"></a>第一次握手（SYN&#x3D;1，seq&#x3D;x）</h5><p>客户端发送一个TCP的SYN标志为1的包，指明客户端打算连接的服务器的端口，以及初始序号x，保存在包头的序列号字段里</p>
+<h5 id="第二次握手（SYN-1，ACK-1，seq-y，ACKnum-x-1）"><a href="#第二次握手（SYN-1，ACK-1，seq-y，ACKnum-x-1）" class="headerlink" title="第二次握手（SYN&#x3D;1，ACK&#x3D;1，seq&#x3D;y，ACKnum&#x3D;x+1）"></a>第二次握手（SYN&#x3D;1，ACK&#x3D;1，seq&#x3D;y，ACKnum&#x3D;x+1）</h5><p>服务器发回确认包（ACK）应答。即SYN标志位和ACK标志位均为1。服务器端选择自己ISN序列号，放到seq域里，同时将确认序号设置为客户的ISN加1，即X+1。发送完毕后，服务器端进入SYN_RCVD状态</p>
+<h5 id="第三次握手（ACK-1，ACKnum-y-1）"><a href="#第三次握手（ACK-1，ACKnum-y-1）" class="headerlink" title="第三次握手（ACK&#x3D;1，ACKnum&#x3D;y+1）"></a>第三次握手（ACK&#x3D;1，ACKnum&#x3D;y+1）</h5><p>客户端再次发送确认包（ACK），SYN标志位0，ACK标志位为1，并且把服务器发来 ACK 的序号字段+1，放在确定字段中发送给对方，并且在数据段放写ISN的+1。</p>
+<p>发送完毕后，客户端进入 ESTABLISHED 状态，当服务器端接收到这个包时，也进入 ESTABLISHED 状态，TCP 握手结束</p>
+<h5 id="为什么是三次握手而不是两次？"><a href="#为什么是三次握手而不是两次？" class="headerlink" title="为什么是三次握手而不是两次？"></a>为什么是三次握手而不是两次？</h5><p>根本原因: 无法确认客户端的接收能力。</p>
+<p>如果是两次，你现在发了 SYN 报文想握手，但是这个包滞留在了当前的网络中迟迟没有到达，TCP 以为这是丢了包，于是重传，两次握手建立好了连接。</p>
+<p>看似没有问题，但是连接关闭后，如果这个滞留在网路中的包到达了服务端呢？这时候由于是两次握手，服务端只要接收到然后发送相应的数据包，就默认建立连接，但是现在客户端已经断开了。</p>
+<p>看到问题的吧，这就带来了连接资源的浪费。</p>
+<h4 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h4><p><img data-src="https://img.jyhmw.cn/image-20240319182209169.png" alt="image-20240319182209169"></p>
+<h5 id="第一次挥手（FIN-1，seq-x）"><a href="#第一次挥手（FIN-1，seq-x）" class="headerlink" title="第一次挥手（FIN&#x3D;1，seq&#x3D;x）"></a>第一次挥手（FIN&#x3D;1，seq&#x3D;x）</h5><p>假设客户端想要关闭连接，客户端发送一个 FIN 标志位置为1的包，表示自己已经没有数据可以发送了，但是仍然可以接受数据。</p>
+<p>发送完毕后，客户端进入 FIN_WAIT_1 状态</p>
+<h5 id="第二次挥手（ACK-1，ACKnum-x-1）"><a href="#第二次挥手（ACK-1，ACKnum-x-1）" class="headerlink" title="第二次挥手（ACK&#x3D;1，ACKnum&#x3D;x+1）"></a>第二次挥手（ACK&#x3D;1，ACKnum&#x3D;x+1）</h5><p>服务器端确认客户端的 FIN 包，发送一个确认包，表明自己接受到了客户端关闭连接的请求，但还没有准备好关闭连接。</p>
+<p>发送完毕后，服务器端进入 CLOSE_WAIT 状态，客户端接收到这个确认包之后，进入 FIN_WAIT_2 状态，等待服务器端关闭连接</p>
+<h5 id="第三次挥手（FIN-1，seq-y）"><a href="#第三次挥手（FIN-1，seq-y）" class="headerlink" title="第三次挥手（FIN&#x3D;1，seq&#x3D;y）"></a>第三次挥手（FIN&#x3D;1，seq&#x3D;y）</h5><p>服务器端准备好关闭连接时，向客户端发送结束连接请求，FIN 置为1</p>
+<p>发送完毕后，服务器端进入 LAST_ACK 状态，等待来自客户端的最后一个ACK</p>
+<h5 id="第四次挥手（ACK-1，ACKnum-y-1）"><a href="#第四次挥手（ACK-1，ACKnum-y-1）" class="headerlink" title="第四次挥手（ACK&#x3D;1，ACKnum&#x3D;y+1）"></a>第四次挥手（ACK&#x3D;1，ACKnum&#x3D;y+1）</h5><p>客户端接收到来自服务器端的关闭请求，发送一个确认包，并进入 TIME_WAIT状态，等待可能出现的要求重传的 ACK 包。</p>
+<p>服务器端接收到这个确认包之后，关闭连接，进入 CLOSED 状态。</p>
+<p><em><strong>客户端等待了某个固定时间（两个最大段生命周期，2MSL，2 Maximum Segment Lifetime）之后，在这段时间内如果客户端没有收到服务端的重发请求（没有收到服务器端的 ACK ），那么表示 ACK 成功到达，于是自己也关闭连接，进入 CLOSED 状态，挥手结束；否则客户端重发 ACK)</strong></em></p>
+<h5 id="为什么是四次挥手不是三次？"><a href="#为什么是四次挥手不是三次？" class="headerlink" title="为什么是四次挥手不是三次？"></a>为什么是四次挥手不是三次？</h5><p>因为服务端收到FIN，不会立即返回FIN，必须等到服务端所有报文发送完毕后，才能发FIN。因此先发一个ACK表示已经收到客户端的FIN，延迟一段时间才发FIN。这就造成了四次挥手。</p>
+<h5 id="如果将ACK和FIN合并为一次，即总共三次挥手会出现什么问题？"><a href="#如果将ACK和FIN合并为一次，即总共三次挥手会出现什么问题？" class="headerlink" title="如果将ACK和FIN合并为一次，即总共三次挥手会出现什么问题？"></a>如果将ACK和FIN合并为一次，即总共三次挥手会出现什么问题？</h5><p>等于说服务端将ACK和FIN的发送合并为一次挥手，这个时候长时间的延迟可能会导致客户端误以为FIN没有到达客户端，从而让客户端不断的重发FIN</p>
+<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><h4 id="TCP和UDP的区别？"><a href="#TCP和UDP的区别？" class="headerlink" title="TCP和UDP的区别？"></a>TCP和UDP的区别？</h4><ul>
+<li>TCP面向流，可靠传输，需要建立连接，只支持一对一</li>
+<li>UDP面向数据包，尽最大努力交付，无需建立连接，支持一对一、一对多、多对多</li>
+</ul>
+<h4 id="TCP的粘包半包问题是什么？为什么会出现？怎么解决？"><a href="#TCP的粘包半包问题是什么？为什么会出现？怎么解决？" class="headerlink" title="TCP的粘包半包问题是什么？为什么会出现？怎么解决？"></a>TCP的粘包半包问题是什么？为什么会出现？怎么解决？</h4><ul>
+<li>粘包：多个数据包“粘在一起”，形成一个大的数据包</li>
+<li>半包：半包问题是指接收方收到的数据包不完整，只包含了部分数据。这可能是因为发送方发送的数据包在传输过程中被拆分，或者接收方的缓冲区不足以容纳整个数据包</li>
+<li>原因：<ul>
+<li>TCP是面向流的协议，它的特性就是没有边界；NAGLE算法会将小的TCP请求插到其他请求内，这就导致TCP的请求是毫无边界的</li>
+<li>Nagle算法：将小的数据报（没有达到最大报文段长度MSS）的数据包缓存起来，凑几个一起发送</li>
+</ul>
+</li>
+<li>解决：<ul>
+<li>发送方和接收方固定发送数据的大小，当字符长度不够时用空字符弥补，有了固定大小之后就知道每条消息的具体边界了，这样就没有粘包的问题了</li>
+<li>在 TCP 协议的基础上封装一层自定义数据协议，在自定义数据协议中，包含数据头（存储数据的大小）和 数据的具体内容，这样服务端得到数据之后，通过解析数据头就可以知道数据的具体长度了，也就没有粘包的问题了</li>
+<li>以特殊的字符结尾，比如以“\n”结尾，这样我们就知道数据的具体边界了，从而避免了粘包问题</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/03/16/Redis/" rel="prev" title="Redis">
+                  <i class="fa fa-angle-left"></i> Redis
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/03/19/%E5%80%BC%E5%BE%97%E8%AE%B0%E5%BD%95%E7%9A%84%E8%A7%86%E9%A2%91/" rel="next" title="值得记录的视频">
+                  值得记录的视频 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn">晋ICP备2024041642号-1</a> </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jyh</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

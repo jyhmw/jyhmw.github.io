@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在做大数据分析可视化大作业遇到的一些概念和算法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据分析与可视化相关概念">
+<meta property="og:url" content="https://jyhmw.github.io/2024/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="MWBlog">
+<meta property="og:description" content="在做大数据分析可视化大作业遇到的一些概念和算法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-28T11:49:16.000Z">
+<meta property="article:modified_time" content="2024-04-28T13:27:13.186Z">
+<meta property="article:author" content="Jyh">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://jyhmw.github.io/2024/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jyhmw.github.io/2024/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/","path":"2024/04/28/大数据分析与可视化相关概念/","title":"大数据分析与可视化相关概念"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>大数据分析与可视化相关概念 | MWBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MWBlog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">麻木的智力抑制状态</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=1822761395&auto=0&height=66"></iframe>
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">前置知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.1.</span> <span class="nav-text">机器学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 监督学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 无监督学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 强化学习</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91"><span class="nav-number">1.2.</span> <span class="nav-text">决策树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.2.1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">构建过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98-%E7%BC%BA%E7%82%B9"><span class="nav-number">1.2.3.</span> <span class="nav-text">优&#x2F;缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81"><span class="nav-number">1.3.</span> <span class="nav-text">交叉验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.3.1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98-%E7%BC%BA%E7%82%B9-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">优&#x2F;缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.3.</span> <span class="nav-text">常见方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GridSearchCV-%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.</span> <span class="nav-text">GridSearchCV 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#R-2%E8%AF%84%E5%88%86"><span class="nav-number">1.5.</span> <span class="nav-text">R^2评分</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jyh"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jyh</p>
+  <div class="site-description" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jyhmw.github.io/2024/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jyh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MWBlog">
+      <meta itemprop="description" content="莫听穿林打叶声，何妨吟啸且徐行。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="大数据分析与可视化相关概念 | MWBlog">
+      <meta itemprop="description" content="在做大数据分析可视化大作业遇到的一些概念和算法。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          大数据分析与可视化相关概念
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-04-28 19:49:16 / 修改时间：21:27:13" itemprop="dateCreated datePublished" datetime="2024-04-28T19:49:16+08:00">2024-04-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" itemprop="url" rel="index"><span itemprop="name">大数据</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">在做大数据分析可视化大作业遇到的一些概念和算法。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><blockquote>
+<p>机器学习是人工智能的一个分支，它涉及开发算法和统计模型，使计算机系统能够从数据中学习并做出预测或决策，而无需进行明确的编程</p>
+</blockquote>
+<h3 id="1-监督学习"><a href="#1-监督学习" class="headerlink" title="1. 监督学习"></a>1. 监督学习</h3><p>在这种学习中，算法从标记的训练数据中学习，每个训练示例都配有正确的输出标签。算法的目标是学习如何预测新数据的标签。</p>
+<h3 id="2-无监督学习"><a href="#2-无监督学习" class="headerlink" title="2. 无监督学习"></a>2. 无监督学习</h3><p>在无监督学习中，算法处理未标记的数据，尝试找出数据中的模式或结构。常见的无监督学习任务包括聚类和降维。</p>
+<h3 id="3-强化学习"><a href="#3-强化学习" class="headerlink" title="3. 强化学习"></a>3. 强化学习</h3><p>强化学习是一种让算法通过与环境交互来学习的方法。算法通过执行动作并接收奖励或惩罚来学习，目标是最大化累积奖励。</p>
+<p><strong>机器学习</strong>的应用非常广泛，包括但不限于图像识别、语音识别、自然语言处理、推荐系统、自动驾驶汽车、游戏玩家、欺诈检测等。</p>
+<p>机器学习的核心在于使用数据来改进系统的性能，而不需要人为地编写特定的规则来处理数据。随着数据量的增加和计算能力的提升，机器学习在许多领域变得越来越重要。</p>
+<h2 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h2><blockquote>
+<p>决策树是一种直观的决策支持工具，广泛应用于数据分析和机器学习中。它通过树状结构来表示决策过程中的分支选择，每个内部节点代表一个属性测试，每个分支代表一个测试结果，每个叶节点代表最终决策结果。</p>
+</blockquote>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><ol>
+<li><strong>节点（Node）</strong>：决策树中的一个点，代表一个决策或属性。</li>
+<li><strong>根节点（Root Node）</strong>：决策树的起始点，通常代表整个数据集。</li>
+<li><strong>内部节点（Internal Node）</strong>：除了根节点和叶节点之外的其他节点，代表决策过程中的中间步骤。</li>
+<li><strong>叶节点（Leaf Node）</strong>：决策树的末端，代表最终决策或分类结果。</li>
+<li><strong>分支（Branch）</strong>：从一个节点到另一个节点的连接，代表决策的一个可能路径。</li>
+<li><strong>路径（Path）</strong>：从根节点到叶节点的一系列分支。</li>
+</ol>
+<h3 id="构建过程"><a href="#构建过程" class="headerlink" title="构建过程"></a>构建过程</h3><ol>
+<li><strong>特征选择</strong>：选择一个属性作为节点，该属性能够最好地分类数据。</li>
+<li><strong>分割数据集</strong>：根据所选属性的不同结果，将数据集分割成多个子集。</li>
+<li><strong>递归构建</strong>：对每个子集重复上述过程，直到满足停止条件（如达到最小节点大小、无法进一步分割等）。</li>
+<li><strong>剪枝（Pruning）</strong>：移除一些分支以防止过拟合。</li>
+</ol>
+<h3 id="优-缺点"><a href="#优-缺点" class="headerlink" title="优&#x2F;缺点"></a>优&#x2F;缺点</h3><p><strong>优点</strong></p>
+<ul>
+<li><strong>易于理解和解释</strong>：决策树的结构清晰，易于可视化和解释，有助于理解决策过程。</li>
+<li><strong>自动特征选择</strong>：在构建过程中，决策树能够自动选择最有信息量的特征。</li>
+<li><strong>适用于分类和回归</strong>：决策树既可以用于分类问题，也可以用于回归问题。</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li><strong>容易过拟合</strong>：特别是在数据特征数量很多时，决策树可能会变得非常复杂，导致过拟合。</li>
+<li><strong>对噪声和异常值敏感</strong>：决策树可能会受到噪声数据和异常值的较大影响。</li>
+<li><strong>可能不稳定</strong>：小的变化在数据中可能会导致完全不同的决策树结构。</li>
+</ul>
+<h2 id="交叉验证"><a href="#交叉验证" class="headerlink" title="交叉验证"></a>交叉验证</h2><blockquote>
+<p>交叉验证（Cross-validation），也称为“k折交叉验证”，是一种在机器学习和统计学中用于评估模型泛化能力的方法。它将数据集分成多个子集，每个子集作为一次独立的测试集，而剩余的子集合并作为训练集。这个过程重复进行多次并计算模型的平均性能指标，从而得到模型的评估结果。</p>
+</blockquote>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li><strong>数据集划分</strong>：将原始数据集随机划分为k个大小相等（或尽可能相等）的子集。</li>
+<li><strong>循环训练和测试</strong>：进行k次循环，每次循环中：<ul>
+<li>将其中一个子集作为测试集（validation set）。</li>
+<li>将剩余的k-1个子集合并作为训练集（training set）。</li>
+<li>使用训练集训练模型。</li>
+<li>使用测试集评估模型的性能。</li>
+</ul>
+</li>
+<li><strong>计算性能指标</strong>：在每次循环中，计算模型的性能指标（如准确率、召回率、F1分数等）。</li>
+<li><strong>求平均值</strong>：将k次循环中得到的性能指标求平均，得到模型的最终评估结果。</li>
+</ol>
+<h3 id="优-缺点-1"><a href="#优-缺点-1" class="headerlink" title="优&#x2F;缺点"></a>优&#x2F;缺点</h3><p><strong>优点</strong></p>
+<ul>
+<li><strong>评估更准确</strong>：交叉验证提供了比单次分割训练集和测试集更准确的模型性能估计。</li>
+<li><strong>利用全部数据</strong>：所有数据点都被用作训练和测试，这有助于充分利用有限的数据。</li>
+<li><strong>减少方差</strong>：通过多次独立测试，交叉验证减少了模型评估结果的方差。</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li><strong>计算成本高</strong>：由于需要多次训练和测试模型，交叉验证的计算成本较高。</li>
+<li><strong>可能存在偏差</strong>：如果数据集中的某些类别在划分子集时分布不均匀，可能会导致模型评估结果的偏差。</li>
+</ul>
+<h3 id="常见方法"><a href="#常见方法" class="headerlink" title="常见方法"></a>常见方法</h3><ol>
+<li><strong>简单交叉验证</strong>：每次只将一个子集作为测试集，其余作为训练集。</li>
+<li><strong>留一法交叉验证（Leave-One-Out Cross-Validation, LOOCV）</strong>：对于每个数据点，将其作为测试集，其余所有点作为训练集。这种方法适用于数据量较小的情况。</li>
+<li><strong>分层交叉验证（Stratified Cross-Validation）</strong>：在类别不平衡的情况下，确保每个子集中各类别的比例与原始数据集中的比例相同。</li>
+<li><strong>时间序列交叉验证（Time Series Cross-Validation）</strong>：对于时间序列数据，按照时间顺序划分子集，以保持数据的时间顺序性。</li>
+</ol>
+<h2 id="GridSearchCV-方法"><a href="#GridSearchCV-方法" class="headerlink" title="GridSearchCV 方法"></a>GridSearchCV 方法</h2><blockquote>
+<p><code>GridSearchCV</code> 是 scikit-learn 库中的一个函数，用于通过遍历给定的参数网格，使用交叉验证来找到最佳的模型参数。</p>
+</blockquote>
+<ol>
+<li><strong>参数网格定义</strong>：首先，你需要定义一个参数字典，其中包含你想要优化的参数以及这些参数的可能值。</li>
+<li><strong>交叉验证</strong>：<code>GridSearchCV</code> 将使用交叉验证来评估每一组参数。对于参数网格中的每一个参数组合，它将执行以下操作：<ul>
+<li>将数据集分成多个子集（通常是k个子集）。</li>
+<li>对于每一组参数，使用k-1个子集作为训练集，剩下的1个子集作为验证集。</li>
+<li>使用训练集上的参数训练模型。</li>
+<li>使用验证集评估模型的性能。</li>
+</ul>
+</li>
+<li><strong>寻找最佳参数</strong>：<code>GridSearchCV</code> 将记录每一组参数的性能，并在所有参数组合中选择平均性能最好的一组参数。</li>
+<li><strong>返回最佳模型</strong>：最终，<code>GridSearchCV</code> 返回使用最佳参数训练的模型，以及这些最佳参数。</li>
+</ol>
+<h2 id="R-2评分"><a href="#R-2评分" class="headerlink" title="R^2评分"></a>R^2评分</h2><p>R2 分数，也称为决定系数，是衡量回归模型性能的指标。它基于模型预测值与实际值之间的相关程度。R2 分数的计算公式如下：</p>
+<p>𝑅2&#x3D;1−∑𝑖&#x3D;1𝑛(𝑦𝑖−𝑦^𝑖)2∑𝑖&#x3D;1𝑛(𝑦𝑖−𝑦ˉ)2<em>R</em>2&#x3D;1−∑<em>i</em>&#x3D;1<em>n</em>(<em>y**i</em>−<em>y</em>ˉ)2∑<em>i</em>&#x3D;1<em>n</em>(<em>y**i</em>−<em>y</em>^<em>i</em>)2</p>
+<p>其中：</p>
+<ul>
+<li>𝑦𝑖<em>y**i</em> 是第 i 个观测值的实际响应变量。</li>
+<li>𝑦^𝑖<em>y</em>^<em>i</em> 是模型预测的第 i 个响应变量。</li>
+<li>𝑦ˉ<em>y</em>ˉ 是所有观测值的实际响应变量的平均值。</li>
+<li>𝑛<em>n</em> 是观测值的总数。</li>
+</ul>
+<p>R2 分数的取值范围从 0 到 1：</p>
+<ul>
+<li>0 表示模型的预测与实际值之间没有相关性，模型的预测与简单使用均值预测一样好。</li>
+<li>1 表示模型的预测与实际值完全相关，模型能够完美地拟合数据。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag"># 大数据</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/04/17/RPC%E5%92%8CHTTP/" rel="prev" title="RPC和HTTP">
+                  <i class="fa fa-angle-left"></i> RPC和HTTP
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/05/27/Java%E5%9F%BA%E7%A1%80/" rel="next" title="Java基础">
+                  Java基础 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn">晋ICP备2024041642号-1</a> </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jyh</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Redis数据类型，数据结构，持久化等等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis">
+<meta property="og:url" content="https://jyhmw.github.io/2024/03/16/Redis/index.html">
+<meta property="og:site_name" content="MWBlog">
+<meta property="og:description" content="Redis数据类型，数据结构，持久化等等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.jyhmw.cn/image-20240317144215207.png">
+<meta property="article:published_time" content="2024-03-16T02:34:19.000Z">
+<meta property="article:modified_time" content="2024-06-04T05:53:22.665Z">
+<meta property="article:author" content="Jyh">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.jyhmw.cn/image-20240317144215207.png">
+
+
+<link rel="canonical" href="https://jyhmw.github.io/2024/03/16/Redis/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jyhmw.github.io/2024/03/16/Redis/","path":"2024/03/16/Redis/","title":"Redis"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redis | MWBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MWBlog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">麻木的智力抑制状态</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=1822761395&auto=0&height=66"></iframe>
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.1.</span> <span class="nav-text">非关系型数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E5%A4%A7%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.1.1.</span> <span class="nav-text">四大非关系型数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAP%E7%90%86%E8%AE%BA"><span class="nav-number">1.1.2.</span> <span class="nav-text">CAP理论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BASE"><span class="nav-number">1.1.3.</span> <span class="nav-text">BASE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.4.</span> <span class="nav-text">关系型数据库与非关系型数据库的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.2.</span> <span class="nav-text">Redis是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Remote-Dictionary-Server%E8%BF%9C%E7%A8%8B%E5%AD%97%E5%85%B8%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.2.1.</span> <span class="nav-text">Remote Dictionary Server远程字典服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%AF%E4%B8%80%E4%B8%AA%E9%94%AE%E5%80%BC%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.2.2.</span> <span class="nav-text">是一个键值对数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%BD%86%E6%98%AF%E6%80%A7%E8%83%BD%E5%BE%88%E9%AB%98"><span class="nav-number">1.2.3.</span> <span class="nav-text">单线程但是性能很高</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8"><span class="nav-number">1.2.4.</span> <span class="nav-text">作用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.</span> <span class="nav-text">Redis数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.3.1.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%BA%95%E5%B1%82%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.2.</span> <span class="nav-text">数据类型底层的数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.3.</span> <span class="nav-text">Redis底层数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.</span> <span class="nav-text">持久化操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF"><span class="nav-number">1.4.1.</span> <span class="nav-text">AOF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB"><span class="nav-number">1.4.2.</span> <span class="nav-text">RDB</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="nav-number">1.5.</span> <span class="nav-text">缓存机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E7%BC%93%E5%AD%98%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.5.1.</span> <span class="nav-text">Redis缓存类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">1.5.2.</span> <span class="nav-text">缓存一致性问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5"><span class="nav-number">1.6.</span> <span class="nav-text">缓存淘汰策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis4-0%E6%9C%89%E5%85%AB%E7%A7%8D%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5"><span class="nav-number">1.6.1.</span> <span class="nav-text">Redis4.0有八种淘汰策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LRU%EF%BC%88Least-Recently-Used%EF%BC%89"><span class="nav-number">1.6.2.</span> <span class="nav-text">LRU（Least Recently Used）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LFU%EF%BC%88Least-Frequently-Used%EF%BC%89"><span class="nav-number">1.6.3.</span> <span class="nav-text">LFU（Least Frequently Used）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98"><span class="nav-number">1.7.</span> <span class="nav-text">其他缓存问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="nav-number">1.7.1.</span> <span class="nav-text">缓存雪崩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="nav-number">1.7.2.</span> <span class="nav-text">缓存击穿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="nav-number">1.7.3.</span> <span class="nav-text">缓存穿透</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.8.</span> <span class="nav-text">布隆过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E4%B8%BB%E4%BB%8E%E6%9C%BA%E5%88%B6"><span class="nav-number">1.9.</span> <span class="nav-text">Redis主从机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%BB%BA%E7%AB%8B%E4%B8%BB%E4%BB%8E%E6%9C%BA%E5%88%B6"><span class="nav-number">1.9.1.</span> <span class="nav-text">为什么要建立主从机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84"><span class="nav-number">1.9.2.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%B8%BB%E4%BB%8E%E5%BB%BA%E7%AB%8B%E8%81%94%E7%B3%BB"><span class="nav-number">1.9.3.</span> <span class="nav-text">第一次主从建立联系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.9.4.</span> <span class="nav-text">发布订阅系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E5%BA%93%E4%B9%8B%E9%97%B4%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E5%A4%8D%E5%88%B6%E7%9A%84%E5%BB%B6%E8%BF%9F%EF%BC%9F"><span class="nav-number">1.9.5.</span> <span class="nav-text">主从库之间如何判断复制的延迟？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%A8%E5%85%B5%E9%9B%86%E7%BE%A4%E7%9A%84%E5%BB%BA%E7%AB%8B%E8%BF%87%E7%A8%8B"><span class="nav-number">1.9.6.</span> <span class="nav-text">哨兵集群的建立过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%A8%E5%85%B5%E6%80%8E%E4%B9%88%E7%9B%91%E5%90%AC%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%98%AF%E5%90%A6%E6%AD%A3%E5%B8%B8%EF%BC%9F"><span class="nav-number">1.9.7.</span> <span class="nav-text">哨兵怎么监听主从库是否正常？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%A8%E5%85%B5%E6%80%8E%E4%B9%88%E9%80%89%E6%8B%A9%E6%96%B0%E7%9A%84%E4%B8%BB%E5%BA%93%EF%BC%9F"><span class="nav-number">1.9.8.</span> <span class="nav-text">哨兵怎么选择新的主库？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%A8%E5%85%B5%E6%80%8E%E4%B9%88%E9%80%9A%E7%9F%A5%E5%85%B6%E4%BB%96%E8%AE%BE%E5%A4%87%E5%88%87%E6%8D%A2%E4%BA%86%E6%96%B0%E4%B8%BB%E5%BA%93%EF%BC%9F"><span class="nav-number">1.9.9.</span> <span class="nav-text">哨兵怎么通知其他设备切换了新主库？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98"><span class="nav-number">1.10.</span> <span class="nav-text">其他问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E6%94%BE%E6%95%B0%E5%AD%97%E6%9C%80%E5%A5%BD%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8String%EF%BC%8C%E8%80%8C%E5%8E%BB%E4%BD%BF%E7%94%A8hashmap"><span class="nav-number">1.10.1.</span> <span class="nav-text">存放数字最好不要使用String，而去使用hashmap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E6%98%AF%E5%8D%95%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%97%EF%BC%9F"><span class="nav-number">1.10.2.</span> <span class="nav-text">Redis是单线程的吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB%EF%BC%9F"><span class="nav-number">1.10.3.</span> <span class="nav-text">Redis为什么这么快？</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jyh"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jyh</p>
+  <div class="site-description" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jyhmw.github.io/2024/03/16/Redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jyh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MWBlog">
+      <meta itemprop="description" content="莫听穿林打叶声，何妨吟啸且徐行。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Redis | MWBlog">
+      <meta itemprop="description" content="Redis数据类型，数据结构，持久化等等。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-03-16 10:34:19" itemprop="dateCreated datePublished" datetime="2024-03-16T10:34:19+08:00">2024-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-06-04 13:53:22" itemprop="dateModified" datetime="2024-06-04T13:53:22+08:00">2024-06-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%AB%E8%82%A1/" itemprop="url" rel="index"><span itemprop="name">八股</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Redis数据类型，数据结构，持久化等等。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="非关系型数据库"><a href="#非关系型数据库" class="headerlink" title="非关系型数据库"></a>非关系型数据库</h2><h3 id="四大非关系型数据库"><a href="#四大非关系型数据库" class="headerlink" title="四大非关系型数据库"></a>四大非关系型数据库</h3><ul>
+<li>键值数据库-Redis</li>
+<li>列族数据库-Hive</li>
+<li>文档数据库-MongoDB</li>
+<li>图数据库-Neo4J</li>
+</ul>
+<h3 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h3><h4 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h4><h5 id="C一致性"><a href="#C一致性" class="headerlink" title="C一致性"></a>C一致性</h5><p>一个读操作总是能读到之前完成的写操作的结果</p>
+<h5 id="A可用性"><a href="#A可用性" class="headerlink" title="A可用性"></a>A可用性</h5><p>能够快速获取数据，可以在确定的时间内返回对应的结果</p>
+<h5 id="P分区容忍性"><a href="#P分区容忍性" class="headerlink" title="P分区容忍性"></a>P分区容忍性</h5><p>部分区域出现故障，其他区域也可以继续运行</p>
+<blockquote>
+<p>CAP只可以满足其中两个，Redis就是实现了CP的代表</p>
+</blockquote>
+<h3 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h3><h4 id="BA基本可用"><a href="#BA基本可用" class="headerlink" title="BA基本可用"></a>BA基本可用</h4><p>一部分不可用，但是其他部分还是可用的</p>
+<h4 id="S软状态"><a href="#S软状态" class="headerlink" title="S软状态"></a>S软状态</h4><p>软状态指数据可以有一段时间不同步，有一定的滞后性</p>
+<h4 id="E最终一致性"><a href="#E最终一致性" class="headerlink" title="E最终一致性"></a>E最终一致性</h4><h6 id="强一致性"><a href="#强一致性" class="headerlink" title="强一致性"></a>强一致性</h6><p>修改后其他数据可以立即读到最新的数据</p>
+<h6 id="弱一致性"><a href="#弱一致性" class="headerlink" title="弱一致性"></a>弱一致性</h6><p>最终一致性就是弱一致性的一个特例，即最终要保证数据已经改变，数据可以在一段时间内不一样</p>
+<h3 id="关系型数据库与非关系型数据库的区别"><a href="#关系型数据库与非关系型数据库的区别" class="headerlink" title="关系型数据库与非关系型数据库的区别"></a>关系型数据库与非关系型数据库的区别</h3><h4 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h4><ol>
+<li><p>数据之间有关联</p>
+</li>
+<li><p>数据存储在磁盘上</p>
+</li>
+<li><p>表现为一个一个的表格数据</p>
+</li>
+</ol>
+<h4 id="非关系型数据库-1"><a href="#非关系型数据库-1" class="headerlink" title="非关系型数据库"></a>非关系型数据库</h4><ol>
+<li><p>数据之间没有关联</p>
+</li>
+<li><p>数据存储在内存</p>
+</li>
+<li><p>表现为key-value键值对</p>
+</li>
+</ol>
+<h2 id="Redis是什么"><a href="#Redis是什么" class="headerlink" title="Redis是什么"></a>Redis是什么</h2><h3 id="Remote-Dictionary-Server远程字典服务"><a href="#Remote-Dictionary-Server远程字典服务" class="headerlink" title="Remote Dictionary Server远程字典服务"></a>Remote Dictionary Server远程字典服务</h3><h3 id="是一个键值对数据库"><a href="#是一个键值对数据库" class="headerlink" title="是一个键值对数据库"></a>是一个键值对数据库</h3><h3 id="单线程但是性能很高"><a href="#单线程但是性能很高" class="headerlink" title="单线程但是性能很高"></a>单线程但是性能很高</h3><h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ul>
+<li>负责快速的响应用户的请求（因为是数据库的一层缓存）</li>
+<li>防止对数据库的并发冲击</li>
+</ul>
+<h2 id="Redis数据结构"><a href="#Redis数据结构" class="headerlink" title="Redis数据结构"></a>Redis数据结构</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><h5 id="底层实现"><a href="#底层实现" class="headerlink" title="底层实现"></a>底层实现</h5><ul>
+<li>Long类型整数</li>
+<li>SDS简单动态字符串<ul>
+<li>embstr</li>
+<li>raw</li>
+</ul>
+</li>
+</ul>
+<h5 id="具体结构"><a href="#具体结构" class="headerlink" title="具体结构"></a>具体结构</h5><ul>
+<li>如果你存储的是一个64位的整型数<br>采用int型编码，直接用RedisObejct 中的类型指针存放这个值即可，不需要SDS</li>
+<li>存储的是一个小于44字节的字符串<br>使用embstr编码，SDS直接与RedisObejct在内存上紧挨着</li>
+<li>存储的是一个大于44字节的字符串<br>使用raw编码，SDS与RedisObejct地址没有关系，通过RedisObejct中的指针指向</li>
+</ul>
+<h5 id="实现场景"><a href="#实现场景" class="headerlink" title="实现场景"></a>实现场景</h5><ul>
+<li>计数，如点赞数等等</li>
+<li>缓存</li>
+<li>使用字符串类型的列表或发布&#x2F;订阅模式可以实现简单的消息队列</li>
+</ul>
+<h4 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h4><h5 id="底层实现-1"><a href="#底层实现-1" class="headerlink" title="底层实现"></a>底层实现</h5><ul>
+<li>压缩列表</li>
+<li>双向链表</li>
+</ul>
+<h5 id="实现场景-1"><a href="#实现场景-1" class="headerlink" title="实现场景"></a>实现场景</h5><p>作为一个消息队列</p>
+<h4 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h4><h5 id="底层实现-2"><a href="#底层实现-2" class="headerlink" title="底层实现"></a>底层实现</h5><ul>
+<li><p>压缩列表</p>
+</li>
+<li><p>哈希表</p>
+</li>
+</ul>
+<h5 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h5><p>存储对象的多个字段和值，如用户信息、配置信息</p>
+<h4 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h4><h5 id="底层实现-3"><a href="#底层实现-3" class="headerlink" title="底层实现"></a>底层实现</h5><ul>
+<li>压缩数组</li>
+<li>哈希表</li>
+</ul>
+<h5 id="场景-1"><a href="#场景-1" class="headerlink" title="场景"></a>场景</h5><p>去重、成员关系判断</p>
+<h4 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h4><h5 id="底层实现-4"><a href="#底层实现-4" class="headerlink" title="底层实现"></a>底层实现</h5><ul>
+<li>压缩列表</li>
+<li>跳表</li>
+</ul>
+<h5 id="场景-2"><a href="#场景-2" class="headerlink" title="场景"></a>场景</h5><p>去重成员关系判断</p>
+<h4 id="有序集合-1"><a href="#有序集合-1" class="headerlink" title="有序集合"></a>有序集合</h4><h5 id="底层实现-5"><a href="#底层实现-5" class="headerlink" title="底层实现"></a>底层实现</h5><ul>
+<li>压缩列表</li>
+<li>跳表</li>
+</ul>
+<h5 id="场景-3"><a href="#场景-3" class="headerlink" title="场景"></a>场景</h5><p>排行榜、范围查询</p>
+<h4 id="三种特殊的数据结构"><a href="#三种特殊的数据结构" class="headerlink" title="三种特殊的数据结构"></a>三种特殊的数据结构</h4><h5 id="HyperLogLogs"><a href="#HyperLogLogs" class="headerlink" title="HyperLogLogs"></a>HyperLogLogs</h5><p>省内存的去统计各种计数，比如注册IP数、每日访问IP数的页面实时UV、在线用户数、共同好友数等</p>
+<h5 id="Bitmap"><a href="#Bitmap" class="headerlink" title="Bitmap"></a>Bitmap</h5><p>两个状态的，都可以使用Bitmaps，比如登录&#x2F;未登录，性别男&#x2F;女</p>
+<h5 id="geospatial"><a href="#geospatial" class="headerlink" title="geospatial"></a>geospatial</h5><blockquote>
+<p>底层是Zset，有序列表</p>
+</blockquote>
+<p>推算地理位置的信息，两地之间的距离，方圆几里的人</p>
+<h5 id="stream"><a href="#stream" class="headerlink" title="stream"></a>stream</h5><p>用于消息队列和发布&#x2F;订阅模式</p>
+<h3 id="数据类型底层的数据结构"><a href="#数据类型底层的数据结构" class="headerlink" title="数据类型底层的数据结构"></a>数据类型底层的数据结构</h3><h4 id="SDS"><a href="#SDS" class="headerlink" title="SDS"></a>SDS</h4><blockquote>
+<p>Redis专门实现的一个结构体</p>
+<p>有三个字段：len、free、buf[]分别用来标记长度，剩余长度，存储的字符</p>
+</blockquote>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li><p>保证二进制安全，因为C语言使用’\0’来判断字符是否结束的，但是SDS使用len来表示长度的</p>
+</li>
+<li><p>O(1)级别获取字符串长度，因为用len来记录长度</p>
+</li>
+<li><p>减少字符串的内存重新分配的次数</p>
+<ul>
+<li><p>预先分配+惰性空间释放</p>
+<ul>
+<li><p>空间预先分配<br>字符串扩展会扩展的更大</p>
+</li>
+<li><p>惰性空间释放</p>
+<p>字符串缩小，增大free的值，但不一定会缩小buf数组</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h4><h5 id="什么时候会使用压缩列表？"><a href="#什么时候会使用压缩列表？" class="headerlink" title="什么时候会使用压缩列表？"></a>什么时候会使用压缩列表？</h5><p>数据中元素个数小于512</p>
+<p>单个元素的大小小于64字节</p>
+<h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>压缩列表在每个元素的开头使用了一个字节作为标识，用来标识该元素的数据类型。这个类型标识允许压缩列表在解码时正确地将字节序列转换回原始数据类型</li>
+<li>一段连续的内存存放数据，类似于C实现的数组，但是可以存储不同数据类型的数据</li>
+<li>有一个字段保存了偏移长度，很节省空间，但是遍历的时间复杂度未O(n)</li>
+</ul>
+<h4 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h4><blockquote>
+<p>与常见的双向链表一样</p>
+<p>存储了列表长度，保证O(1)级别获取长度</p>
+</blockquote>
+<h4 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h4><h5 id="使用高性能的murmurhash算法"><a href="#使用高性能的murmurhash算法" class="headerlink" title="使用高性能的murmurhash算法"></a>使用高性能的murmurhash算法</h5><h5 id="解决hash冲突"><a href="#解决hash冲突" class="headerlink" title="解决hash冲突"></a>解决hash冲突</h5><p>拉链法</p>
+<h5 id="扩容缩容机制"><a href="#扩容缩容机制" class="headerlink" title="扩容缩容机制"></a>扩容缩容机制</h5><ul>
+<li>负载因子&#x3D;已存储的元素个数&#x2F;哈希表大小</li>
+<li>&gt;1扩容  扩容为原来大小的两倍</li>
+<li>&lt;0.1缩容 缩容为当前数据量的两倍</li>
+</ul>
+<h4 id="整数数组"><a href="#整数数组" class="headerlink" title="整数数组"></a>整数数组</h4><h5 id="Set什么时候使用有序数组？"><a href="#Set什么时候使用有序数组？" class="headerlink" title="Set什么时候使用有序数组？"></a>Set什么时候使用有序数组？</h5><ul>
+<li>存储的数据都是整数</li>
+<li>存储的元素个数不超过512个</li>
+</ul>
+<h5 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>没有内存碎片</li>
+<li>节省空间</li>
+</ul>
+<h4 id="跳表"><a href="#跳表" class="headerlink" title="跳表"></a>跳表</h4><h5 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>最底层是一个链表，然后给最底层节点隔一个建立一个索引，然后再给索引建立索引，就构成的跳表</li>
+<li>查询速度为O(logn)</li>
+</ul>
+<h5 id="为什么使用跳表而不是红黑树？"><a href="#为什么使用跳表而不是红黑树？" class="headerlink" title="为什么使用跳表而不是红黑树？"></a>为什么使用跳表而不是红黑树？</h5><ul>
+<li><p>红黑树不适合范围查询</p>
+</li>
+<li><p>跳表的实现比较简单</p>
+</li>
+</ul>
+<h3 id="Redis底层数据结构"><a href="#Redis底层数据结构" class="headerlink" title="Redis底层数据结构"></a>Redis底层数据结构</h3><blockquote>
+<p>RedisObejct 是记录数据是什么类型的结构体，由两部分组成，元数据与类型指针</p>
+</blockquote>
+<h4 id="Redis最外层有两个全局哈希表"><a href="#Redis最外层有两个全局哈希表" class="headerlink" title="Redis最外层有两个全局哈希表"></a>Redis最外层有两个全局哈希表</h4><p><img data-src="https://img.jyhmw.cn/image-20240317144215207.png" alt="image-20240317144215207"></p>
+<h4 id="解决碰撞的方式"><a href="#解决碰撞的方式" class="headerlink" title="解决碰撞的方式"></a>解决碰撞的方式</h4><h5 id="拉链法"><a href="#拉链法" class="headerlink" title="拉链法"></a>拉链法</h5><p><strong>如果拉链太长怎么办？</strong></p>
+<ul>
+<li>Redis进行rehash:使用两个哈希表交替，一个扩容，一个继续提供服务</li>
+<li>渐进式rehash<ul>
+<li>如果单纯使用两个哈希表，哈希表1负责扩容、哈希表2负责提供服务，那么扩容的哈希表1在copy哈希表2时，哈希表2需要进入阻塞状态，导致不能进行服务</li>
+<li>因此使用渐进式rehash过程，即在每次的请求携带一点，而不是统一的传输</li>
+</ul>
+</li>
+</ul>
+<h4 id="为什么要有两个全局哈希表"><a href="#为什么要有两个全局哈希表" class="headerlink" title="为什么要有两个全局哈希表"></a>为什么要有两个全局哈希表</h4><ol>
+<li>因为扩容的时候可以进行渐进式扩容，可以每次的请求携带一些桶然后慢慢扩容</li>
+<li>扩容的时候能保证提供服务</li>
+</ol>
+<h2 id="持久化操作"><a href="#持久化操作" class="headerlink" title="持久化操作"></a>持久化操作</h2><h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><blockquote>
+<p>Append On File</p>
+</blockquote>
+<h4 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h4><p>不同于传统的WAL，AOF是写后日志，会先执行操作，然后再记录日志</p>
+<h5 id="优点-2"><a href="#优点-2" class="headerlink" title="优点:"></a>优点:</h5><ul>
+<li>不需要检查语法是否错误</li>
+<li>可以避免记录日志影响当前操作的进度</li>
+</ul>
+<h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><ul>
+<li>影响后续操作的速度</li>
+<li>如果执行完操作宕机了，那么日志就没有记录，使用AOF恢复的时候会丢失数据</li>
+</ul>
+<h4 id="写回策略"><a href="#写回策略" class="headerlink" title="写回策略"></a>写回策略</h4><ul>
+<li>always 每个操作都写回磁盘</li>
+<li>Everysec 每秒写回一次磁盘</li>
+<li>No 写回的时机由OS决定</li>
+</ul>
+<h4 id="AOF重写机制"><a href="#AOF重写机制" class="headerlink" title="AOF重写机制"></a>AOF重写机制</h4><ul>
+<li>AOF越来越大，就会触发AOF重写机制，即只记录可以出现最后结果的操作</li>
+<li>重写过程由另一个线程来实现</li>
+<li>主线程会fork出一个子线程去执行重写操作(注意fork的过程是阻塞的)</li>
+</ul>
+<h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><blockquote>
+<p>RedisDataBase</p>
+</blockquote>
+<h4 id="特点-3"><a href="#特点-3" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>一定之间间隔，检测key的变化情况，然后持久化存储</li>
+<li>主线程可以自己save，也可以创建一个线程bgsave</li>
+<li>fork过程阻塞</li>
+</ul>
+<h4 id="复制过程中可以继续提供读写服务吗？"><a href="#复制过程中可以继续提供读写服务吗？" class="headerlink" title="复制过程中可以继续提供读写服务吗？"></a>复制过程中可以继续提供读写服务吗？</h4><p>可以使用cow的思想，对某部分写操作是，对这部分copy一部分</p>
+<h4 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h4><ul>
+<li>AOF记录的是操作，所以每次记录的内容很简单</li>
+<li>RDB存储的是数据，恢复会很快，但是存储的容量很大</li>
+</ul>
+<p><em><strong>Redis4.0混合使用AOF与RDB</strong></em>：既保证安全也保证速度</p>
+<h4 id="各自适用什么场景？"><a href="#各自适用什么场景？" class="headerlink" title="各自适用什么场景？"></a>各自适用什么场景？</h4><ul>
+<li>RDB适用于数据库备份与迁移</li>
+<li>AOF适用于数据可靠性要求高、实时性高的场景</li>
+</ul>
+<h2 id="缓存机制"><a href="#缓存机制" class="headerlink" title="缓存机制"></a>缓存机制</h2><h3 id="Redis缓存类型"><a href="#Redis缓存类型" class="headerlink" title="Redis缓存类型"></a>Redis缓存类型</h3><h4 id="只读缓存"><a href="#只读缓存" class="headerlink" title="只读缓存"></a>只读缓存</h4><p>只负责读请求，对于写请求直接操作数据库</p>
+<h4 id="读写缓存"><a href="#读写缓存" class="headerlink" title="读写缓存"></a>读写缓存</h4><p>读写请求都负责，写请求会之后同步在数据库</p>
+<h5 id="同步策略"><a href="#同步策略" class="headerlink" title="同步策略:"></a>同步策略:</h5><ul>
+<li>同步直写 请求同时发送给缓存与数据库，等待两者都操作完成后，才将结果返回</li>
+<li>异步写回 缓存不等待数据库就直接返回，数据只有被淘汰的时候才会写回磁盘</li>
+</ul>
+<h3 id="缓存一致性问题"><a href="#缓存一致性问题" class="headerlink" title="缓存一致性问题"></a>缓存一致性问题</h3><h4 id="什么时候缓存一致？"><a href="#什么时候缓存一致？" class="headerlink" title="什么时候缓存一致？"></a>什么时候缓存一致？</h4><ul>
+<li>缓存中没有数据，数据库的数据是最新的</li>
+<li>缓存中有数据，且和数据库数据相同</li>
+</ul>
+<h4 id="如何解决缓存不一致？"><a href="#如何解决缓存不一致？" class="headerlink" title="如何解决缓存不一致？"></a>如何解决缓存不一致？</h4><h5 id="对于读写缓存"><a href="#对于读写缓存" class="headerlink" title="对于读写缓存"></a>对于读写缓存</h5><p>使用同步只写</p>
+<h5 id="对于只读缓存"><a href="#对于只读缓存" class="headerlink" title="对于只读缓存"></a>对于只读缓存</h5><ul>
+<li><p>新增操作<br>新增操作直接操作数据库，此时缓存内没有数据，数据库有，符合缓存一致</p>
+</li>
+<li><p>删改操作：对于删改操作，直接修改数据库，此时数据库为最新数据，而缓存中为旧数据，出现了缓存一致性问题</p>
+<p>删除缓存数据，修改数据库内的数据</p>
+</li>
+</ul>
+<p>注：主要是删除或修改操作会出现缓存不一致问题</p>
+<h4 id="只读删改操作怎么处理？"><a href="#只读删改操作怎么处理？" class="headerlink" title="只读删改操作怎么处理？"></a>只读删改操作怎么处理？</h4><h5 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h5><ol>
+<li>先删除缓存数据</li>
+<li>修改数据库数据</li>
+</ol>
+<h5 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h5><h6 id="问题一：任意一步出现失败"><a href="#问题一：任意一步出现失败" class="headerlink" title="问题一：任意一步出现失败"></a>问题一：任意一步出现失败</h6><ul>
+<li>1成功，2失败：此时缓存中没有数据，数据库中的值还是旧值；存在数据不一致问题</li>
+<li>1失败，2成功：缓存为旧值数据库为新值</li>
+</ul>
+<h5 id="问题二：存在并发请求"><a href="#问题二：存在并发请求" class="headerlink" title="问题二：存在并发请求"></a>问题二：存在并发请求</h5><blockquote>
+<p>当前有很多请求进入，你还没来得及删除缓存，另一边就直接把旧数据读走了</p>
+</blockquote>
+<h4 id="解决措施"><a href="#解决措施" class="headerlink" title="解决措施"></a>解决措施</h4><h5 id="解决问题一：重试机制"><a href="#解决问题一：重试机制" class="headerlink" title="解决问题一：重试机制"></a>解决问题一：重试机制</h5><p>把要更改或删除的数据保存在一个消息队列中，如果删除缓存或修改数据任意一步失败，那么就去消息队列中取数据重新执行</p>
+<p>如果达到一定的次数，还是失败，那么就向业务层报错</p>
+<h5 id="解决问题二：延迟双删"><a href="#解决问题二：延迟双删" class="headerlink" title="解决问题二：延迟双删"></a>解决问题二：延迟双删</h5><ol>
+<li>A线程删除缓存</li>
+<li>A线程修改数据库</li>
+<li>A线程睡一会儿：保证这段时间B线程能修改完数据库，并将最新的数据搬到redis</li>
+<li>A线程再删除一遍缓存</li>
+</ol>
+<h2 id="缓存淘汰策略"><a href="#缓存淘汰策略" class="headerlink" title="缓存淘汰策略"></a>缓存淘汰策略</h2><h3 id="Redis4-0有八种淘汰策略"><a href="#Redis4-0有八种淘汰策略" class="headerlink" title="Redis4.0有八种淘汰策略"></a>Redis4.0有八种淘汰策略</h3><h4 id="不进行数据淘汰"><a href="#不进行数据淘汰" class="headerlink" title="不进行数据淘汰"></a>不进行数据淘汰</h4><p>noeviction(默认)，缓存存满，将不会接受新的请求</p>
+<h4 id="进行数据淘汰策略"><a href="#进行数据淘汰策略" class="headerlink" title="进行数据淘汰策略"></a>进行数据淘汰策略</h4><h5 id="有过期时间的数据内淘汰"><a href="#有过期时间的数据内淘汰" class="headerlink" title="有过期时间的数据内淘汰"></a>有过期时间的数据内淘汰</h5><ul>
+<li><p>volatile-lru</p>
+<blockquote>
+<p>最近最少使用</p>
+</blockquote>
+<ul>
+<li>当内存限制达到时，根据最近最少使用(LRU)原则删除键</li>
+<li>所有导致键数量增加的操作(如SET、LPUSH等)都会返回一个错误</li>
+</ul>
+</li>
+<li><p>volatile-lfu</p>
+<blockquote>
+<p>首先根据访问次数进行淘汰，如果访问次数相同，再根据时间淘汰</p>
+</blockquote>
+<ul>
+<li>当内存限制达到时，根据使用频率计算</li>
+</ul>
+</li>
+<li><p>volatile-ttl</p>
+<blockquote>
+<p>淘汰过期时间剩余最短的</p>
+</blockquote>
+</li>
+<li><p>volatile-random</p>
+<blockquote>
+<p>设置了过期时间的随机淘汰</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="所有数据中进行淘汰"><a href="#所有数据中进行淘汰" class="headerlink" title="所有数据中进行淘汰"></a>所有数据中进行淘汰</h5><ul>
+<li><p>allkeys-lru</p>
+</li>
+<li><p>allkeys-lfu</p>
+</li>
+<li><p>allkeys-random</p>
+</li>
+</ul>
+<h3 id="LRU（Least-Recently-Used）"><a href="#LRU（Least-Recently-Used）" class="headerlink" title="LRU（Least Recently Used）"></a>LRU（Least Recently Used）</h3><blockquote>
+<p>RedisObject中有一个字段，存放了最近一次的访问时间戳</p>
+<p>LRU就是根据这个字段</p>
+</blockquote>
+<h4 id="LRU过程"><a href="#LRU过程" class="headerlink" title="LRU过程"></a>LRU过程</h4><ol>
+<li>首先随机选择N个数据，组成一个候选淘汰集合，然后将最早访问的数据淘汰</li>
+<li>然后每一次淘汰，都会挑选新的数据进入候选淘汰集合中（如何挑选：选择那些字段值比候选集合最小的数据还小的数据）</li>
+</ol>
+<h4 id="存在的问题-1"><a href="#存在的问题-1" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>无法解决缓存污染问题</p>
+<ul>
+<li>即存放了很多可能长久不会访问的数据</li>
+<li>比如业务层遍历了很多数据一次，此时LRU算法根本判断不出来这些数据中哪些数据访问的频次会高一点</li>
+</ul>
+<h3 id="LFU（Least-Frequently-Used）"><a href="#LFU（Least-Frequently-Used）" class="headerlink" title="LFU（Least Frequently Used）"></a>LFU（Least Frequently Used）</h3><ol>
+<li>首先根据访问次数进行淘汰</li>
+<li>如果访问次数相同，再依据时间戳淘汰</li>
+</ol>
+<h2 id="其他缓存问题"><a href="#其他缓存问题" class="headerlink" title="其他缓存问题"></a>其他缓存问题</h2><h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><h4 id="什么是缓存雪崩？"><a href="#什么是缓存雪崩？" class="headerlink" title="什么是缓存雪崩？"></a>什么是缓存雪崩？</h4><p>即缓存无法解决大量的数据访问，导致更多的数据访问了数据库，数据库压力增大</p>
+<h4 id="原因两个"><a href="#原因两个" class="headerlink" title="原因两个"></a>原因两个</h4><ol>
+<li>可能是相同过期时间的数据同时过期，导致缓存中数据都没有，都去访问数据库</li>
+<li>缓存主库宕机</li>
+</ol>
+<h4 id="解决措施-1"><a href="#解决措施-1" class="headerlink" title="解决措施"></a>解决措施</h4><ol>
+<li>情况一<ul>
+<li>给数据设置不同的过期时间：比如一个固定值+一个随机值</li>
+<li>服务降级<ul>
+<li>即缓存先去满足核心业务</li>
+<li>非核心业务先返回预定值或是null</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>情况二<ul>
+<li>服务熔断 缓存暂时停止使用，防止造成连锁反应导致其他的服务也失败</li>
+<li>请求限流机制 前端进行限流，控制每秒进入的请求数QPS</li>
+<li>主从替换 使用从库代替主库，继续进行服务</li>
+</ul>
+</li>
+</ol>
+<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><h4 id="什么是缓存击穿"><a href="#什么是缓存击穿" class="headerlink" title="什么是缓存击穿?"></a>什么是缓存击穿?</h4><p>访问非常热的请求，无法处理传到了数据库</p>
+<h4 id="出现的原因"><a href="#出现的原因" class="headerlink" title="出现的原因"></a>出现的原因</h4><p>往往是给热请求数据设置了过期时间</p>
+<h4 id="如何解决？"><a href="#如何解决？" class="headerlink" title="如何解决？"></a>如何解决？</h4><p>对于非常热的请求不要设置缓存时间</p>
+<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><h4 id="什么是缓存穿透？"><a href="#什么是缓存穿透？" class="headerlink" title="什么是缓存穿透？"></a>什么是缓存穿透？</h4><p>访问缓存与数据库根本不存在的数据</p>
+<h4 id="出现的原因-1"><a href="#出现的原因-1" class="headerlink" title="出现的原因"></a>出现的原因</h4><ul>
+<li>业务层误操作</li>
+<li>被故意访问不存在的数据</li>
+</ul>
+<h4 id="解决措施-2"><a href="#解决措施-2" class="headerlink" title="解决措施"></a>解决措施</h4><ul>
+<li>缓存空值或缺省值</li>
+<li>布隆过滤器 </li>
+<li>前端控制</li>
+</ul>
+<h2 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h2><blockquote>
+<p>多个hash函数+一个bit(位)数组</p>
+</blockquote>
+<p>存储一个数据就将其多次hash后，将对应的位置设为1</p>
+<p>检查元素是否存在时，同样使用这些哈希函数，如果所有对应位置都是1，则认为元素可能存在，但凡有一个不是1就一定不存在</p>
+<h2 id="Redis主从机制"><a href="#Redis主从机制" class="headerlink" title="Redis主从机制"></a>Redis主从机制</h2><h3 id="为什么要建立主从机制"><a href="#为什么要建立主从机制" class="headerlink" title="为什么要建立主从机制"></a>为什么要建立主从机制</h3><blockquote>
+<p>RDB、AOF的fork阶段会阻塞，让Redis停止服务，如果Redis越来越大，那么fork所用的时间会越来越长</p>
+<p>确保主库宕机后，从库还可以继续提供服务</p>
+</blockquote>
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><ul>
+<li>主库 负责读与写服务</li>
+<li>从库 只负责读服务和持久化操作</li>
+<li>哨兵<ul>
+<li>监听 监听主库从库状态</li>
+<li>选择主库 从从库中选择备用主库</li>
+<li>通过发布订阅系统发送通知</li>
+</ul>
+</li>
+</ul>
+<h3 id="第一次主从建立联系"><a href="#第一次主从建立联系" class="headerlink" title="第一次主从建立联系"></a>第一次主从建立联系</h3><ol>
+<li>从库发起请求连接</li>
+<li>主库同意其连接，并发送RDB文件给从库</li>
+<li>以后每次都发的是增量的修改</li>
+</ol>
+<h3 id="发布订阅系统"><a href="#发布订阅系统" class="headerlink" title="发布订阅系统"></a>发布订阅系统</h3><p>主库有发布订阅系统，订阅统一频道的节点可以发布与获取消息</p>
+<h3 id="主从库之间如何判断复制的延迟？"><a href="#主从库之间如何判断复制的延迟？" class="headerlink" title="主从库之间如何判断复制的延迟？"></a>主从库之间如何判断复制的延迟？</h3><p>通过缓存repl_backlog_buffer，这是一个环状缓存，里面有主库从库的当前指针，通过判断主从库之间的指针位置就能知道当前从库差主库多少数据</p>
+<h3 id="哨兵集群的建立过程"><a href="#哨兵集群的建立过程" class="headerlink" title="哨兵集群的建立过程"></a>哨兵集群的建立过程</h3><ol>
+<li>哨兵本质就是一个运行在特殊模式下的Redis进程</li>
+<li>哨兵创建后，互相之间是不知道彼此的存在的</li>
+<li>哨兵与主库建立连接后，可以利用主库的发布订阅系统，将自己的Ip传出去，这样其他哨兵就可以通过订阅频道来获取其IP，最终哨兵之间也就能联系了</li>
+</ol>
+<h3 id="哨兵怎么监听主从库是否正常？"><a href="#哨兵怎么监听主从库是否正常？" class="headerlink" title="哨兵怎么监听主从库是否正常？"></a>哨兵怎么监听主从库是否正常？</h3><ol>
+<li>哨兵会按时给主从库发送ping请求，并要求其在一定时间内回应</li>
+<li>如果从库没有回应，就标记为客观下线</li>
+<li>如果主库没有相响应，就标记为主观下线，然后哨兵会给其他哨兵发送信息询问是否认为主库下线，然后进行投票，多数赢少数认为主库客观下线</li>
+</ol>
+<h3 id="哨兵怎么选择新的主库？"><a href="#哨兵怎么选择新的主库？" class="headerlink" title="哨兵怎么选择新的主库？"></a>哨兵怎么选择新的主库？</h3><ol>
+<li>筛选 选择那些网络好的从库，确保他们是在线的</li>
+<li>评分 根据三方面来打分：从库优先级、从库复制进度、从库ID号<ul>
+<li>一般会给内存大的从库设置一个较大的优先级</li>
+<li>与主库复制进度差距最小的得分高</li>
+<li>当前面两个都一样的时候，会选择ID小的作为主库</li>
+</ul>
+</li>
+</ol>
+<h3 id="哨兵怎么通知其他设备切换了新主库？"><a href="#哨兵怎么通知其他设备切换了新主库？" class="headerlink" title="哨兵怎么通知其他设备切换了新主库？"></a>哨兵怎么通知其他设备切换了新主库？</h3><ol>
+<li>通过Redis提供的发布订阅系统</li>
+<li>哨兵只要和主库建立连接，就可以发布消息和订阅消息了，只需要把消息发布一下，从库就会收到信息</li>
+<li>哨兵向主库发起INFO命令，然后主库就会返回一个从库列表，然后哨兵就知道了从库的IP</li>
+</ol>
+<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><h3 id="存放数字最好不要使用String，而去使用hashmap"><a href="#存放数字最好不要使用String，而去使用hashmap" class="headerlink" title="存放数字最好不要使用String，而去使用hashmap"></a>存放数字最好不要使用String，而去使用hashmap</h3><ol>
+<li>因为String浪费空间很严重，假如去存放一个数字，String的RedisObejct占16字节，它的DictEntry占24字节，这就使用了40字节，而你有效的存储只用了8字节</li>
+<li>如果用hashmap，在存储数字时，它会使用压缩列表的结构，可以存放很多很多数组，浪费空间还很小！</li>
+</ol>
+<h3 id="Redis是单线程的吗？"><a href="#Redis是单线程的吗？" class="headerlink" title="Redis是单线程的吗？"></a>Redis是单线程的吗？</h3><p>Redis严格意义上来说并不是单线程的，所谓的单线程指的是从网络IO到键值对获取这个过程是单线程的</p>
+<h3 id="Redis为什么这么快？"><a href="#Redis为什么这么快？" class="headerlink" title="Redis为什么这么快？"></a>Redis为什么这么快？</h3><ol>
+<li><p>单线程，无需加锁，十分快速</p>
+</li>
+<li><p>底层数据结构优化的很好</p>
+<ul>
+<li>跳表</li>
+<li>两个全局哈希表，交替扩容，渐进式rehas</li>
+</ul>
+</li>
+<li><p>IO多路复用</p>
+<ul>
+<li><p>采用linux的epoll模型</p>
+</li>
+<li><p>epoll模型相较于select、poll</p>
+<ul>
+<li><p>不受文件描述符的限制</p>
+</li>
+<li><p>支持水平触发和边缘触发两种方式<br>水平触发（select只提供这种）  持续通知 没有被处理会一直通知</p>
+<p>边缘触发 通知一次 只会通知一次</p>
+</li>
+</ul>
+</li>
+<li><p>只支持linux操作系统</p>
+</li>
+<li><p>fd每次需要遍历所有的fd，epoll只需要遍历那些就绪的fd</p>
+</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/Redis/" rel="tag"># Redis</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/03/13/MySql/" rel="prev" title="MySql">
+                  <i class="fa fa-angle-left"></i> MySql
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/03/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="next" title="计算机网络">
+                  计算机网络 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn">晋ICP备2024041642号-1</a> </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jyh</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

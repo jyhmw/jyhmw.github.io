@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="JavaSE内容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础">
+<meta property="og:url" content="https://jyhmw.github.io/2024/05/27/Java%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="MWBlog">
+<meta property="og:description" content="JavaSE内容">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.jyhmw.cn/image-20240326211804092.png">
+<meta property="article:published_time" content="2024-05-27T00:16:53.204Z">
+<meta property="article:modified_time" content="2024-06-04T05:42:04.201Z">
+<meta property="article:author" content="Jyh">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="面向对象">
+<meta property="article:tag" content="类">
+<meta property="article:tag" content="抽象类">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.jyhmw.cn/image-20240326211804092.png">
+
+
+<link rel="canonical" href="https://jyhmw.github.io/2024/05/27/Java%E5%9F%BA%E7%A1%80/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jyhmw.github.io/2024/05/27/Java%E5%9F%BA%E7%A1%80/","path":"2024/05/27/Java基础/","title":"Java基础"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Java基础 | MWBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MWBlog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">麻木的智力抑制状态</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=1822761395&auto=0&height=66"></iframe>
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">Java基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.1.</span> <span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7"><span class="nav-number">1.1.1.</span> <span class="nav-text">四大特性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">基本数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">引用数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.3.</span> <span class="nav-text">大数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.4.</span> <span class="nav-text">时间类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">1.3.</span> <span class="nav-text">关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#final"><span class="nav-number">1.3.1.</span> <span class="nav-text">final</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transient"><span class="nav-number">1.3.2.</span> <span class="nav-text">transient</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#static"><span class="nav-number">1.3.3.</span> <span class="nav-text">static</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3-1"><span class="nav-number">1.4.</span> <span class="nav-text">接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%85%A5%E4%BA%86%E4%B8%8D%E5%90%8C%E5%8A%9F%E8%83%BD"><span class="nav-number">1.4.1.</span> <span class="nav-text">不同版本接口加入了不同功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E6%8E%A5%E5%8F%A3%EF%BC%9F"><span class="nav-number">1.4.2.</span> <span class="nav-text">为什么要有接口？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88JDK1-8%E5%BC%95%E5%85%A5%E4%BA%86%E9%BB%98%E8%AE%A4%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="nav-number">1.4.3.</span> <span class="nav-text">为什么JDK1.8引入了默认方法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88JDK1-9%E5%BC%95%E5%85%A5%E4%BA%86%E7%A7%81%E6%9C%89%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="nav-number">1.4.4.</span> <span class="nav-text">为什么JDK1.9引入了私有方法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E7%82%B9-2"><span class="nav-number">1.4.5.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB-1"><span class="nav-number">1.5.</span> <span class="nav-text">类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB"><span class="nav-number">1.5.1.</span> <span class="nav-text">抽象类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-number">1.5.2.</span> <span class="nav-text">静态内部类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-number">1.5.3.</span> <span class="nav-text">内部类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB%E4%B8%8E%E5%86%85%E9%83%A8%E7%B1%BB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.5.4.</span> <span class="nav-text">静态内部类与内部类的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.5.5.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8"><span class="nav-number">1.6.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Throwable%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.6.1.</span> <span class="nav-text">Throwable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Error"><span class="nav-number">1.6.2.</span> <span class="nav-text">Error</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exception"><span class="nav-number">1.6.3.</span> <span class="nav-text">Exception</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7"><span class="nav-number">1.6.4.</span> <span class="nav-text">异常捕获</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%86%E7%AE%B1%E5%92%8C%E8%A3%85%E7%AE%B1"><span class="nav-number">1.7.</span> <span class="nav-text">拆箱和装箱</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%8B%86%E7%AE%B1%E5%92%8C%E8%A3%85%E7%AE%B1%EF%BC%9F"><span class="nav-number">1.7.1.</span> <span class="nav-text">什么是拆箱和装箱？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%A3%85%E7%AE%B1%E5%92%8C%E6%8B%86%E7%AE%B1%EF%BC%9F"><span class="nav-number">1.7.2.</span> <span class="nav-text">为什么要装箱和拆箱？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%9C%89%E5%AF%B9%E5%BA%94%E7%9A%84%E5%8C%85%E8%A3%85%E7%B1%BB%EF%BC%9F"><span class="nav-number">1.7.3.</span> <span class="nav-text">哪些基本数据类型有对应的包装类？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-1"><span class="nav-number">1.7.4.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal"><span class="nav-number">1.8.</span> <span class="nav-text">ThreadLocal</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E7%94%A8%E9%80%94%EF%BC%9F"><span class="nav-number">1.8.1.</span> <span class="nav-text">是什么？用途？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%85%B1%E4%BA%AB%E8%B5%84%E6%BA%90%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">1.8.2.</span> <span class="nav-text">如何解决多线程共享资源问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="nav-number">1.8.3.</span> <span class="nav-text">工作原理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%E7%9B%B8%E6%AF%94%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E5%8A%BF%EF%BC%9F"><span class="nav-number">1.8.4.</span> <span class="nav-text">同步机制相比有什么优势？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9F"><span class="nav-number">1.8.5.</span> <span class="nav-text">常见的使用场景？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">1.8.6.</span> <span class="nav-text">内存泄露问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%EF%BC%9F"><span class="nav-number">1.8.7.</span> <span class="nav-text">如何解决内存泄漏？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal%E4%B8%8EAtomicInteger-ConcurrentHashMap%E7%AD%89%E5%B9%B6%E5%8F%91%E5%B7%A5%E5%85%B7%E7%B1%BB%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.8.8.</span> <span class="nav-text">ThreadLocal与AtomicInteger&#x2F;ConcurrentHashMap等并发工具类的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-2"><span class="nav-number">1.8.9.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-3"><span class="nav-number">1.8.10.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-4"><span class="nav-number">1.8.11.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-5"><span class="nav-number">1.8.12.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-6"><span class="nav-number">1.8.13.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-7"><span class="nav-number">1.8.14.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String%E7%9B%B8%E5%85%B3"><span class="nav-number">1.9.</span> <span class="nav-text">String相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#String"><span class="nav-number">1.9.1.</span> <span class="nav-text">String</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StringBuilder"><span class="nav-number">1.9.2.</span> <span class="nav-text">StringBuilder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StringBuffer"><span class="nav-number">1.9.3.</span> <span class="nav-text">StringBuffer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO"><span class="nav-number">1.10.</span> <span class="nav-text">IO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BIO"><span class="nav-number">1.10.1.</span> <span class="nav-text">BIO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NIO"><span class="nav-number">1.10.2.</span> <span class="nav-text">NIO</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection"><span class="nav-number">1.11.</span> <span class="nav-text">Collection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%90%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.11.1.</span> <span class="nav-text">子接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83API"><span class="nav-number">1.11.2.</span> <span class="nav-text">核心API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">1.11.3.</span> <span class="nav-text">迭代器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map"><span class="nav-number">1.12.</span> <span class="nav-text">Map</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap"><span class="nav-number">1.12.1.</span> <span class="nav-text">HashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashTable"><span class="nav-number">1.12.2.</span> <span class="nav-text">HashTable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeMap"><span class="nav-number">1.12.3.</span> <span class="nav-text">TreeMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E4%B8%AAMap%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.12.4.</span> <span class="nav-text">三个Map的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Object"><span class="nav-number">1.13.</span> <span class="nav-text">Object</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83API-2"><span class="nav-number">1.13.1.</span> <span class="nav-text">核心API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8"><span class="nav-number">1.14.</span> <span class="nav-text">四种引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%BA%E5%BC%95%E7%94%A8"><span class="nav-number">1.14.1.</span> <span class="nav-text">强引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E5%BC%95%E7%94%A8"><span class="nav-number">1.14.2.</span> <span class="nav-text">软引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%B1%E5%BC%95%E7%94%A8"><span class="nav-number">1.14.3.</span> <span class="nav-text">弱引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E5%BC%95%E7%94%A8"><span class="nav-number">1.14.4.</span> <span class="nav-text">虚引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%B1-%E8%99%9A%E5%8C%BA%E5%88%AB"><span class="nav-number">1.14.5.</span> <span class="nav-text">弱&#x2F;虚区别</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jyh"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jyh</p>
+  <div class="site-description" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jyhmw.github.io/2024/05/27/Java%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jyh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MWBlog">
+      <meta itemprop="description" content="莫听穿林打叶声，何妨吟啸且徐行。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Java基础 | MWBlog">
+      <meta itemprop="description" content="JavaSE内容">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java基础
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-05-27 08:16:53" itemprop="dateCreated datePublished" datetime="2024-05-27T08:16:53+08:00">2024-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-06-04 13:42:04" itemprop="dateModified" datetime="2024-06-04T13:42:04+08:00">2024-06-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%AB%E8%82%A1/" itemprop="url" rel="index"><span itemprop="name">八股</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">JavaSE内容</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Java基础"><a href="#Java基础" class="headerlink" title="Java基础"></a>Java基础</h1><h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><h3 id="四大特性"><a href="#四大特性" class="headerlink" title="四大特性"></a>四大特性</h3><h4 id="抽象"><a href="#抽象" class="headerlink" title="抽象"></a>抽象</h4><p>将一些实体的共同特质抽取出来，放进一个概念中（类）</p>
+<blockquote>
+<p>抽象是简化复杂现实世界问题的过程，通过创建模型来表示关键特征和行为。在面向对象编程中，抽象通常是通过类的形式实现的，类定义了一组相关的属性和方法，但不包含具体的实现细节。抽象使得程序员可以专注于问题的概念，而不是具体的实现细节，从而提高了代码的可读性和可维护性。</p>
+</blockquote>
+<p><strong>具体实现</strong>：类和接口</p>
+<h4 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h4><p>相当于一个黑盒，我们只需要知道他能干什么，而不需要知道他要去做什么</p>
+<blockquote>
+<p>封装是将对象的状态（属性）和行为（方法）结合在一起，并对外隐藏其内部实现细节的过程。这意味着对象的内部结构对外部是不可见的，只能通过对象提供的公共接口（方法）来访问和操作对象的状态。封装有助于减少系统的复杂性，并提高安全性和可维护性。</p>
+</blockquote>
+<p><strong>具体实现</strong>：private 方法</p>
+<h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><p>子类继承父类的一些特性，可以减小代码的冗余度，提高代码重用性</p>
+<blockquote>
+<p>继承是一种创建新类（子类）的方式，新类继承现有类（父类）的属性和方法。继承支持代码的重用，并允许新类扩展或修改父类的行为。通过继承，可以建立类之间的层次关系，使得子类具有父类的所有特性，同时还可以添加或覆盖父类的特性。</p>
+</blockquote>
+<p><strong>具体实现</strong>：类继承和接口实现</p>
+<h4 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h4><p>子类继承父类，但是也可以有子类自己的行为</p>
+<blockquote>
+<p>多态是指允许使用子类的对象来替代父类的对象。这意味着可以用子类特有的方法来覆盖父类的方法，当通过父类引用调用方法时，实际执行的是子类的版本。多态性提高了程序的灵活性和可扩展性，允许在运行时动态决定对象的实际类型。</p>
+</blockquote>
+<p><strong>具体实现</strong>：  可以实现多个接口<br>                        重载<br>                        重写</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h3><h4 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h4><ul>
+<li>byte：8位有符号的整数，范围从-128到127</li>
+<li>short：16位有符号整数，范围从-32768到32767</li>
+<li>int：32位有符号整数，范围从-2,147,483,648 到 2,147,483,647</li>
+<li>long：64位有符号整数，范围从 -9,223,372,036,854,775,808 到 9,223,372,036,854,775,807</li>
+</ul>
+<h4 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h4><ul>
+<li>float：32位单精度浮点数</li>
+<li>double：64位双精度浮点数</li>
+</ul>
+<h4 id="字符型"><a href="#字符型" class="headerlink" title="字符型"></a>字符型</h4><ul>
+<li>char：16位Unicode字符，足以表示任何标准ASCII字符</li>
+</ul>
+<h4 id="布尔型"><a href="#布尔型" class="headerlink" title="布尔型"></a>布尔型</h4><ul>
+<li>boolean：表示逻辑值true或false</li>
+</ul>
+<h3 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h3><h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><ul>
+<li>表示创建对象的模板，对象是类的实例</li>
+</ul>
+<h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><ul>
+<li>定义了一组方法，但不提供实现。类可以实现一个或多个接口</li>
+</ul>
+<h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><ul>
+<li>表示相同类型元素的集合，可以是基本数据类型或对象类型的数组</li>
+</ul>
+<h3 id="大数类型"><a href="#大数类型" class="headerlink" title="大数类型"></a>大数类型</h3><h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>构造函数可以传入int、long、String</li>
+<li>使用构造new BigDecimal(0.1)值不为0.1，而是0.1000000000000000055511151231257827021181583404541015625</li>
+<li>如果使用String构造 new BigDecimal(“0.1”) 就是真正的0.1</li>
+<li>如果要使用double 类型构造 BigDecimal 先用Double.toString(double)，再把String传入BigDecimal的构造</li>
+</ul>
+<h3 id="时间类型"><a href="#时间类型" class="headerlink" title="时间类型"></a>时间类型</h3><h4 id="Java的四种时间类型"><a href="#Java的四种时间类型" class="headerlink" title="Java的四种时间类型"></a>Java的四种时间类型</h4><ul>
+<li>java.util.Date</li>
+<li>java.sql.Date</li>
+<li>java.sql.time</li>
+<li>java.sql.TimeStamp</li>
+</ul>
+<h4 id="对应关系"><a href="#对应关系" class="headerlink" title="对应关系"></a>对应关系</h4><ul>
+<li>date：对应Java的java.sql.Date类型</li>
+<li>TIME：对应Java的java.sql.Time类型</li>
+<li>DATETIME、TIMESTAMP：对应Java的java.sql.TimeStamp类型</li>
+</ul>
+<h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><h3 id="final"><a href="#final" class="headerlink" title="final"></a>final</h3><h4 id="修饰类"><a href="#修饰类" class="headerlink" title="修饰类"></a>修饰类</h4><ul>
+<li>该类不可以被继承</li>
+<li>被final修饰的类不能被CGlib动态代理</li>
+</ul>
+<h4 id="修饰方法"><a href="#修饰方法" class="headerlink" title="修饰方法"></a>修饰方法</h4><ul>
+<li>不可以被重写</li>
+</ul>
+<h4 id="修饰变量"><a href="#修饰变量" class="headerlink" title="修饰变量"></a>修饰变量</h4><ul>
+<li>修饰基本类型 值不可以被改变</li>
+<li>修饰引用类型 引用类型的地址不可变，但是引用类型内的值可以变</li>
+</ul>
+<h3 id="transient"><a href="#transient" class="headerlink" title="transient"></a>transient</h3><ul>
+<li>修饰后不会被序列化</li>
+</ul>
+<h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><h4 id="修饰类-1"><a href="#修饰类-1" class="headerlink" title="修饰类"></a>修饰类</h4><ul>
+<li>修饰后为静态内部类</li>
+</ul>
+<h4 id="修饰变量-1"><a href="#修饰变量-1" class="headerlink" title="修饰变量"></a>修饰变量</h4><ul>
+<li>类变量（不同于实例变量 类变量在类加载的时候就被创建 存储在Java方法区）</li>
+</ul>
+<h4 id="修饰方法-1"><a href="#修饰方法-1" class="headerlink" title="修饰方法"></a>修饰方法</h4><ul>
+<li>类方法</li>
+<li>没有this</li>
+</ul>
+<h4 id="静态代码块"><a href="#静态代码块" class="headerlink" title="静态代码块"></a>静态代码块</h4><ul>
+<li>用来初始化数据</li>
+</ul>
+<h4 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>在类加载的第三阶段初始化阶段，使用<clinit>方法进行初始化（<clinit>是编译器给的方法）</li>
+<li>static修饰的为类的成员，可以直接使用类名调用，不需要实例对象</li>
+<li>静态内部类只会在用到其时才会加载，且只加载一次，可以实现单例模式</li>
+</ul>
+<h2 id="接口-1"><a href="#接口-1" class="headerlink" title="接口"></a>接口</h2><h3 id="不同版本接口加入了不同功能"><a href="#不同版本接口加入了不同功能" class="headerlink" title="不同版本接口加入了不同功能"></a>不同版本接口加入了不同功能</h3><h4 id="JDK1-7"><a href="#JDK1-7" class="headerlink" title="JDK1.7"></a>JDK1.7</h4><ul>
+<li>有常量、抽象方法</li>
+<li>常量必须使用public static final修饰，可以省略</li>
+<li>抽象方法就是abstract方法，abstract关键字可以不写</li>
+</ul>
+<h4 id="JDK1-8"><a href="#JDK1-8" class="headerlink" title="JDK1.8"></a>JDK1.8</h4><ul>
+<li>有默认方法<ul>
+<li>用default标识</li>
+<li>默认方法可以不重写</li>
+</ul>
+</li>
+<li>静态方法<ul>
+<li>用static标识</li>
+</ul>
+</li>
+</ul>
+<h4 id="JDK1-9"><a href="#JDK1-9" class="headerlink" title="JDK1.9"></a>JDK1.9</h4><ul>
+<li>私有方法</li>
+</ul>
+<h3 id="为什么要有接口？"><a href="#为什么要有接口？" class="headerlink" title="为什么要有接口？"></a>为什么要有接口？</h3><p>解决Java只能单继承的缺陷</p>
+<h3 id="为什么JDK1-8引入了默认方法？"><a href="#为什么JDK1-8引入了默认方法？" class="headerlink" title="为什么JDK1.8引入了默认方法？"></a>为什么JDK1.8引入了默认方法？</h3><p>增加了可扩展性</p>
+<h3 id="为什么JDK1-9引入了私有方法？"><a href="#为什么JDK1-9引入了私有方法？" class="headerlink" title="为什么JDK1.9引入了私有方法？"></a>为什么JDK1.9引入了私有方法？</h3><p>为了提高代码重用消除冗余代码</p>
+<h3 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>接口有抽象方法<ul>
+<li>public abstract默认就存在可以省略</li>
+<li>抽象方法实现类必须实现</li>
+</ul>
+</li>
+</ul>
+<h4 id="接口与类的区别"><a href="#接口与类的区别" class="headerlink" title="接口与类的区别"></a>接口与类的区别</h4><ul>
+<li>接口没有构造方法；所以不能new接口</li>
+<li>接口没有静态代码块</li>
+<li>一个类可以实现多个接口</li>
+</ul>
+<h2 id="类-1"><a href="#类-1" class="headerlink" title="类"></a>类</h2><h3 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h3><ul>
+<li>可以实现构造方法</li>
+<li>一定有抽象方法 （抽象方法不能有实现体）</li>
+<li>如果子类没有重写所有的构造方法，子类还是一个抽象类</li>
+<li><strong>抽象类与接口的区别</strong>：<ol>
+<li>构造方法：接口无、抽象类有</li>
+<li>实现方法：接口默认方法可以不实现、抽象类不实现任意一个构造方法还是一个抽象类</li>
+<li>实现类：一个类只能实现一个抽象类，但是可以实现多个接口</li>
+</ol>
+</li>
+</ul>
+<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>嵌套类，属于类的一部分</p>
+<h3 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h3><p>绑定在了this即实例上面，属于实例的一部分</p>
+<h3 id="静态内部类与内部类的区别"><a href="#静态内部类与内部类的区别" class="headerlink" title="静态内部类与内部类的区别"></a>静态内部类与内部类的区别</h3><ul>
+<li>静态内部类属于类；而内部类属于实例</li>
+<li>静态内部类在没有使用到的时候，不会加载；内部类只要外部类加载就会加载</li>
+<li>内部类可以访问外部类的一切方法与变量；静态内部类只能访问外部类的静态变量</li>
+<li>内部类不能有静态方法；静态内部类可以既有普通方法，又有静态方法；</li>
+</ul>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><h3 id="Throwable接口"><a href="#Throwable接口" class="headerlink" title="Throwable接口"></a>Throwable接口</h3><p>Java的异常类都继承自java.lang.throwable类</p>
+<blockquote>
+<p>Throwable有两个主要的子类Exception和Error</p>
+</blockquote>
+<h3 id="Error"><a href="#Error" class="headerlink" title="Error"></a>Error</h3><blockquote>
+<p>运行中难以预料的异常</p>
+</blockquote>
+<p>例如</p>
+<ul>
+<li>OOM<br>“OutOfMemory”通常指的是Java应用程序中的内存不足错误，导致无法分配更多的内存空间。这通常表现为java.lang.OutOfMemoryError异常</li>
+<li>SOF<br>SOF：表示栈溢出错误，表示堆栈已满，无法创建新的方法调用帧。  通常是调用递归层次过深。</li>
+</ul>
+<h3 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h3><blockquote>
+<p>可以预见的异常</p>
+<p>分为两大类：检查型异常和非检查型异常</p>
+</blockquote>
+<h4 id="检查型异常（编译时异常）"><a href="#检查型异常（编译时异常）" class="headerlink" title="检查型异常（编译时异常）"></a>检查型异常（编译时异常）</h4><ul>
+<li>必须显示抛出或者捕获</li>
+<li>举例<ul>
+<li>IOException</li>
+<li>InterruptedException</li>
+</ul>
+</li>
+</ul>
+<h4 id="运行时异常"><a href="#运行时异常" class="headerlink" title="运行时异常"></a>运行时异常</h4><p>NullPointException</p>
+<h3 id="异常捕获"><a href="#异常捕获" class="headerlink" title="异常捕获"></a>异常捕获</h3><blockquote>
+<p>Try Catch Finally</p>
+</blockquote>
+<ul>
+<li>只要try的代码执行，finally的代码执行</li>
+<li>为什么finally必会执行？<ul>
+<li>try块有return，finally无return<br>当执行到try块的return时，会将要return的值存入一个临时变量，然后去执行finally，最后返回临时变量的值</li>
+<li>try块有return，finally有return<br>这种情况下，finally的return会覆盖掉try的return的临时变量的值，所以返回finally的值</li>
+</ul>
+</li>
+<li>如果finally有return，那就是返回这个值，如果没有，那么finally无论如何操作数据，都不会影响返回值</li>
+</ul>
+<h2 id="拆箱和装箱"><a href="#拆箱和装箱" class="headerlink" title="拆箱和装箱"></a>拆箱和装箱</h2><h3 id="什么是拆箱和装箱？"><a href="#什么是拆箱和装箱？" class="headerlink" title="什么是拆箱和装箱？"></a>什么是拆箱和装箱？</h3><ul>
+<li><strong>装箱</strong>：将Java的基本数据类型（如<code>int</code>、<code>double</code>等）转换为它们对应的包装类对象（如<code>Integer</code>、<code>Double</code>等）的过程</li>
+<li><strong>拆箱</strong>：将包装类对象转换回它们对应的基本数据类型的过程</li>
+</ul>
+<h3 id="为什么要装箱和拆箱？"><a href="#为什么要装箱和拆箱？" class="headerlink" title="为什么要装箱和拆箱？"></a>为什么要装箱和拆箱？</h3><ul>
+<li>装箱和拆箱使得我们可以在需要对象类型的地方使用基本数据类型，这在集合框架中尤其有用，因为集合只能存储对象</li>
+<li>自动装箱和拆箱简化了代码，使得我们可以在不显式进行类型转换的情况下在基本类型和包装类之间自由切换</li>
+</ul>
+<h3 id="哪些基本数据类型有对应的包装类？"><a href="#哪些基本数据类型有对应的包装类？" class="headerlink" title="哪些基本数据类型有对应的包装类？"></a>哪些基本数据类型有对应的包装类？</h3><ul>
+<li>Java为每个基本数据类型提供了对应的包装类：<code>Integer</code>、<code>Double</code>、<code>Float</code>、<code>Long</code>、<code>Short</code>、<code>Byte</code>、<code>Character</code>、<code>Boolean</code></li>
+</ul>
+<h3 id="-1"><a href="#-1" class="headerlink" title=""></a></h3><h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><h3 id="是什么？用途？"><a href="#是什么？用途？" class="headerlink" title="是什么？用途？"></a>是什么？用途？</h3><p><code>ThreadLocal</code>类提供了线程局部变量的实现。它允许每个线程都可以拥有自己的变量副本，这些副本对于其他线程是不可见的。这在处理线程安全问题时非常有用，尤其是当你想要避免同步或者使用全局变量时</p>
+<h3 id="如何解决多线程共享资源问题？"><a href="#如何解决多线程共享资源问题？" class="headerlink" title="如何解决多线程共享资源问题？"></a>如何解决多线程共享资源问题？</h3><p><code>ThreadLocal</code>通过为每个线程提供独立的变量副本来避免共享资源问题。这样，每个线程都可以独立地操作自己的资源，而不需要担心其他线程的干扰</p>
+<h3 id="工作原理？"><a href="#工作原理？" class="headerlink" title="工作原理？"></a>工作原理？</h3><p><code>ThreadLocal</code>内部使用<code>ThreadLocalMap</code>来存储每个线程的局部变量。当一个线程首次访问<code>ThreadLocal</code>变量时，它会在当前线程的<code>Thread</code>对象中创建一个条目，并存储变量的值。之后，同一个线程的所有访问都会返回这个线程特有的值</p>
+<h3 id="同步机制相比有什么优势？"><a href="#同步机制相比有什么优势？" class="headerlink" title="同步机制相比有什么优势？"></a>同步机制相比有什么优势？</h3><p>与同步机制相比，<code>ThreadLocal</code>避免了线程之间的竞争，因为它为每个线程提供了独立的变量副本。这可以减少锁的使用，提高程序的性能。此外，<code>ThreadLocal</code>也简化了代码，因为它不需要复杂的同步逻辑</p>
+<h3 id="常见的使用场景？"><a href="#常见的使用场景？" class="headerlink" title="常见的使用场景？"></a>常见的使用场景？</h3><ul>
+<li>为每个线程提供单独的数据库连接</li>
+<li>存储用户请求相关的数据，如会话信息</li>
+<li>缓存特定于线程的数据</li>
+<li>避免在多线程环境中传递线程不安全的实例</li>
+</ul>
+<h3 id="内存泄露问题？"><a href="#内存泄露问题？" class="headerlink" title="内存泄露问题？"></a>内存泄露问题？</h3><p><code>ThreadLocal</code>可能导致内存泄漏，因为<code>ThreadLocalMap</code>中的条目不会自动清理。如果线程的生命周期很长，或者线程对象被长时间保留，那么存储在<code>ThreadLocal</code>中的大对象可能会占用大量内存。当线程结束时，应该调用<code>ThreadLocal</code>的<code>remove</code>方法来显式清理这些条目。</p>
+<h3 id="如何解决内存泄漏？"><a href="#如何解决内存泄漏？" class="headerlink" title="如何解决内存泄漏？"></a>如何解决内存泄漏？</h3><ul>
+<li>在使用<code>ThreadLocal</code>的代码块结束后，显式调用<code>ThreadLocal</code>的<code>remove</code>方法来清理存储的数据。</li>
+<li>避免在<code>ThreadLocal</code>中存储大对象或长时间存活的对象。</li>
+<li>使用<code>WeakReference</code>来引用<code>ThreadLocal</code>变量，以便在垃圾回收时能够清除这些引用。</li>
+</ul>
+<h3 id="ThreadLocal与AtomicInteger-ConcurrentHashMap等并发工具类的区别？"><a href="#ThreadLocal与AtomicInteger-ConcurrentHashMap等并发工具类的区别？" class="headerlink" title="ThreadLocal与AtomicInteger&#x2F;ConcurrentHashMap等并发工具类的区别？"></a><code>ThreadLocal</code>与<code>AtomicInteger</code>&#x2F;<code>ConcurrentHashMap</code>等并发工具类的区别？</h3><p><code>ThreadLocal</code>提供了线程隔离的变量，而<code>AtomicInteger</code>和<code>ConcurrentHashMap</code>等并发工具类提供了线程安全的共享变量。<code>ThreadLocal</code>适用于不需要跨线程共享数据的场景，而<code>AtomicInteger</code>和<code>ConcurrentHashMap</code>适用于需要在多个线程之间同步访问共享资源的场景</p>
+<h3 id="-2"><a href="#-2" class="headerlink" title=""></a></h3><h3 id="-3"><a href="#-3" class="headerlink" title=""></a></h3><h3 id="-4"><a href="#-4" class="headerlink" title=""></a></h3><h3 id="-5"><a href="#-5" class="headerlink" title=""></a></h3><h3 id="-6"><a href="#-6" class="headerlink" title=""></a></h3><h3 id="-7"><a href="#-7" class="headerlink" title=""></a></h3><h2 id="String相关"><a href="#String相关" class="headerlink" title="String相关"></a>String相关</h2><h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><h4 id="特点-3"><a href="#特点-3" class="headerlink" title="特点"></a>特点</h4><ul>
+<li><strong>final修饰，不可继承的类</strong></li>
+<li><strong>底层使用char[]数组存，也有final修饰，值不可变（JDK1.8）</strong></li>
+<li><strong>JDK1.9使用byte[]数组存放</strong></li>
+<li><strong>为什么1.9要使用byte数组？</strong><br>为了节省内存，据调查存储的字符串70%都是拉丁字母，byte占一个字节，char占两个字节，占1个字节更省内存</li>
+</ul>
+<h4 id="字符串常量池"><a href="#字符串常量池" class="headerlink" title="字符串常量池"></a>字符串常量池</h4><ul>
+<li>本质 是一个固定大小的HashMap</li>
+<li>字面量会直接进入字符串常量池</li>
+<li>String对象调用intern方法也会进入字符串常量池</li>
+<li>存放的位置 <strong>JDK1.6之前存放在方法区；JDK1.7之后存放在堆区</strong></li>
+</ul>
+<h4 id="intern-方法"><a href="#intern-方法" class="headerlink" title="intern()方法"></a><strong>intern()方法</strong></h4><ul>
+<li><p>JDK1.6中</p>
+<p>如果池中没有，那么就再创建一个新的对象放在池中</p>
+</li>
+<li><p>JDK1.7后</p>
+<p>如果池中没有，就会将当前这个对象的地址复制一份，放入堆中，不用重新创建对象了</p>
+</li>
+</ul>
+<h4 id="new-String-“a”-会创建几个对象？"><a href="#new-String-“a”-会创建几个对象？" class="headerlink" title="new String(“a”)会创建几个对象？"></a>new String(“a”)会创建几个对象？</h4><ul>
+<li>2个<ul>
+<li>new String一个</li>
+<li>字面量a一个</li>
+</ul>
+</li>
+</ul>
+<h4 id="String-b-new-String-“a”-“B”-会创建几个对象？"><a href="#String-b-new-String-“a”-“B”-会创建几个对象？" class="headerlink" title="String b &#x3D; new String(“a”) + “B”;会创建几个对象？"></a>String b &#x3D; new String(“a”) + “B”;会创建几个对象？</h4><ul>
+<li>4个对象<ul>
+<li>newString一个</li>
+<li>a</li>
+<li>b</li>
+<li>拼接用到了StringBuilder，也是一个</li>
+</ul>
+</li>
+</ul>
+<h3 id="StringBuilder"><a href="#StringBuilder" class="headerlink" title="StringBuilder"></a>StringBuilder</h3><ul>
+<li>线程不安全</li>
+<li>但是会更快一点</li>
+<li>String之间的拼接默认就是用StringBuilder优化的</li>
+</ul>
+<h3 id="StringBuffer"><a href="#StringBuffer" class="headerlink" title="StringBuffer"></a>StringBuffer</h3><ul>
+<li>方法中有synchronized进程同步关键字 线程安全但是效率慢</li>
+<li>StringBuilder 和 StringBuffer 继承自AbstractStringBuilder类</li>
+</ul>
+<h2 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h2><h3 id="BIO"><a href="#BIO" class="headerlink" title="BIO"></a>BIO</h3><blockquote>
+<p>阻塞IO 即IO会阻塞当前线程，必须等待IO完成后才能继续执行</p>
+</blockquote>
+<h4 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h4><h5 id="TCP通信"><a href="#TCP通信" class="headerlink" title="TCP通信"></a>TCP通信</h5><ul>
+<li>Socket<ul>
+<li>客户端Socket</li>
+<li>API<ul>
+<li>connect(new InetSocketAddress(“IP”, port)) 连接客户端</li>
+<li>socket.getOutputStream() 获取输出流，向服务器write数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ServerSocket<ul>
+<li>服务端Socket</li>
+<li>API<ul>
+<li>bind 监听一个本地的端口号</li>
+<li>accept 阻塞等待客户端连接，所谓的BIO在于此</li>
+<li>getInputStream 获取输入流，读入客户端数据</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="UDP通信"><a href="#UDP通信" class="headerlink" title="UDP通信"></a>UDP通信</h5><ul>
+<li>DatagramSocket <ul>
+<li>客户端服务器端都使用这个类</li>
+<li>API<ul>
+<li>new DatagramSocket (port) 绑定一个端口创建服务</li>
+<li>send(DatagramPacket) 发送数据报</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>DatagramPacket<ul>
+<li>UDP无需建立连接，每一个数据报内部传输IP+port</li>
+<li>API<ul>
+<li>atagramPacket(byte[] buf, int length, InetAddress addr, int port)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="弊端"><a href="#弊端" class="headerlink" title="弊端"></a>弊端</h4><p>一个Socket需要一个线程，浪费性能</p>
+<h3 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h3><blockquote>
+<p>非阻塞IO或者叫New IO</p>
+<p>IO操作是非阻塞的，即IO操作不会阻塞当前线程，需要主线程一段时间来判断一次是否IO完毕</p>
+</blockquote>
+<h4 id="NIO与BIO的区别"><a href="#NIO与BIO的区别" class="headerlink" title="NIO与BIO的区别"></a>NIO与BIO的区别</h4><ul>
+<li>BIO面向流；NIO面向缓冲区</li>
+<li>BIO单向，要么读要么写；NIO双向</li>
+<li>BIO 是阻塞的；NIO 是非阻塞的</li>
+<li>BIO只能向后读；NIO可以前后读<br>BIO 读写是面向流的，一次性只能从流中读取一个或者多个字节，并且读完之后流无法再读取，除非我们缓存起来</li>
+</ul>
+<h4 id="Java具体主要使用三个组件来实现NIO"><a href="#Java具体主要使用三个组件来实现NIO" class="headerlink" title="Java具体主要使用三个组件来实现NIO"></a>Java具体主要使用三个组件来实现NIO</h4><p><img data-src="https://img.jyhmw.cn/image-20240326211804092.png" alt="image-20240326211804092"></p>
+<h5 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h5><h6 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h6><ul>
+<li>继承了SelectableChannel的类<ul>
+<li>SocketChannel TCP客户端</li>
+<li>ServerSocketChannel TCP服务器端</li>
+<li>DatagramChannel UDP数据报</li>
+</ul>
+</li>
+<li>FileChannel 不能被复用</li>
+</ul>
+<h6 id="特点-4"><a href="#特点-4" class="headerlink" title="特点"></a>特点</h6><ul>
+<li>操作是双向的</li>
+<li>异步</li>
+<li>不能直接访问数据，需要与buffer配合使用</li>
+</ul>
+<h5 id="Selector"><a href="#Selector" class="headerlink" title="Selector"></a>Selector</h5><ul>
+<li><p>每一个Channel都得在Selector上注册，注册后会返回一个选择键SelectionKey<br>selectionKey<br>代表Selector与Channel关系的类</p>
+<p>可以通过其获得Selector与Channel</p>
+</li>
+<li><p>每执行一次select()方法，都会返回一个当前就绪的通道的数量</p>
+</li>
+<li><p>维护三个集合</p>
+<ul>
+<li>keys 已注册键的集合</li>
+<li>selectKeys 已选择的键的集合（即就绪的键的集合）</li>
+<li>已取消的集合</li>
+</ul>
+</li>
+<li><p>建立Selector系统</p>
+<ul>
+<li>Selector.open()创建一个Selector</li>
+<li>设置通道为非阻塞</li>
+<li>通道调用register()注册在此Selector上<ul>
+<li>关心的操作有<ol>
+<li>Read</li>
+<li>Write</li>
+<li>Connect</li>
+<li>Accept</li>
+</ol>
+</li>
+<li>指向过程<ol>
+<li>检查已取消的键的集合</li>
+<li>检查已注册的键的集合</li>
+<li>返回值</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h5><blockquote>
+<p>通道的通信都需要经过Buffer来实现</p>
+</blockquote>
+<h6 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h6><ul>
+<li>allocate(long) 传入一个大小，开辟指定大小的缓存，缓存开辟在JVM的堆</li>
+<li>allocateDirect(long) 分配一个直接缓存区，开辟在JVM之外</li>
+<li>wrap(byte[]) 将一个byte数组作为一个缓存</li>
+</ul>
+<h6 id="直接缓冲区和非缓冲区的区别"><a href="#直接缓冲区和非缓冲区的区别" class="headerlink" title="直接缓冲区和非缓冲区的区别"></a>直接缓冲区和非缓冲区的区别</h6><ul>
+<li>直接缓冲区的开销少，少一次复制的过程</li>
+<li>假设给一个通道传入了一个非直接缓冲区，那么通道会先创建一个临时的直接缓冲区，将非直接缓冲区的数据复制到临时的直接缓冲区，使用这个临时的直接缓冲区去执行 IO 操作（多一次拷贝，增大了开销）</li>
+</ul>
+<h6 id="API"><a href="#API" class="headerlink" title="API"></a>API</h6><ul>
+<li><p>flip<br>将写模式转换为读模式，将当前的limit设置为position，然后将position设为0</p>
+</li>
+<li><p>compact</p>
+<p>压缩，将未读取的数据（position与limit之间的数据）向前移动</p>
+</li>
+<li><p>hasRemaining<br>读取时在while循环内使用hasRemaining判断，判断position与limit之间的距离</p>
+</li>
+</ul>
+<h6 id="维护了四个值"><a href="#维护了四个值" class="headerlink" title="维护了四个值"></a>维护了四个值</h6><ul>
+<li>mark 标记位置，每次reset会回到这个位置</li>
+<li>position 当前位置，每写入一个就+1（指向最新元素的下一个空白的位置）</li>
+<li>limit 第一个不能被读写的位置</li>
+<li>capacity 总容量</li>
+</ul>
+<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><h3 id="子接口"><a href="#子接口" class="headerlink" title="子接口"></a>子接口</h3><h4 id="list"><a href="#list" class="headerlink" title="list"></a>list</h4><h5 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h5><blockquote>
+<p>用数组实现的列表，适合查询，不适合增删</p>
+</blockquote>
+<h6 id="结构特点"><a href="#结构特点" class="headerlink" title="结构特点"></a>结构特点</h6><ul>
+<li>由一个对象数组构成</li>
+<li>初始容量10，最大容量Integer.max - 8 | 为什么减去8？<ul>
+<li>给虚拟机预留一些数据存放对象的其他数据</li>
+</ul>
+</li>
+<li>grow() 扩容<ul>
+<li>扩容每次扩容1.5倍，扩容方式直接调用System.copyOf()</li>
+<li>ArrayList有缩容方法trimSize，但是不会去自动调用，需要执行</li>
+</ul>
+</li>
+<li>clone() 浅拷贝<br>就是创建一个对象的副本，这个对象的引用还是指向原来对象的，即新对象和原来对象共用同一个内存空间</li>
+<li>get(index)方法<br>检查是否越界，直接返回对应下标数组的数据</li>
+<li>set(index, value)方法 返回旧数据</li>
+<li>add(value) 直接添加到末尾</li>
+<li>add(index, value)<br>调用System.copy将index之后的所有数据，向后copy一格，然后把这个数据放在这里</li>
+<li>remove(index)<ul>
+<li>直接调System.copy将数据从index后覆盖前一个数据即可</li>
+<li>remove操作会更改modcount值</li>
+<li>modCount用于Fast-Fail检测<ul>
+<li>在使用迭代器遍历集合时，如果在遍历过程中有其他线程修改了集合的内容，迭代器会在下一个 next() 调用时检测到 modCount 的变化，并抛出 ConcurrentModificationException，以避免产生不一致的结果</li>
+<li>如果是fori遍历，然后remove，不会报这个错</li>
+<li>如果是迭代器或是foreach遍历，然后remove，就会报这个错</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>indexOf(value)<br>返回该值第一次出现的下标</li>
+<li>lastIndexof(value)<br>返回该值最后一次出现的下标</li>
+</ul>
+<h5 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h5><ul>
+<li>用链表实现的列表</li>
+<li>适合增删，不适合查询</li>
+<li>是一个双向队列</li>
+</ul>
+<h5 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h5><h6 id="子类-Stack"><a href="#子类-Stack" class="headerlink" title="子类 Stack"></a>子类 Stack</h6><p>用vector实现的栈，已经退出Java舞台，推荐使用Deque来代替这个类</p>
+<blockquote>
+<p>是一个线程安全类 方法上有synchronized同步关键字，实现了线程安全</p>
+</blockquote>
+<h6 id="结构特点-1"><a href="#结构特点-1" class="headerlink" title="结构特点"></a>结构特点</h6><ul>
+<li>默认大小10</li>
+<li>扩容倍数，可以自己设置，如果不设置默认成倍增长</li>
+</ul>
+<h4 id="set"><a href="#set" class="headerlink" title="set"></a>set</h4><h5 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h5><ul>
+<li><p>子类<br>LinkedHashSet</p>
+</li>
+<li><p>底层由一个HashMap实现</p>
+</li>
+<li><p>可以存null</p>
+</li>
+<li><p>如何实现了去重？</p>
+<ul>
+<li><code>HashSet</code>的内部结构是一个<code>HashMap</code>。当你向<code>HashSet</code>添加元素时，实际上是将元素作为键（key）放入这个内部的<code>HashMap</code>中。<code>HashMap</code>使用元素的<code>hashCode()</code>方法来计算哈希值，并根据这个哈希值将元素存储在不同的桶（bucket）中</li>
+<li>每个对象都有一个<code>hashCode</code>方法，它返回一个整数值，这个值是由对象的内容计算得到的。如果两个对象的<code>hashCode</code>相同，它们可能会存储在同一个桶中，但这并不意味着它们是相同的对象</li>
+<li>当<code>HashSet</code>尝试添加一个新元素时，它会首先调用这个元素的<code>hashCode()</code>方法来获取哈希值，然后根据哈希值找到对应的桶。在同一个桶中的元素，<code>HashSet</code>会通过调用<code>equals()</code>方法来检查是否已经存在一个相同的对象。如果<code>equals()</code>返回<code>true</code>，则认为这两个对象相同，新元素不会被添加到<code>HashSet</code>中，从而实现了去重</li>
+<li>由于<code>HashSet</code>内部使用<code>HashMap</code>，它能够提供快速的查找和插入操作。当查找一个元素是否存在时，<code>HashSet</code>会使用元素的<code>hashCode()</code>来快速定位到桶，然后在桶中通过<code>equals()</code>方法来检查元素是否存在</li>
+</ul>
+</li>
+</ul>
+<h4 id="queue"><a href="#queue" class="headerlink" title="queue"></a>queue</h4><h5 id="PriorityQueue"><a href="#PriorityQueue" class="headerlink" title="PriorityQueue"></a>PriorityQueue</h5><ul>
+<li>底层是一个二叉堆 存储用一个Object数组来存储</li>
+<li>实现了Comparator接口，通过重写compare()方法来实现，来进行比较</li>
+<li>默认排序为从小到大</li>
+</ul>
+<h5 id="Deque"><a href="#Deque" class="headerlink" title="Deque"></a>Deque</h5><ul>
+<li>LinkedList</li>
+<li>ArrayList</li>
+</ul>
+<h3 id="核心API"><a href="#核心API" class="headerlink" title="核心API"></a>核心API</h3><ul>
+<li>size()</li>
+<li>contains()</li>
+<li>iterator()</li>
+<li>toArray()</li>
+<li>add()</li>
+<li>remove()</li>
+<li>containsAll()</li>
+<li>addAll()</li>
+</ul>
+<h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><blockquote>
+<p>Collection继承了Interator,重写iterator方法，可以返回一个迭代器</p>
+</blockquote>
+<h4 id="核心API-1"><a href="#核心API-1" class="headerlink" title="核心API"></a>核心API</h4><ul>
+<li>hasNext()</li>
+<li>next()</li>
+<li>remove()</li>
+<li>迭代方式 使用while循环，判断条件hasNext</li>
+</ul>
+<h4 id="Fast-Fail-快速失败机制"><a href="#Fast-Fail-快速失败机制" class="headerlink" title="Fast-Fail 快速失败机制"></a>Fast-Fail 快速失败机制</h4><blockquote>
+<p>集合类都有快速失败机制，迭代遍历过程中如果对集合类内容进行了更改，就会抛出异常</p>
+</blockquote>
+<ul>
+<li>原理：通过内部定义的一个字段 modCount来判断是否更改过这个集合，如果修改了集合（add或者remove），那么modCount也会被修改，检测到modCount值不同后，就抛出一个ConcurrentModificationException</li>
+</ul>
+<h4 id="安全失败机制"><a href="#安全失败机制" class="headerlink" title="安全失败机制"></a>安全失败机制</h4><ul>
+<li>对于JUC包下的类比如CopyOnWriteArrayList，就不会抛出ConcurrentModificationException异常</li>
+<li>因为迭代器修改的是原容器的复制，而不是容器本身，这样的机制称为安全失败机制</li>
+</ul>
+<h4 id="for-each"><a href="#for-each" class="headerlink" title="for each"></a>for each</h4><ul>
+<li><p>Java的一个语法糖，其实内部就是使用迭代器迭代的</p>
+</li>
+<li><p>for each操作不能增删元素，会抛出异常</p>
+</li>
+</ul>
+<p>迭代进行删除操作</p>
+<ul>
+<li>可以使用for i</li>
+<li>可以使用迭代器的remove方法</li>
+</ul>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><h4 id="结构特点-2"><a href="#结构特点-2" class="headerlink" title="结构特点"></a>结构特点</h4><ul>
+<li><p>初始容量大小</p>
+</li>
+<li><p>默认负载因子0.75</p>
+<ul>
+<li>为什么负载因子是0.75?<br>根据泊松分布，0.75可以达到一个不错的散列程度</li>
+<li>负载因子有什么作用？<ol>
+<li>负载因子控制着hash数组的散列程度</li>
+<li>负载因子大，节省内存，但是会导致哈希碰撞比较严重</li>
+<li>负载因子小，查询快，但是会很浪费内存</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>链化与树化</p>
+<ul>
+<li>当链表长度大于8，且数组size达到64会将链表转化为红黑树</li>
+<li>当链表长度小于6 会将红黑树转化为链表</li>
+<li>为什么变化阈值为6和8？ 为了防止复杂度震荡</li>
+</ul>
+</li>
+<li><p>扩容大小一定是2的倍数</p>
+<p>方便查找元素 根据keyHash &amp; (size - 1)就可以快速找到下标元素</p>
+</li>
+<li><p><strong>为什么要重写equals和hashCode方法</strong></p>
+<p>当你重写了<code>equals</code>方法来定义对象的相等性时，也应该重写<code>hashCode</code>方法，以确保<code>hashCode</code>与<code>equals</code>保持一致。如果两个对象根据<code>equals</code>方法比较是相等的，那么它们应该返回相同的<code>hashCode</code>值</p>
+</li>
+<li><p>遍历</p>
+<p>可以foreach+keySet方法遍历</p>
+<p>可以用foreach+entrySet方法遍历</p>
+</li>
+<li><p>HashMap不是线程安全类，不要在并发下使用</p>
+</li>
+<li><p><strong>resize方法</strong></p>
+<ul>
+<li>承担两个任务：1 初始化Node数组 2 进行扩容操作</li>
+<li>每次扩容大小翻倍</li>
+<li>JDK1.7扩容时头插法，JDK1.8扩容时尾插法</li>
+<li>新下标：hash &amp; (newTable.length-1)<br>其实就是：要不然就是旧下标，要不然就是旧下标加上旧数组的长度</li>
+</ul>
+</li>
+</ul>
+<h4 id="JDK1-7与JDK1-8的变化"><a href="#JDK1-7与JDK1-8的变化" class="headerlink" title="JDK1.7与JDK1.8的变化"></a>JDK1.7与JDK1.8的变化</h4><h5 id="JDK1-7-1"><a href="#JDK1-7-1" class="headerlink" title="JDK1.7"></a>JDK1.7</h5><ul>
+<li>由数组+链表实现</li>
+<li>hash计算直接使用hashcode</li>
+<li>头插法<ul>
+<li>扩容时会改变链表的顺序，可能会形成链表环</li>
+<li>在并发情况下，如果此时正好进行了扩容与插入，容易形成链表环，cpu占用直接100%</li>
+</ul>
+</li>
+<li>扩容在插入节点之前</li>
+<li>寻找节点下标 用indexFor()方法</li>
+<li>对于key为null有专门的操作putForNullKey<br>这个方法就是找0的桶，看看有没有key为null的对象</li>
+</ul>
+<h5 id="JDK1-8-1"><a href="#JDK1-8-1" class="headerlink" title="JDK1.8"></a>JDK1.8</h5><ul>
+<li>由数组+链表+红黑树实现<br>为了解决链表过长，引起遍历速度下降的问题<br>也是为了解决链表环的问题</li>
+<li>寻找下标，直接用keyHash &amp; (size - 1)即可，去除了indexFor方法</li>
+<li>扩容在插入结点之后</li>
+<li>尾插法<br>扩容时不会改变链表的顺序</li>
+<li><strong>哈希方法：前16位和后16位异或在运算</strong><br>将高位与低位混合，增大散列程度，使散列出来的数组更加的均匀</li>
+<li>对于key为null没有专门的操作</li>
+</ul>
+<h3 id="HashTable"><a href="#HashTable" class="headerlink" title="HashTable"></a>HashTable</h3><ul>
+<li>初始容量为11</li>
+<li>负载因子也是0.75</li>
+<li>线程安全，使用synchronized保证了线程安全</li>
+</ul>
+<h3 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h3><h3 id="三个Map的区别"><a href="#三个Map的区别" class="headerlink" title="三个Map的区别"></a>三个Map的区别</h3><ul>
+<li><p><strong>数据结构组成</strong></p>
+<ul>
+<li>HashMap 数组加红黑树加链表</li>
+<li>HashTable 数组加链表</li>
+<li>TreeMap 数组加红黑树</li>
+</ul>
+</li>
+<li><p><strong>是否线程安全</strong><br>HashTable线程安全，其他两个不是</p>
+</li>
+<li><p><strong>key是否可以为null</strong></p>
+<p>HashMap可以，其他两个不可以</p>
+</li>
+<li><p><strong>是否有序</strong></p>
+<p>TreeMap有序，其他两个无序</p>
+</li>
+</ul>
+<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><blockquote>
+<p>所有类的超类</p>
+<p>所有的方法都是native方法，是由C&#x2F;C++实现的</p>
+</blockquote>
+<h3 id="核心API-2"><a href="#核心API-2" class="headerlink" title="核心API"></a>核心API</h3><p>registerNatives():该方法在static静态代码块调用，注册所有的native方法</p>
+<h4 id="通用"><a href="#通用" class="headerlink" title="通用"></a>通用</h4><ul>
+<li>hashCode()<ul>
+<li>获取哈希值</li>
+<li>哈希值的实现很复杂，其不仅仅是简单的返回一个地址值，分了很多种情况，具体不需要再做了解</li>
+</ul>
+</li>
+<li><strong>equals()</strong><ul>
+<li>默认就是使用&#x3D;&#x3D;判断</li>
+</ul>
+</li>
+<li>clone()<ul>
+<li>配合Cloneable接口使用，用来对一个类进行一个Copy，默认为浅拷贝</li>
+</ul>
+</li>
+<li>toString() <ul>
+<li>转化为字符串</li>
+<li>默认打印此Class对象的名称+@+哈希值</li>
+</ul>
+</li>
+<li>finalize()<ul>
+<li>类似于C++析构函数，但有所区别，其不需要我们自己调用</li>
+<li>如果我们希望一个对象被GC时可以被复活，可以在这个方法内给该对象重新指向一个位置，使该对象重新可达</li>
+<li>会被一个低优先级的线程执行</li>
+</ul>
+</li>
+</ul>
+<h4 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h4><ul>
+<li>getClass() 获取类对象</li>
+</ul>
+<h4 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h4><ul>
+<li><strong>notify()</strong><ul>
+<li>随机唤醒一个在等待队列中的线程</li>
+<li>让线程进入RUNNABLE状态</li>
+</ul>
+</li>
+<li><strong>notifyAll()</strong><ul>
+<li>将等待队列中的线程全部唤醒</li>
+<li>让线程进入RUNNABLE状态</li>
+</ul>
+</li>
+<li><strong>wait()</strong><ul>
+<li>进入等待，会释放锁资源</li>
+<li>让线程进入WAITING状态</li>
+</ul>
+</li>
+<li><strong>wait(long)</strong><ul>
+<li>加了时间的等待状态</li>
+<li>让线程进入TIMED_WATING状态</li>
+</ul>
+</li>
+</ul>
+<h2 id="四种引用"><a href="#四种引用" class="headerlink" title="四种引用"></a>四种引用</h2><h3 id="强引用"><a href="#强引用" class="headerlink" title="强引用"></a>强引用</h3><p>比如new的对象，只要强引用存在就不会回收，即使报OOM也不会回收</p>
+<h3 id="软引用"><a href="#软引用" class="headerlink" title="软引用"></a>软引用</h3><ul>
+<li><p>java.lang.ref.SoftReference类实现</p>
+</li>
+<li><p>内存不足时会回收</p>
+</li>
+<li><p>通常用于实现内存敏感的缓存</p>
+</li>
+</ul>
+<h3 id="弱引用"><a href="#弱引用" class="headerlink" title="弱引用"></a>弱引用</h3><ul>
+<li><p>通过java.lang.ref.WeakReference类实现</p>
+</li>
+<li><p>不会阻止垃圾回收器回收其指向的对象</p>
+</li>
+<li><p>常用于监听对象的声明周期例如弱键WeakHashMap</p>
+</li>
+</ul>
+<h3 id="虚引用"><a href="#虚引用" class="headerlink" title="虚引用"></a>虚引用</h3><ul>
+<li><p>Java.lang.ref.PhantomReference类实现</p>
+</li>
+<li><p>几乎总是处于可回收状态</p>
+</li>
+<li><p>主要用于在对象被回收时接受一个系统通知或者执行一些清理操作</p>
+</li>
+<li><p>不会访问对象，而是作为对象被回收的一个信号</p>
+</li>
+</ul>
+<h3 id="弱-虚区别"><a href="#弱-虚区别" class="headerlink" title="弱&#x2F;虚区别"></a>弱&#x2F;虚区别</h3><ul>
+<li>弱引用：允许在对象被回收前访问对象</li>
+<li>虚引用：接受对象被回收的通知</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag"># 面向对象</a>
+              <a href="/tags/%E7%B1%BB/" rel="tag"># 类</a>
+              <a href="/tags/%E6%8A%BD%E8%B1%A1%E7%B1%BB/" rel="tag"># 抽象类</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/" rel="prev" title="大数据分析与可视化相关概念">
+                  <i class="fa fa-angle-left"></i> 大数据分析与可视化相关概念
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/05/27/JUC%E5%B9%B6%E5%8F%91%E5%8C%85/" rel="next" title="JUC">
+                  JUC <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn">晋ICP备2024041642号-1</a> </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jyh</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

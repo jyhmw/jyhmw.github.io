@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="操作系统相关知识，包括IO多路复用等等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统">
+<meta property="og:url" content="https://jyhmw.github.io/2024/04/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="MWBlog">
+<meta property="og:description" content="操作系统相关知识，包括IO多路复用等等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-01T06:11:55.000Z">
+<meta property="article:modified_time" content="2024-04-22T12:48:43.681Z">
+<meta property="article:author" content="Jyh">
+<meta property="article:tag" content="线程">
+<meta property="article:tag" content="进程">
+<meta property="article:tag" content="协程">
+<meta property="article:tag" content="操作系统">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://jyhmw.github.io/2024/04/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jyhmw.github.io/2024/04/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/","path":"2024/04/01/操作系统/","title":"操作系统"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>操作系统 | MWBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MWBlog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">麻木的智力抑制状态</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=1822761395&auto=0&height=66"></iframe>
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.</span> <span class="nav-text">操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">运行模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E6%80%81"><span class="nav-number">1.1.1.</span> <span class="nav-text">用户态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E6%80%81"><span class="nav-number">1.1.2.</span> <span class="nav-text">内核态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E6%8D%A2"><span class="nav-number">1.1.3.</span> <span class="nav-text">切换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E5%8D%8F%E7%A8%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">进程、线程、协程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="nav-number">1.2.2.</span> <span class="nav-text">进程通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6"><span class="nav-number">1.2.3.</span> <span class="nav-text">进程调度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">内存管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8"><span class="nav-number">1.4.</span> <span class="nav-text">异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6"><span class="nav-number">1.5.</span> <span class="nav-text">文件描述符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84"><span class="nav-number">1.5.1.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%86%E9%85%8D"><span class="nav-number">1.5.2.</span> <span class="nav-text">如何分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8"><span class="nav-number">1.5.3.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fork-exec"><span class="nav-number">1.5.4.</span> <span class="nav-text">fork + exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-number">1.5.5.</span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%A1%E9%81%93-1"><span class="nav-number">1.5.6.</span> <span class="nav-text">管道</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="nav-number">1.6.</span> <span class="nav-text">多路复用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8"><span class="nav-number">1.6.1.</span> <span class="nav-text">主要作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#select"><span class="nav-number">1.6.2.</span> <span class="nav-text">select</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#poll"><span class="nav-number">1.6.3.</span> <span class="nav-text">poll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll"><span class="nav-number">1.6.4.</span> <span class="nav-text">epoll</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jyh"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jyh</p>
+  <div class="site-description" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jyhmw.github.io/2024/04/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jyh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MWBlog">
+      <meta itemprop="description" content="莫听穿林打叶声，何妨吟啸且徐行。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="操作系统 | MWBlog">
+      <meta itemprop="description" content="操作系统相关知识，包括IO多路复用等等。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          操作系统
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-04-01 14:11:55" itemprop="dateCreated datePublished" datetime="2024-04-01T14:11:55+08:00">2024-04-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-22 20:48:43" itemprop="dateModified" datetime="2024-04-22T20:48:43+08:00">2024-04-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%AB%E8%82%A1/" itemprop="url" rel="index"><span itemprop="name">八股</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">操作系统相关知识，包括IO多路复用等等。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="运行模式"><a href="#运行模式" class="headerlink" title="运行模式"></a>运行模式</h2><h3 id="用户态"><a href="#用户态" class="headerlink" title="用户态"></a>用户态</h3><ul>
+<li>用户态是操作系统中较低权限的运行级别。</li>
+<li>在用户态下运行的程序不能直接访问硬件资源，也不能执行某些特定的操作，如修改操作系统内核的内存区域。</li>
+<li>用户态通常用于运行普通应用程序，这些程序对系统的控制受到限制。</li>
+</ul>
+<h3 id="内核态"><a href="#内核态" class="headerlink" title="内核态"></a>内核态</h3><ul>
+<li>内核态是操作系统中较高权限的运行级别。</li>
+<li>在内核态下运行的程序可以直接访问所有硬件资源，执行系统调用，以及对操作系统内核进行操作。</li>
+<li>内核态通常用于操作系统内核和某些关键的系统程序。</li>
+</ul>
+<h3 id="切换"><a href="#切换" class="headerlink" title="切换"></a>切换</h3><blockquote>
+<p>内核态和用户态之间切换的意义</p>
+</blockquote>
+<ul>
+<li><strong>安全性</strong>：通过限制用户态程序的权限，可以防止恶意软件或错误操作对系统造成严重破坏。</li>
+<li><strong>稳定性</strong>：当用户态程序出现问题时，它不会直接影响到操作系统内核的稳定性，因为内核在更高的权限级别上运行。</li>
+<li><strong>资源管理</strong>：操作系统内核可以控制对硬件资源的访问，合理分配资源给不同的用户态程序。</li>
+<li><strong>多任务处理</strong>：操作系统通过在内核态进行任务调度，可以在多个用户态程序之间切换，实现多任务处理。</li>
+</ul>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h3 id="进程、线程、协程"><a href="#进程、线程、协程" class="headerlink" title="进程、线程、协程"></a>进程、线程、协程</h3><h4 id="进程-1"><a href="#进程-1" class="headerlink" title="进程"></a>进程</h4><ul>
+<li>资源分配最小单位<br>进程有自己独立的代码空间和内存空间，每个进程下的线程共享进程的内存空间</li>
+<li>进程之间相互隔离<br>OS将物理内存地址分为多个虚拟地址，每个进程分配虚拟地址。并且物理地址是分开的做到了隔离，防止A进程写入到B进程。</li>
+<li>父子进程的关系<ul>
+<li>父进程可以使用fork创建一个子进程，并且可以使用if(fork()&#x3D;&#x3D;0)让子进程执行任务</li>
+<li>父子进程的虚拟地址是不同的，但是实际的内存地址指向同一位置</li>
+<li>fork操作是cow的，这意味着如果没有写入的操作，那么读取的都是同一片地址，如果有写入操作，才会给子进程copy一份父进程的资源到新的内存地址</li>
+<li>一般fork操作都会伴随着exec操作，exec操作会用新的程序替换当前的正文段、数据段、堆栈(也就是分配新的物理空间)，并在执行完成后自动退出</li>
+<li>除此外，父进程会给子进程copy一份文件描述符</li>
+</ul>
+</li>
+</ul>
+<h4 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h4><ul>
+<li>执行任务最小单位</li>
+<li>线程之间共享内存地址</li>
+</ul>
+<h4 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h4><ul>
+<li>线程内部有多个协程</li>
+<li>特点<ul>
+<li>协程不是被操作系统内核所管理，而完全是由程序所控制（也就是在用户态执行）</li>
+<li>对于某些操作来说（比如yield），线程需要进行系统调用，但是协程不需要，减少了用户态内核态的切换开销</li>
+<li>一个线程里可以运行多个协程，但本质是串行的</li>
+<li>协程拥有自己的寄存器上下文和操作栈。<ul>
+<li>协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的时候，恢复先前保存的寄存器上下文和操作栈，</li>
+<li>直接操作栈则基本没有内核切换的开销，可以不加锁的访问全局变量，所以上下文的切换非常快。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="进程通信"><a href="#进程通信" class="headerlink" title="进程通信"></a>进程通信</h3><h4 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h4><blockquote>
+<p>Inner Process Communication 进程间通信</p>
+<p>为什么要进程间通信？<br>因为进程之间是相互隔离的，完成某些需要协作的任务就需要通信</p>
+</blockquote>
+<h4 id="进程通信方式"><a href="#进程通信方式" class="headerlink" title="进程通信方式"></a>进程通信方式</h4><h5 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h5><blockquote>
+<p>本质是OS内核开辟的一段可以共享的内存</p>
+</blockquote>
+<ul>
+<li>无名管道<ul>
+<li>pipe(int[2])<ul>
+<li>没有名字的管道</li>
+<li>下标0表示读端</li>
+</ul>
+</li>
+<li>特点<ul>
+<li>只能单向通信</li>
+<li>也是一个文件，有文件描述符（读端和写端）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>有名管道<ul>
+<li>通过mkfifo()调用  有名字的管道</li>
+<li>由于有名字，所以可以使用open方式获得其文件描述符，所以可以用于非亲缘进程之间通信</li>
+<li>但是存在一个问题，就是只能单向通信，如果要双向通信，需要用两个管道</li>
+<li>不适合网状通信</li>
+</ul>
+</li>
+</ul>
+<h5 id="共享内存"><a href="#共享内存" class="headerlink" title="共享内存"></a>共享内存</h5><blockquote>
+<p>OS开辟的一大块内存</p>
+</blockquote>
+<ul>
+<li>最快的通信方式，适合传递大量数据</li>
+<li>共享内存和管道的区别<ul>
+<li>管道小，共享内存大</li>
+<li>管道慢，共享内存块</li>
+<li>管道自己会阻塞，但是共享内存需要我们自己处理</li>
+</ul>
+</li>
+</ul>
+<h5 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h5><blockquote>
+<p>锁机制的一种方式，可以传输少量信息</p>
+</blockquote>
+<h5 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h5><ul>
+<li>信号是一条小的消息，由内核或者其它进程生成并发送至目标进程，目标进程可以根据该信号来做出响应。</li>
+<li>如何发送信号<ul>
+<li>键盘输入</li>
+<li>kill命令</li>
+<li>kill函数</li>
+<li>alarm函数</li>
+</ul>
+</li>
+</ul>
+<h5 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h5><ul>
+<li>就是一个双向链表</li>
+<li>每一个结点有两个部分<ul>
+<li>消息编号</li>
+<li>消息正文</li>
+</ul>
+</li>
+<li>可以很好的实现网状通信</li>
+</ul>
+<h5 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h5><p>网络通信</p>
+<h3 id="进程调度"><a href="#进程调度" class="headerlink" title="进程调度"></a>进程调度</h3><h4 id="调度准则"><a href="#调度准则" class="headerlink" title="调度准则"></a>调度准则</h4><p>待补充…</p>
+<h4 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h4><p>待补充…</p>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p>待补充…</p>
+<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p>待补充…</p>
+<h2 id="文件描述符"><a href="#文件描述符" class="headerlink" title="文件描述符"></a>文件描述符</h2><h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>0，1，2分别表示标准输入、标准输出、标准错误</p>
+<h3 id="如何分配"><a href="#如何分配" class="headerlink" title="如何分配"></a>如何分配</h3><p>扫描文件描述符表中，没有被使用的数值最小的下标，作为新打开文件的文件描述符</p>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>屏蔽了底层的管道，IO，把他们全部当做文件来处理</p>
+<h3 id="fork-exec"><a href="#fork-exec" class="headerlink" title="fork + exec"></a>fork + exec</h3><ul>
+<li>fork 操作会copy父进程的内存和文件描述符表</li>
+<li>exec执行操作回替换调用者的执行内存，并且执行完成后自行关闭</li>
+<li>因此经常使用fork+exec进行操作</li>
+</ul>
+<h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><blockquote>
+<p>重定向的实现原理</p>
+</blockquote>
+<h4 id="为什么要有重定向？"><a href="#为什么要有重定向？" class="headerlink" title="为什么要有重定向？"></a>为什么要有重定向？</h4><ol>
+<li><strong>分离输出</strong>：可以将程序的输出重定向到一个文件中，而不是显示到屏幕上，这对于日志记录和数据收集非常有用。</li>
+<li><strong>从文件中读取输入</strong>：可以将程序的输入重定向，使其从文件中读取，而不是从标准输入读取。</li>
+<li><strong>错误处理</strong>：可以将错误信息重定向到特定的文件或设备，以便于后续分析和调试。</li>
+<li><strong>管道</strong>：通过重定向，可以将一个程序的输出作为另一个程序的输入，这是Unix哲学中“组合简单命令行工具”的一部分。</li>
+<li><strong>控制I&#x2F;O流向</strong>：在脚本或程序中，重定向可以用来控制I&#x2F;O的流向，使得程序的行为更加灵活和可预测。</li>
+</ol>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>比如 这样一个命令 <code>cat &lt; input.txt</code> 将input.txt文件的内容作为cat 命令的参数执行</p>
+<p>执行是这样的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *argv[<span class="number">2</span>];</span><br><span class="line">argv[<span class="number">0</span>] = <span class="string">&quot;cat&quot;</span>;</span><br><span class="line">argv[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">if</span>(fork() == <span class="number">0</span>) &#123;</span><br><span class="line">    close(<span class="number">0</span>);</span><br><span class="line">    open(<span class="string">&quot;input.txt&quot;</span>, O_RDONLY);</span><br><span class="line">    exec(<span class="string">&quot;cat&quot;</span>, argv);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>创建一个参数数组：<code>[&quot;cat&quot;, 0]</code>（此时的 0 代表着标准输入）</li>
+<li><code>fork</code> 创建了一个子进程，这个子进程会 copy 父进程的内存，即子进程也会拥有 <code>argv</code> 这个指针以及 0、1、2 的文件描述符</li>
+<li>当 <code>fork()</code> 函数返回 0，代表 <code>if</code> 的执行体让<strong>子进程</strong>去执行</li>
+<li>关闭了 0 号文件描述符，将会回收 0（标准输入）的资源；之后 <code>open</code> 打开文件，这个文件描述符就是当前最小的一个数字，也就是刚刚回收的 0（此时的 0 代表着 <code>input.txt</code> 文件的 fd，注意父进程的 fd 表不会被改变）</li>
+<li><code>exec</code> 执行 <code>cat</code> 命令，会占用当前的内存，即会替换子进程的内存，去执行 <code>cat</code> 命令</li>
+</ol>
+<h3 id="管道-1"><a href="#管道-1" class="headerlink" title="管道"></a>管道</h3><blockquote>
+<p>实现原理</p>
+</blockquote>
+<h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><ol>
+<li><strong>匿名管道（Anonymous Pipe）</strong>：是最原始的管道形式，它通常是在创建子进程时由内核自动建立的。匿名管道只存在于内存中，没有与文件系统中的文件直接关联。</li>
+<li><strong>命名管道（Named Pipe）</strong>：与匿名管道不同，命名管道存在于文件系统中，可以通过文件系统的路径进行访问。它们允许不相关的进程以先进先出（FIFO）的方式来通信。</li>
+</ol>
+<h4 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h4><ol>
+<li><strong>进程间通信（IPC）</strong>：管道是进程间通信的一种方式，允许父子进程或不同进程组之间的数据传递。</li>
+<li><strong>命令行串联</strong>：在Unix和类Unix系统的shell中，可以使用管道符（<code>|</code>）将多个命令串联起来，使得前一个命令的输出成为后一个命令的输入。</li>
+<li><strong>数据过滤</strong>：管道常用于数据过滤和文本处理，如使用<code>grep</code>、<code>sort</code>等命令处理<code>ls</code>或其他命令的输出。</li>
+</ol>
+<h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><blockquote>
+<p>fork + dup + exec</p>
+<p>dup 命令是用于复制文件描述符的POSIX标准函数，它属于低级I&#x2F;O操作的一部分。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> p[<span class="number">2</span>];</span><br><span class="line"><span class="type">char</span>*argv[<span class="number">2</span>];</span><br><span class="line">argv[<span class="number">0</span>] = <span class="string">&quot;wc&quot;</span>;</span><br><span class="line">argv[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">pipe(p);</span><br><span class="line"><span class="comment">// 此时的fd：0、1、2、3、4</span></span><br><span class="line"><span class="keyword">if</span>(fork() == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 子进程此时的fd：0、1、2、3、4</span></span><br><span class="line">    close(<span class="number">0</span>);<span class="comment">// 1、2、3、4</span></span><br><span class="line">    dup(p[<span class="number">0</span>]);<span class="comment">// 0、1、2、3、4 (此后的0表示管道的读端)</span></span><br><span class="line">    close(p[<span class="number">0</span>]);<span class="comment">//0、1、2、4</span></span><br><span class="line">    close(p[<span class="number">1</span>]);<span class="comment">//0、1、2</span></span><br><span class="line">    exec(<span class="string">&quot;/bin/wc&quot;</span>, argv);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 父进程此时的fd：0、1、2、3、4</span></span><br><span class="line">    close(p[<span class="number">0</span>]); <span class="comment">// 0、1、2、4</span></span><br><span class="line">    write(p[<span class="number">1</span>], <span class="string">&quot;hello world\n&quot;</span>, <span class="number">12</span>); <span class="comment">// 由写端写入数据 hello world</span></span><br><span class="line">    close(p[<span class="number">1</span>]); <span class="comment">// 0、1、2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h2><blockquote>
+<p>IO多路复用是一种提高IO效率的技术，允许一个进程能够同时监控多个IO操作（如网络套接字、文件IO等），并在IO事件发生时及时进行处理，从而提高系统的性能和响应速度</p>
+</blockquote>
+<h3 id="主要作用"><a href="#主要作用" class="headerlink" title="主要作用"></a>主要作用</h3><ol>
+<li><strong>减少系统调用次数</strong>：IO多路复用通过一次系统调用监听多个IO事件，避免了频繁的系统调用，减少了内核态和用户态之间的切换开销，提高了系统的效率。</li>
+<li><strong>提高并发处理能力</strong>：通过IO多路复用，一个进程能够同时监听多个IO事件，只要有任何一个IO事件就绪，进程就能及时响应，从而实现并发处理多个IO操作的能力。</li>
+<li><strong>节省资源</strong>：相比于多线程或多进程模型，IO多路复用不需要创建多个线程或进程来处理不同的IO事件，节省了系统资源，提高了系统的稳定性和可靠性。</li>
+<li><strong>适用于高并发场景</strong>：在高并发的网络编程中，IO多路复用能够更好地管理和处理大量的IO事件，提高系统的网络性能和吞吐量。</li>
+</ol>
+<h3 id="select"><a href="#select" class="headerlink" title="select"></a>select</h3><h4 id="参数有五个"><a href="#参数有五个" class="headerlink" title="参数有五个"></a>参数有五个</h4><blockquote>
+<p>int select(int maxfdp1, fd_set*readset, fd_set*writeset, fd_set *exceptset, const struct timeval *timeout)</p>
+</blockquote>
+<ul>
+<li>maxfdp1要轮询的文件描述符的个数</li>
+<li>中间三个都是set，分别表示读、写、异常，如果不关心，就可以设置为null，比如rset 是一个1024bit的bitmap，每一位对应一个文件描述符的监听位，如果有数据，这个监听位就会变成1</li>
+<li>最后一个参数是超时时间，设为null表示等待直到有一个文件描述符准备好，设置值表示超时时间，设置0表示一直轮询</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ol>
+<li>数量只有1024</li>
+<li>需要频繁的进行内核态和用户态的copy</li>
+<li>fd_set不能重用</li>
+<li>需要遍历所有的fd_set</li>
+</ol>
+<h3 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h3><h4 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct pollfd&#123;</span><br><span class="line">    <span class="type">int</span> df; <span class="comment">//要轮询的文件描述符fd</span></span><br><span class="line">    <span class="type">short</span> events; <span class="comment">//关心的fd事件：普通数据可读、优先级带数据可读等等</span></span><br><span class="line">    <span class="type">short</span> revents; <span class="comment">//fd上发生的事件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="将事件分为普通数据、优先级带数据、高优先级数据三种"><a href="#将事件分为普通数据、优先级带数据、高优先级数据三种" class="headerlink" title="将事件分为普通数据、优先级带数据、高优先级数据三种"></a>将事件分为普通数据、优先级带数据、高优先级数据三种</h4><ul>
+<li>普通数据：正规的TCP数据，所有的UDP数据</li>
+<li>优先级带数据（带内数据）：TCP数据包中有额外参数的数据</li>
+<li>高优先级数据（带外数据）：传输一些紧急数据，比如Ctrl+c</li>
+</ul>
+<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><ol>
+<li>需要频繁的进行内核态和用户态的copy</li>
+<li>需要遍历所有的pollfd</li>
+</ol>
+<h3 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h3><h4 id="三个函数"><a href="#三个函数" class="headerlink" title="三个函数"></a>三个函数</h4><h5 id="epoll-create"><a href="#epoll-create" class="headerlink" title="epoll_create"></a>epoll_create</h5><p>创建epoll对象</p>
+<ul>
+<li>使用红黑树与双向链表的结构<ul>
+<li>红黑树存放关心的文件描述符fd</li>
+<li>双向链表存放发生相关事件数据的fd</li>
+</ul>
+</li>
+</ul>
+<h5 id="epoll-ctl"><a href="#epoll-ctl" class="headerlink" title="epoll_ctl"></a>epoll_ctl</h5><ul>
+<li>添加要监听的fd，及关心的事件，此时就copy epoll对象到内核中</li>
+<li>触发方式有两种<ul>
+<li>水平触发（默认）LT<ul>
+<li>事情可以处理，也可以不处理</li>
+<li>同时支持 Blocking 和 No-Blocking</li>
+<li>只要文件描述符上还有数据可读或可写，就会触发事件。</li>
+<li>当你从 epoll_wait 返回后，如果文件描述符上还有数据可读或可写，下一次调用 epoll_wait 仍然会立即返回该文件描述符上的事件，直到你采取措施来处理这些事件，即使你没有读取或写入数据。</li>
+<li>水平触发适用于处理长时间处于可读或可写状态的连接或套接字。</li>
+</ul>
+</li>
+<li>边缘触发 ET<ul>
+<li>事件必须处理</li>
+<li>只支持No-Blocking</li>
+<li>减少了 epoll 事件被重复触发的次数，因此效率要比 LT 模式高</li>
+<li>仅当文件描述符上的状态发生变化时（例如，从不可读到可读或从不可写到可写），epoll 才会触发事件。</li>
+<li>边缘触发要求你在处理事件时采取措施，以确保不丢失数据。一旦你处理了一次事件并且文件描述符仍然处于可读或可写状态，epoll 不会立即再次触发事件。你需要继续读取或写入数据，直到再次触发边缘触发事件。</li>
+<li>边缘触发通常要求更谨慎的处理，但可以提供更高的性能，因为它避免了反复触发事件，直到状态发生变化</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="epoll-wait"><a href="#epoll-wait" class="headerlink" title="epoll_wait"></a>epoll_wait</h5><ul>
+<li>系统调用，陷入内核，阻塞等待事件发生</li>
+</ul>
+<h4 id="解决poll存在的问题"><a href="#解决poll存在的问题" class="headerlink" title="解决poll存在的问题"></a>解决poll存在的问题</h4><ol>
+<li>需要频繁的进行内核态和用户态的copy而epoll不需要，只需要copy一次</li>
+<li>需要遍历所有的epollfd epoll的epoll_wait 函数有返回值，返回发生事件的fd数量</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag"># 线程</a>
+              <a href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag"># 进程</a>
+              <a href="/tags/%E5%8D%8F%E7%A8%8B/" rel="tag"># 协程</a>
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag"># 操作系统</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/03/20/MyBatis/" rel="prev" title="MyBatis">
+                  <i class="fa fa-angle-left"></i> MyBatis
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/04/07/Spring/" rel="next" title="Spring">
+                  Spring <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn">晋ICP备2024041642号-1</a> </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jyh</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

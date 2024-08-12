@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Mybatis工作原理，等等知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis">
+<meta property="og:url" content="https://jyhmw.github.io/2024/03/20/MyBatis/index.html">
+<meta property="og:site_name" content="MWBlog">
+<meta property="og:description" content="Mybatis工作原理，等等知识。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-20T13:40:56.000Z">
+<meta property="article:modified_time" content="2024-06-04T13:30:30.053Z">
+<meta property="article:author" content="Jyh">
+<meta property="article:tag" content="SSM">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://jyhmw.github.io/2024/03/20/MyBatis/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jyhmw.github.io/2024/03/20/MyBatis/","path":"2024/03/20/MyBatis/","title":"MyBatis"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MyBatis | MWBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MWBlog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">麻木的智力抑制状态</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=1822761395&auto=0&height=66"></iframe>
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MyBatis"><span class="nav-number">1.</span> <span class="nav-text">MyBatis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ORM%E6%A1%86%E6%9E%B6"><span class="nav-number">1.1.</span> <span class="nav-text">ORM框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MyBatis-%E4%B8%8E-Hibernate%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.1.</span> <span class="nav-text">MyBatis 与 Hibernate的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8Mybatis"><span class="nav-number">1.1.2.</span> <span class="nav-text">为什么要使用Mybatis?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">MyBatis工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">全局配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E5%85%83%E7%B4%A0configuration"><span class="nav-number">1.3.1.</span> <span class="nav-text">根元素configuration</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%A0%E5%B0%84%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.</span> <span class="nav-text">映射文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mapper-xml%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.1.</span> <span class="nav-text">mapper.xml文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86"><span class="nav-number">1.4.2.</span> <span class="nav-text">参数处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.4.3.</span> <span class="nav-text">#{}与${}的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resultmap%E5%AE%9E%E7%8E%B0%E9%AB%98%E7%BA%A7%E6%98%A0%E5%B0%84"><span class="nav-number">1.4.4.</span> <span class="nav-text">resultmap实现高级映射</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98"><span class="nav-number">1.5.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mybatis%E6%9C%89%E4%B8%A4%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">1.5.1.</span> <span class="nav-text">Mybatis有两级缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E9%A1%BA%E5%BA%8F"><span class="nav-number">1.5.2.</span> <span class="nav-text">查询顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AEcache"><span class="nav-number">1.5.3.</span> <span class="nav-text">二级缓存配置cache</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%92%8C"><span class="nav-number">1.6.</span> <span class="nav-text">#{}和${}</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jyh"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jyh</p>
+  <div class="site-description" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jyhmw.github.io/2024/03/20/MyBatis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jyh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MWBlog">
+      <meta itemprop="description" content="莫听穿林打叶声，何妨吟啸且徐行。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MyBatis | MWBlog">
+      <meta itemprop="description" content="Mybatis工作原理，等等知识。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MyBatis
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-03-20 21:40:56" itemprop="dateCreated datePublished" datetime="2024-03-20T21:40:56+08:00">2024-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-06-04 21:30:30" itemprop="dateModified" datetime="2024-06-04T21:30:30+08:00">2024-06-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%AB%E8%82%A1/" itemprop="url" rel="index"><span itemprop="name">八股</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MyBatis/" itemprop="url" rel="index"><span itemprop="name">MyBatis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Mybatis工作原理，等等知识。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h1><h2 id="ORM框架"><a href="#ORM框架" class="headerlink" title="ORM框架"></a>ORM框架</h2><h4 id="什么是ORM？"><a href="#什么是ORM？" class="headerlink" title="什么是ORM？"></a>什么是ORM？</h4><p>Object Relation Manager对象关系映射，负责对象类型与数据库类型之间的映射处理</p>
+<h3 id="MyBatis-与-Hibernate的区别"><a href="#MyBatis-与-Hibernate的区别" class="headerlink" title="MyBatis 与 Hibernate的区别"></a>MyBatis 与 Hibernate的区别</h3><h4 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h4><ul>
+<li>半自动映射框架</li>
+<li>Sql需要自己编写，映射关系需要自己配置</li>
+</ul>
+<h4 id="Hibernate"><a href="#Hibernate" class="headerlink" title="Hibernate"></a>Hibernate</h4><ul>
+<li>全自动映射框架</li>
+<li>Sql需要自己写，映射关系需要自己配置</li>
+</ul>
+<h3 id="为什么要使用Mybatis"><a href="#为什么要使用Mybatis" class="headerlink" title="为什么要使用Mybatis?"></a>为什么要使用Mybatis?</h3><ul>
+<li>Hibernate虽然封装了Sql，简化了开发，但是不能优化sql，如果我们想写一个高级的sql，需要去学HQL语言（Hibernate的操控数据库的语言），增加了开发难度</li>
+<li>Hibernate还是一个全映射框架，假如你只需要查一个字段，他也会查出所有的字段，全部返回给你</li>
+</ul>
+<h2 id="MyBatis工作原理"><a href="#MyBatis工作原理" class="headerlink" title="MyBatis工作原理"></a>MyBatis工作原理</h2><blockquote>
+<p>重要</p>
+</blockquote>
+<ol>
+<li><p>读取全局配置文件 - MyBatis-config.xml</p>
+</li>
+<li><p>加载映射文件 - xxxMapper.xml</p>
+</li>
+<li><p>构造会话工厂 - SqlSessionFactory 负责生成SqlSession对象</p>
+</li>
+<li><p>创建会话对象 - 由SqlSessionFactory创建SqlSession对象，该对象中包含了执行SQL语句的所有方法</p>
+</li>
+<li><p>Executor 执行器</p>
+<blockquote>
+<p>MyBatis定义了一个Executor接口操作数据库，根据SqlSession传递的参数动态地生成需要执行的Sql语句，同时负责查询缓存的维护</p>
+</blockquote>
+</li>
+<li><p>MappedStatement对象</p>
+<blockquote>
+<p>在 <code>Executor</code> 接口的执行方法中有一个 <code>MappedStatement</code> 类型的参数，该参数是对映射信息的封装，用于存储要映射的 SQL 语句的 id、参数等信息</p>
+</blockquote>
+</li>
+<li><p>输入参数映射</p>
+<blockquote>
+<p>输入参数类型可以是 Map、List 等集合类型，也可以是基本数据类型和 POJO 类型。输入参数映射过程类似于 JDBC 对 <code>preparedStatement</code> 对象设置参数的过程</p>
+</blockquote>
+</li>
+<li><p>输出参数映射</p>
+<blockquote>
+<p>输出结果类型可以是 Map、List 等集合类型，也可以是基本数据类型和 POJO 类型。输出结果映射过程类似于 JDBC 对结果集的解析过程</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="全局配置文件"><a href="#全局配置文件" class="headerlink" title="全局配置文件"></a>全局配置文件</h2><h3 id="根元素configuration"><a href="#根元素configuration" class="headerlink" title="根元素configuration"></a>根元素configuration</h3><h4 id="properties"><a href="#properties" class="headerlink" title="properties"></a>properties</h4><p>加载Properties外部文件配置</p>
+<h4 id="settings"><a href="#settings" class="headerlink" title="settings"></a>settings</h4><blockquote>
+<p>配置Mybatis运行时的行为</p>
+</blockquote>
+<ul>
+<li>CacheEnabled 配置二级缓存是否开启</li>
+<li>lazyLoading 配置是否可以延迟加载</li>
+<li>useColumnLable 使用列标签代替列名</li>
+<li>defaultStatemntTimeOut 默认的会话等待时间</li>
+<li>mapUnderscoreToCamelCase 下划线转为驼峰</li>
+</ul>
+<h4 id="typeAliases"><a href="#typeAliases" class="headerlink" title="typeAliases"></a>typeAliases</h4><ul>
+<li>设置别名</li>
+<li>别名部分大小写</li>
+<li>也能用注解@Alias</li>
+</ul>
+<h4 id="typeHandlers"><a href="#typeHandlers" class="headerlink" title="typeHandlers"></a>typeHandlers</h4><p>处理对象与数据库数据类型之间的映射关系</p>
+<h4 id="ObjectFactory"><a href="#ObjectFactory" class="headerlink" title="ObjectFactory"></a>ObjectFactory</h4><p>对象工厂</p>
+<h4 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h4><p>载入插件，比如拦截调用的一些插件</p>
+<h4 id="environments"><a href="#environments" class="headerlink" title="environments"></a>environments</h4><ul>
+<li>配置数据源<ul>
+<li>UNPOOLED 不使用池</li>
+<li>POOLED 使用池</li>
+<li>JNDI</li>
+</ul>
+</li>
+<li>配置事务<ul>
+<li>使用Spring事务管理，所以这里不需要管</li>
+</ul>
+</li>
+</ul>
+<h4 id="databaseIdProvider"><a href="#databaseIdProvider" class="headerlink" title="databaseIdProvider"></a>databaseIdProvider</h4><p>用来配置不通的数据库</p>
+<h4 id="mappers"><a href="#mappers" class="headerlink" title="mappers"></a>mappers</h4><p>配置映射文件所在的位置</p>
+<h2 id="映射文件"><a href="#映射文件" class="headerlink" title="映射文件"></a>映射文件</h2><h3 id="mapper-xml文件"><a href="#mapper-xml文件" class="headerlink" title="mapper.xml文件"></a>mapper.xml文件</h3><ul>
+<li>insert <ul>
+<li>id</li>
+<li>parameterType 可以省略</li>
+<li>返回值默认有三种integer、long、boolean</li>
+</ul>
+</li>
+<li>update 同上</li>
+<li>delete  同上</li>
+<li>select <ul>
+<li>resultType<ul>
+<li>配置返回数据的类型</li>
+<li>resultType&#x3D;”map”  返回一个key为列名，value为值的一个map对象</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="参数处理"><a href="#参数处理" class="headerlink" title="参数处理"></a>参数处理</h3><ul>
+<li>对于单个参数，不做特殊处理，直接返回结果</li>
+<li>对于多个参数，需要用@Param配置名称，如果不使用注解，那么需要使用param1、param2来获取</li>
+<li>如果参数很多，和POJO的类型一样，那么直接传POJO即可</li>
+<li>如果很多，也不常用，也可以传Map</li>
+<li>如果很多，经常使用，可以编写TO类</li>
+</ul>
+<h3 id="与-的区别"><a href="#与-的区别" class="headerlink" title="#{}与${}的区别"></a>#{}与${}的区别</h3><ul>
+<li><p>#{}相当于preStatement调用，可以避免Sql注入<br>preparestatement在程序第一次查询数据库之前sql语句就被数据库进行了分析、编译、优化以及具体的查询计划也都形成了，之后参数进来的时候不会被分析处理为指令</p>
+<p>简单来说就是：不让参数参与编译阶段，而是使用占位符代替，从而解决了sql注入问题</p>
+</li>
+<li><p>${}可以用在一些不能使用#{}的时候，比如排序</p>
+</li>
+</ul>
+<h3 id="resultmap实现高级映射"><a href="#resultmap实现高级映射" class="headerlink" title="resultmap实现高级映射"></a>resultmap实现高级映射</h3><ul>
+<li><strong>association</strong><ul>
+<li>实现分步查询</li>
+<li>用在一对一关系</li>
+<li>在此基础上可以实现延迟加载 即只有用到了才会执行这个Sql</li>
+</ul>
+</li>
+<li><strong>collection</strong><ul>
+<li>实现一对多关系映射</li>
+<li>也可以实现延迟加载</li>
+<li>使用ofType属性配置集合中元素的类型</li>
+</ul>
+</li>
+</ul>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><blockquote>
+<p>缓存的本质，就是一个map对象</p>
+</blockquote>
+<h3 id="Mybatis有两级缓存"><a href="#Mybatis有两级缓存" class="headerlink" title="Mybatis有两级缓存"></a>Mybatis有两级缓存</h3><h4 id="一级缓存"><a href="#一级缓存" class="headerlink" title="一级缓存"></a>一级缓存</h4><ul>
+<li>属于SqlSession级别的缓存，同一次数据库会话使用同一个SqlSession</li>
+<li>失效的情况，有四种<ul>
+<li>使用两个不同的SqlSession</li>
+<li>使用相同的SqlSession<ul>
+<li>查询条件不同</li>
+<li>清除了缓存</li>
+<li>在两次查询期间执行了增删改操作</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="二级缓存"><a href="#二级缓存" class="headerlink" title="二级缓存"></a>二级缓存</h4><ul>
+<li>属于namespace级别的缓存，即一个mapper文件对应一个二级缓存（比如学生Mapper一个、专业Mapper一个等等）</li>
+<li>当sqlSession提交或者关闭后，它的数据就会存放在二级缓存中</li>
+</ul>
+<h3 id="查询顺序"><a href="#查询顺序" class="headerlink" title="查询顺序"></a>查询顺序</h3><p>先查二级缓存，再查一级缓存，如果一二级缓存都没有命中，查数据库</p>
+<h3 id="二级缓存配置cache"><a href="#二级缓存配置cache" class="headerlink" title="二级缓存配置cache"></a>二级缓存配置cache</h3><h4 id="eviction配置回收策略"><a href="#eviction配置回收策略" class="headerlink" title="eviction配置回收策略"></a>eviction配置回收策略</h4><ul>
+<li>LRU默认</li>
+<li>FIFO</li>
+<li>SOFT 回收软引用</li>
+<li>WEAK 回收弱引用</li>
+</ul>
+<h4 id="readOnly"><a href="#readOnly" class="headerlink" title="readOnly"></a>readOnly</h4><ul>
+<li>true mybatis认为你不会做修改操作，然后每次都会直接返回缓存中的值</li>
+<li>false （默认） mybatis认为你会做修改，所以每次返回都是返回缓存中反序列化克隆后的结果</li>
+</ul>
+<h4 id="flushInterval"><a href="#flushInterval" class="headerlink" title="flushInterval"></a>flushInterval</h4><p>配置多久时间清空一次缓存，默认不清空</p>
+<h4 id="type"><a href="#type" class="headerlink" title="type"></a>type</h4><p>我们可以自己实现缓存，实现接口cache，然后将实现类的全限定类名作为type的值即可</p>
+<h2 id="和"><a href="#和" class="headerlink" title="#{}和${}"></a>#{}和${}</h2><blockquote>
+<p>#{}是预编译处理，是占位符，${}是字符串替换，是拼接符</p>
+</blockquote>
+<ul>
+<li>Mybatis处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement来赋值</li>
+<li>Mybatis在处理${}时，就是把${}替换成变量的值Statement来赋值</li>
+<li>#{}的变量替换是在DBMS中，变量替换后，#{}对应的变量自动加上单引号</li>
+<li>${}的变量替换是在DBMS外，变量替换后，${}对应的变量不会加上单引号</li>
+<li>使用#{}可以有效的防止SQL注入，提高系统安全性<ol>
+<li>占位符会将输入的值视为参数数据而不是SQL代码</li>
+<li>拼接符会当做SQL代码，如果被恶意注入比如输入SELECT * FROM users WHERE username &#x3D; ‘admin’; DROP TABLE users; *–’;<em>，这里的</em>- -*是SQL语句的注释符号，会导致后面的内容被忽略</li>
+</ol>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SSM/" rel="tag"># SSM</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/03/19/JVM/" rel="prev" title="JVM">
+                  <i class="fa fa-angle-left"></i> JVM
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/04/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="next" title="操作系统">
+                  操作系统 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn">晋ICP备2024041642号-1</a> </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jyh</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
