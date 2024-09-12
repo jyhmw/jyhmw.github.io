@@ -19,17 +19,18 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="一个RPC的例子？">
+    <meta name="description" content="一个简单RPC框架。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RpcProject">
 <meta property="og:url" content="https://jyhmw.github.io/2024/04/07/RpcProject/index.html">
 <meta property="og:site_name" content="MWBlog">
-<meta property="og:description" content="一个RPC的例子？">
+<meta property="og:description" content="一个简单RPC框架。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img.jyhmw.cn/image-20220801201224254.png">
 <meta property="og:image" content="https://img.jyhmw.cn/image-20211008204203210.png">
+<meta property="og:image" content="https://img.jyhmw.cn/image-20240912151349099.png">
 <meta property="article:published_time" content="2024-04-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-09-11T02:42:07.569Z">
+<meta property="article:modified_time" content="2024-09-12T08:45:32.885Z">
 <meta property="article:author" content="Jyh">
 <meta property="article:tag" content="远程调用">
 <meta property="article:tag" content="项目">
@@ -143,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Netty"><span class="nav-number">1.</span> <span class="nav-text">Netty</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">概述？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventLoop-EventLoopGroup"><span class="nav-number">1.2.</span> <span class="nav-text">EventLoop &amp; EventLoopGroup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%ACAPI"><span class="nav-number">1.2.1.</span> <span class="nav-text">基本API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8CIO%E8%AF%B7%E6%B1%82"><span class="nav-number">1.2.2.</span> <span class="nav-text">执行IO请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E5%88%86%E5%B7%A5%E4%B8%8E%E7%BB%86%E5%8C%96"><span class="nav-number">1.2.3.</span> <span class="nav-text">任务分工与细化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Channel-ChannelFuture"><span class="nav-number">1.3.</span> <span class="nav-text">Channel &amp; ChannelFuture</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83API"><span class="nav-number">1.3.1.</span> <span class="nav-text">核心API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ChannelFuture%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.3.2.</span> <span class="nav-text">ChannelFuture对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Future-Promise"><span class="nav-number">1.4.</span> <span class="nav-text">Future&amp;Promise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6-ChannelHandler-ChannelPipeLine"><span class="nav-number">1.5.</span> <span class="nav-text">事件&amp;ChannelHandler&amp;ChannelPipeLine</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#InboundHandler"><span class="nav-number">1.5.1.</span> <span class="nav-text">InboundHandler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OutboundHandler"><span class="nav-number">1.5.2.</span> <span class="nav-text">OutboundHandler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ChannelPipeline-%E4%B8%8E-Handler-%E7%9A%84%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="nav-number">1.5.3.</span> <span class="nav-text">ChannelPipeline 与 Handler 的执行流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.5.4.</span> <span class="nav-text"></span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RPCProject"><span class="nav-number">2.</span> <span class="nav-text">RPCProject</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#-1"><span class="nav-number">2.1.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-2"><span class="nav-number">2.2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-3"><span class="nav-number">2.3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-4"><span class="nav-number">2.4.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-5"><span class="nav-number">2.5.</span> <span class="nav-text"></span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Netty"><span class="nav-number">1.</span> <span class="nav-text">Netty</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">概述？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventLoop-EventLoopGroup"><span class="nav-number">1.2.</span> <span class="nav-text">EventLoop &amp; EventLoopGroup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%ACAPI"><span class="nav-number">1.2.1.</span> <span class="nav-text">基本API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8CIO%E8%AF%B7%E6%B1%82"><span class="nav-number">1.2.2.</span> <span class="nav-text">执行IO请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E5%88%86%E5%B7%A5%E4%B8%8E%E7%BB%86%E5%8C%96"><span class="nav-number">1.2.3.</span> <span class="nav-text">任务分工与细化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Channel-ChannelFuture"><span class="nav-number">1.3.</span> <span class="nav-text">Channel &amp; ChannelFuture</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83API"><span class="nav-number">1.3.1.</span> <span class="nav-text">核心API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ChannelFuture%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.3.2.</span> <span class="nav-text">ChannelFuture对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Future-Promise"><span class="nav-number">1.4.</span> <span class="nav-text">Future&amp;Promise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6-ChannelHandler-ChannelPipeLine"><span class="nav-number">1.5.</span> <span class="nav-text">事件&amp;ChannelHandler&amp;ChannelPipeLine</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#InboundHandler"><span class="nav-number">1.5.1.</span> <span class="nav-text">InboundHandler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OutboundHandler"><span class="nav-number">1.5.2.</span> <span class="nav-text">OutboundHandler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ChannelPipeline-%E4%B8%8E-Handler-%E7%9A%84%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="nav-number">1.5.3.</span> <span class="nav-text">ChannelPipeline 与 Handler 的执行流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.5.4.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ByteBuf"><span class="nav-number">1.6.</span> <span class="nav-text">ByteBuf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA"><span class="nav-number">1.6.1.</span> <span class="nav-text">创建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-1"><span class="nav-number">1.7.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-2"><span class="nav-number">1.8.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-3"><span class="nav-number">1.9.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-4"><span class="nav-number">1.10.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-5"><span class="nav-number">1.11.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RPCProject"><span class="nav-number">2.</span> <span class="nav-text">RPCProject</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%92%E8%89%B2"><span class="nav-number">2.1.</span> <span class="nav-text">角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E6%88%90"><span class="nav-number">2.2.</span> <span class="nav-text">构成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B"><span class="nav-number">2.3.</span> <span class="nav-text">服务启动流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BARpcNettyServer"><span class="nav-number">2.3.1.</span> <span class="nav-text">创建RpcNettyServer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NettyServer%E5%90%AF%E5%8A%A8"><span class="nav-number">2.3.2.</span> <span class="nav-text">NettyServer启动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E6%B5%81%E7%A8%8B"><span class="nav-number">2.4.</span> <span class="nav-text">服务注册流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F-RpcService"><span class="nav-number">2.4.1.</span> <span class="nav-text">扫描@RpcService</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%8D%E5%8E%86serviceMap"><span class="nav-number">2.4.2.</span> <span class="nav-text">遍历serviceMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%90%AF%E5%8A%A8"><span class="nav-number">2.5.</span> <span class="nav-text">客户端启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="nav-number">2.6.</span> <span class="nav-text">服务发现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rpc%E8%BF%87%E7%A8%8B"><span class="nav-number">2.7.</span> <span class="nav-text">Rpc过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#client%E8%BF%87%E7%A8%8B"><span class="nav-number">2.7.1.</span> <span class="nav-text">client过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Server%E8%BF%87%E7%A8%8B"><span class="nav-number">2.7.2.</span> <span class="nav-text">Server过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AAHandler"><span class="nav-number">2.8.</span> <span class="nav-text">两个Handler</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RpcClientHandler"><span class="nav-number">2.8.1.</span> <span class="nav-text">RpcClientHandler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RpcServerHandler"><span class="nav-number">2.8.2.</span> <span class="nav-text">RpcServerHandler</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -210,7 +211,7 @@
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
       <meta itemprop="name" content="RpcProject | MWBlog">
-      <meta itemprop="description" content="一个RPC的例子？">
+      <meta itemprop="description" content="一个简单RPC框架。">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -232,7 +233,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-09-11 10:42:07" itemprop="dateModified" datetime="2024-09-11T10:42:07+08:00">2024-09-11</time>
+      <time title="修改时间：2024-09-12 16:45:32" itemprop="dateModified" datetime="2024-09-12T16:45:32+08:00">2024-09-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -247,7 +248,7 @@
   
 </div>
 
-            <div class="post-description">一个RPC的例子？</div>
+            <div class="post-description">一个简单RPC框架。</div>
         </div>
       </header>
 
@@ -526,7 +527,196 @@
 <li><code>channel</code> 的 <code>write</code> 是从 tail 开始向前找到第一个 <code>Outboundhandler</code>（注意：是从 tail 开始！找的 <code>OutBoundHandler</code>，不找 <code>InboundHandler</code>）</li>
 <li><code>ctx</code> 的 <code>write</code> 是从当前 <code>handler</code> 开始向前找 <code>Outboundhandler</code>（注意：是从当前 <code>handler</code> 开始，也是找的 <code>outboundhandler</code>）</li>
 </ul>
-<h1 id="RPCProject"><a href="#RPCProject" class="headerlink" title="RPCProject"></a>RPCProject</h1><h2 id="-1"><a href="#-1" class="headerlink" title=""></a></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a></h2><h2 id="-3"><a href="#-3" class="headerlink" title=""></a></h2><h2 id="-4"><a href="#-4" class="headerlink" title=""></a></h2><h2 id="-5"><a href="#-5" class="headerlink" title=""></a></h2>
+<h2 id="ByteBuf"><a href="#ByteBuf" class="headerlink" title="ByteBuf"></a>ByteBuf</h2><p>ByteBuf 是 netty 对 NIO ByteBuffer 的一个增强</p>
+<h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><p>创建一个 <code>ByteBuf</code> 不能直接 new，需要 <code>ByteBufAllocator</code> 来创建</p>
+<ul>
+<li>使用 <code>ByteBufAllocator.DEFAULT.buffer()</code></li>
+<li>默认字节数组长度 256 字节，可以自己指定</li>
+<li>如果存满，会自动扩容（NIO 会报错）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 可以传入一个Capacity，默认是256字节，而且可以扩容</span></span><br><span class="line"><span class="type">ByteBuf</span> <span class="variable">byteBuf</span> <span class="operator">=</span> ByteBufAllocator.DEFAULT.buffer();</span><br><span class="line">System.out.println(byteBuf);</span><br><span class="line"><span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">300</span>; i++) &#123;</span><br><span class="line">    sb.append(<span class="string">&quot;2&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">byteBuf.writeBytes(sb.toString().getBytes());</span><br><span class="line">System.out.println(byteBuf);</span><br><span class="line"><span class="comment">/* 输出：（ridx读指针、widx写指针）</span></span><br><span class="line"><span class="comment">        PooledUnsafeDirectByteBuf(ridx: 0, widx: 0, cap: 256)</span></span><br><span class="line"><span class="comment">        PooledUnsafeDirectByteBuf(ridx: 0, widx: 300, cap: 512)</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>默认创建的就是直接内存，也可以创建堆内存</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ByteBufAllocator.DEFAULT.buffer();<span class="comment">// 默认就创建直接内存</span></span><br><span class="line">ByteBufAllocator.DEFAULT.directBuffer();<span class="comment">// 创建直接内存</span></span><br><span class="line">ByteBufAllocator.DEFAULT.heapBuffer();<span class="comment">// 创建堆内存</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>直接内存与堆内存的区别：</p>
+</blockquote>
+<p>1、管理机制不同：直接内存由 OS 管理，堆内存由 JVM 管理</p>
+<p>2、创建速度：直接内存创建比较麻烦，堆内存创建十分迅速</p>
+<p>综上：</p>
+<p>直接内存的优点是读写性能好（会少一次数据 Copy 的过程），但是创建比较慢，而且需要自己进行释放</p>
+<p>而堆内存的优点是创建速度快，但是读写性能会低一点</p>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a></h2><h2 id="-3"><a href="#-3" class="headerlink" title=""></a></h2><h2 id="-4"><a href="#-4" class="headerlink" title=""></a></h2><h2 id="-5"><a href="#-5" class="headerlink" title=""></a></h2><h1 id="RPCProject"><a href="#RPCProject" class="headerlink" title="RPCProject"></a>RPCProject</h1><blockquote>
+<p>什么是RPC？ 有一篇RPC简单讲述了RPC</p>
+</blockquote>
+<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><p>RPC是构建现代分布式系统和微服务架构的关键技术之一，使得构建跨网络和跨平台的应用程序变得更加容易和高效。</p>
+<h2 id="构成"><a href="#构成" class="headerlink" title="构成"></a>构成</h2><ul>
+<li>Netty搭建的服务端</li>
+<li>Netty搭建的客户端</li>
+<li>一些通用类</li>
+</ul>
+<h2 id="服务启动流程"><a href="#服务启动流程" class="headerlink" title="服务启动流程"></a>服务启动流程</h2><h3 id="创建RpcNettyServer"><a href="#创建RpcNettyServer" class="headerlink" title="创建RpcNettyServer"></a>创建RpcNettyServer</h3><ul>
+<li><p>启动需要两个地址，两个地址用于创建父类NettyServer</p>
+<ul>
+<li>服务IP地址</li>
+<li>Zookeeper服务器地址（服务注册地址） 2181</li>
+</ul>
+</li>
+<li><p>实现了ApplicationContextAware </p>
+<p>重写setApplicationContext方法扫描所有带有注解@RpcService的方法</p>
+</li>
+<li><p>实现了InitializingBean，afterPropertiesSet方法中启动父类NettyServer</p>
+</li>
+<li><p>实现了DisposableBean 在服务关闭的时候，关闭NettyServer</p>
+</li>
+</ul>
+<h3 id="NettyServer启动"><a href="#NettyServer启动" class="headerlink" title="NettyServer启动"></a>NettyServer启动</h3><ul>
+<li>RpcNettyServer调用了父类NettyServer的start方法，启动Netty服务器</li>
+<li>创建NettyServerInitializer</li>
+<li>Netty启动ServerBootStrap<ul>
+<li>相关配置<ul>
+<li>Netty容器<ol>
+<li>boosGroup 处理Accept请求</li>
+<li>workerGroup 负责READ、WRITE请求</li>
+</ol>
+</li>
+<li>处理器<ol>
+<li>入站处理器<ul>
+<li>IdleStateHandler 心跳状态感知</li>
+<li>LengthFieldBasedFrameDecoder 解决TCP存在的粘包半粘包问题（负责处理基于长度字段的数据帧，RpcRequest制定了数据帧的格式）</li>
+<li>RpcMsgDecoder 反序列化，可以接入不同的序列化工具本项目使用的是Protostuff</li>
+<li>RpcServerHandler 负责执行客户端传来的请求，执行RPC调用</li>
+</ul>
+</li>
+<li>出站处理器<ul>
+<li>RpcMsgEncoder 序列化</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="服务注册流程"><a href="#服务注册流程" class="headerlink" title="服务注册流程"></a>服务注册流程</h2><h3 id="扫描-RpcService"><a href="#扫描-RpcService" class="headerlink" title="扫描@RpcService"></a>扫描@RpcService</h3><p>扫描所有的@RpcService服务，将它们放入一个名叫serviceMap的服务，并将他们放入一个名叫serviceMap的HashMap</p>
+<ul>
+<li>key 是接口名 +版本</li>
+<li>value是对应的实现类</li>
+</ul>
+<h3 id="遍历serviceMap"><a href="#遍历serviceMap" class="headerlink" title="遍历serviceMap"></a>遍历serviceMap</h3><ul>
+<li>将serviceMap里的数据拆开，封装为RpcServiceInfo对象（RpcServiceInfo对象的属性有serviceName, version）</li>
+<li>将所有的RpcServiceInfo封装到一个RpcProtocol对象内（RpcProtocol的属性<code>host</code>, <code>port</code>, <code>List&lt;RpcServiceInfo&gt;</code>）</li>
+<li>调用JsonUtil的序列化方法，使用Jackson将RpcProtocol转换为一个Json字符串</li>
+<li>使用Zookeeper的连接curatorClient<ul>
+<li>创建对应的Zookeeper路径节点创建临时顺序节点</li>
+<li>给这个节点加一个监听器，如果连接状态变为RECONNECTED，那么重新进行服务注册</li>
+</ul>
+</li>
+</ul>
+<h2 id="客户端启动"><a href="#客户端启动" class="headerlink" title="客户端启动"></a>客户端启动</h2><p>使用一个IP启动RpcClient,会启动服务发现ServiceDiscovery，开始服务发现，服务发现结束客户端启动过程就结束</p>
+<h2 id="服务发现"><a href="#服务发现" class="headerlink" title="服务发现"></a>服务发现</h2><blockquote>
+<p>客户端启动时，会根据IP创建一个服务发现类</p>
+</blockquote>
+<p><strong>服务发现类创建后进行服务发现操作：</strong></p>
+<ol>
+<li>通过curatorClient，获取Zookeeper路径上的所有临时节点，读到的是一个List&lt;String&gt;</li>
+<li>遍历这个List，将所有的String序列化为RpcProtocol</li>
+<li>转换后的RpcProtocol需要存放在本地，这里涉及到一个新的类ConnectionManager<ul>
+<li>ConnectionManager是单例的，每个客户端只有一个</li>
+<li>ConnectionManager关键使用到了两个Map来保存数据<ul>
+<li>类型为CopyOnWriteArraySet的rpcProtocolSet的rpcProtocolSet<ol>
+<li>采用cow的思想，适合用在读多写少的情况</li>
+<li>存放当前所有能连接到Server的RpcProtocol</li>
+</ol>
+</li>
+<li>类型为concurrenthashMap的connectedServerNodeMap<ol>
+<li>使用了concurrent的hasMap</li>
+<li>key存放这个RpcProtocol</li>
+<li>value存放连接中获取到的RpcClienthandler</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>将RpcProtocol作为参数，调用ConnectionManager的方法，获取与更新服务<ul>
+<li>将RpcProtocol中的List&lt;RpcServiceInfo&gt;，取出来，放入set去重，然后遍历这个set<br>判断rpcProtocolSet中是否存在，如果不存在，就尝试连接这个Server节点，并将与Server的连接存放在connectedServerNodeMap，将这个RpcProtocol存放在rpcProtocolSet<ul>
+<li>启动Netty客户端，根据RpcProtocol中的host与IP创建与Server的连接</li>
+<li>客户端的Netty的处理器配置为<br><img data-src="https://img.jyhmw.cn/image-20240912151349099.png" alt="image-20240912151349099"></li>
+<li>使用Netty的异步ChannelFuture，连接如果完成，将可以获得到此次连接用到的处理器RpcClientHandler</li>
+<li>将RpcProtocol和获取到的RpcClientHandler存放到connectedServerNodeMap</li>
+</ul>
+</li>
+<li>遍历rpcProtocolSet，找出set中不存在的那些RpcProtocol，说明这些服务已经停止提供，删除他们的连接<ul>
+<li>connectionServerNodeMap删除对应信息</li>
+<li>rpcProtocolSet删除对应信息</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>通过curatorClient添加对应的监听器，获取事件的类型与数据，分情况进行处理<ul>
+<li>CONNECTION_RECONNECTION 重新进行服务发现</li>
+<li>CHILD_ADDED 存储这些新添加的</li>
+<li>CHILD_UPDATED</li>
+<li>CHILD_REMOVED</li>
+</ul>
+</li>
+<li>服务发现结束</li>
+</ol>
+<h2 id="Rpc过程"><a href="#Rpc过程" class="headerlink" title="Rpc过程"></a>Rpc过程</h2><h3 id="client过程"><a href="#client过程" class="headerlink" title="client过程"></a>client过程</h3><ol>
+<li><p>客户端提供了异步通信的方式，假如客户现在要进行一个远程方法调用（即客户只知道接口，但是没有实现类）</p>
+<p>需要传输</p>
+<ul>
+<li>要使用接口的class</li>
+<li>版本信息</li>
+</ul>
+</li>
+<li><p>使用动态代理ObjectProxy提交信息</p>
+<ul>
+<li>类ObjectProxy是一个实现了InvocationHandler的类（JDK动态代理）<ul>
+<li>实现了InvocationHandler，需要重写Invoke方法，三个参数，proxy，方法，参数</li>
+<li>Invoke 方法会在代理对象的其他方法执行时自动执行</li>
+<li>invoke具体过程<ol>
+<li>封装一个RpcRequest<ul>
+<li>String requestId:UUID生成</li>
+<li>String className: 当前执行方法所属class名子，通过反射的getDeclaringCalss获得</li>
+<li>String methodName: 当前方法名</li>
+<li>Class&lt;?&gt;[] parameterTypes: 当前的参数类型</li>
+<li>Object version: 版本号</li>
+</ul>
+</li>
+<li>使用类名和版本号这两个信息从ConnectionManager的connectedServerNodeMap中通过RpcProtocol找到RpcClientHandler （找的过程使用了负载均衡）</li>
+<li>调用RpcClientHandler的方法发送第一步生成的RpcRequest，客户端会得到一个RpcFuture，这是一个Futrue对象，可以异步获取结果</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="Server过程"><a href="#Server过程" class="headerlink" title="Server过程"></a>Server过程</h3><ol>
+<li>client发送过来的RpcRequest，将进入server端的入站处理器</li>
+<li>server端过滤掉心跳信息</li>
+<li>通过传过来的rpcRequest，从serviceMap中找到执行这一个方法的class对象<ul>
+<li>通过Class对象获取到Method对象</li>
+<li>利用反射机制执行method.invoke(serviceBean, parameters)</li>
+<li>将执行完成的结果封装到RpcResponse内，返回给客户端</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>客户端收到RpcFuture对象后，执行get(3000, TimeUnit.MILLSECONDS)获得执行的结果</p>
+</blockquote>
+<h2 id="两个Handler"><a href="#两个Handler" class="headerlink" title="两个Handler"></a>两个Handler</h2><h3 id="RpcClientHandler"><a href="#RpcClientHandler" class="headerlink" title="RpcClientHandler"></a>RpcClientHandler</h3><ol>
+<li>发送RpcFuture时，会将RpcFuture异步对象放入一个ConcurrentMap的pendingRpcMap内保存<br>保存在pendingRpcMap，key为RpcRequest的ID，value是RpcFuture</li>
+<li>收到服务器返回的结果时，通过response获得request的id，然后查pendingRpcMap，并将执行结果存放在RpcFuture内</li>
+</ol>
+<h3 id="RpcServerHandler"><a href="#RpcServerHandler" class="headerlink" title="RpcServerHandler"></a>RpcServerHandler</h3><p>根据RpcRequest，利用反射执行，然后返回执行的结果RpcResponse</p>
+
     </div>
 
     
