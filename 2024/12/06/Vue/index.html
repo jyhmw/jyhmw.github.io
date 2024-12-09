@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="渐进式JavaScript框架。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue">
+<meta property="og:url" content="https://jyhmw.github.io/2024/12/06/Vue/index.html">
+<meta property="og:site_name" content="MWBlog">
+<meta property="og:description" content="渐进式JavaScript框架。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.jyhmw.cn/image-20241206094058037.png">
+<meta property="og:image" content="https://img.jyhmw.cn/image-20241206094221033.png">
+<meta property="og:image" content="https://img.jyhmw.cn/image-20241206101118170.png">
+<meta property="article:published_time" content="2024-12-06T01:24:39.000Z">
+<meta property="article:modified_time" content="2024-12-09T03:42:49.729Z">
+<meta property="article:author" content="Jyh">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.jyhmw.cn/image-20241206094058037.png">
+
+
+<link rel="canonical" href="https://jyhmw.github.io/2024/12/06/Vue/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jyhmw.github.io/2024/12/06/Vue/","path":"2024/12/06/Vue/","title":"Vue"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Vue | MWBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MWBlog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">麻木的智力抑制状态</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=2076615067&auto=0&height=66""></iframe>
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">Vue简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%A1%86%E6%9E%B6"><span class="nav-number">1.1.</span> <span class="nav-text">渐进式框架</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#API%E9%A3%8E%E6%A0%BC"><span class="nav-number">2.</span> <span class="nav-text">API风格</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E9%A1%B9%E5%BC%8FAPI"><span class="nav-number">2.1.</span> <span class="nav-text">选项式API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E5%BC%8FAPI"><span class="nav-number">2.2.</span> <span class="nav-text">组合式API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%A5%E9%80%89%E5%93%AA%E4%B8%80%E4%B8%AA%EF%BC%9F"><span class="nav-number">2.3.</span> <span class="nav-text">该选哪一个？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vite%E6%9E%84%E5%BB%BA"><span class="nav-number">4.</span> <span class="nav-text">vite构建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="nav-number">4.1.</span> <span class="nav-text">具体操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%AF%AD%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">核心语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#setup"><span class="nav-number">5.1.</span> <span class="nav-text">setup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">5.1.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">5.1.2.</span> <span class="nav-text">返回值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setup%E4%B8%8EOptionsAPI%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">5.1.3.</span> <span class="nav-text">setup与OptionsAPI的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setup%E8%AF%AD%E6%B3%95%E7%B3%96"><span class="nav-number">5.1.4.</span> <span class="nav-text">setup语法糖</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jyh"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jyh</p>
+  <div class="site-description" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jyhmw.github.io/2024/12/06/Vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jyh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MWBlog">
+      <meta itemprop="description" content="莫听穿林打叶声，何妨吟啸且徐行。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Vue | MWBlog">
+      <meta itemprop="description" content="渐进式JavaScript框架。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vue
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-06 09:24:39" itemprop="dateCreated datePublished" datetime="2024-12-06T09:24:39+08:00">2024-12-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-09 11:42:49" itemprop="dateModified" datetime="2024-12-09T11:42:49+08:00">2024-12-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">技术栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">渐进式JavaScript框架。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Vue简介"><a href="#Vue简介" class="headerlink" title="Vue简介"></a>Vue简介</h1><blockquote>
+<p>渐进式JavaScript框架，易学易用，性能出色，使用场景丰富的web前端框架</p>
+</blockquote>
+<p>Vue(发音为&#x2F;vju:&#x2F;，类似view)是一款用于构建用户界面的JavaScript框架。基于标椎HTML、CSS和JavaScript构建，提供了一套声明式的、组件化的编程模型，帮助你高效地开发用户界面。无论是简单还是复杂的界面，Vue都能胜任</p>
+<h2 id="渐进式框架"><a href="#渐进式框架" class="headerlink" title="渐进式框架"></a>渐进式框架</h2><p>Vue 是一个框架，也是一个生态。其功能覆盖了大部分前端开发常见的需求。但 Web 世界是十分多样化的。不同的开发者在 Web 上构建的东西可能在形式和规模上会有很大的不同。考虑到这一点，Vue 的设计非常注重灵活性和“<strong>可以被逐步集成</strong>”这个特点。根据你的需求场景，你可以用不同的方式使用 Vue:</p>
+<ul>
+<li>无需构建步骤，渐进式增强静态的HTML</li>
+<li>在任何页面中作为Web Components嵌入</li>
+<li>单页应用(SPA)(整个项目在一个页面)</li>
+<li>全栈&#x2F;服务端渲染(SSR)</li>
+<li>JamStack&#x2F;静态站点生成(SSG)</li>
+<li>开发桌面端、移动端、WebGL，甚至是命令行终端中的界面</li>
+</ul>
+<h1 id="API风格"><a href="#API风格" class="headerlink" title="API风格"></a>API风格</h1><h2 id="选项式API"><a href="#选项式API" class="headerlink" title="选项式API"></a>选项式API</h2><blockquote>
+<p>Options API</p>
+</blockquote>
+<p>使用选项式API，我们可以用包含多个选项的对象来描述组件的逻辑，例如<code>data</code>、<code>methods</code>、<code>mounted</code>。选项所定义的属性都会暴露在函数内部<code>this</code>上，会指向当前的组件实例</p>
+<p>例如实现一个按钮累加的功能</p>
+<img data-src="https://img.jyhmw.cn/image-20241206094058037.png" alt="image-20241206094058037" style="zoom:50%;" />
+
+<h2 id="组合式API"><a href="#组合式API" class="headerlink" title="组合式API"></a>组合式API</h2><blockquote>
+<p>Composition API</p>
+</blockquote>
+<p>通过组合式API，可以使用导入的API函数来描述组件逻辑</p>
+<img data-src="https://img.jyhmw.cn/image-20241206094221033.png" alt="image-20241206094221033" style="zoom:50%;" />
+
+<h2 id="该选哪一个？"><a href="#该选哪一个？" class="headerlink" title="该选哪一个？"></a>该选哪一个？</h2><p>两种 API风格都能够覆盖大部分的应用场景。它们只是同一个底层系统所提供的两套不同的接口。实际上，选项式 API是在组合式 API 的基础上实现的!关于 Vue 的基础概念和知识在它们之间都是通用的。</p>
+<p>生产项目中</p>
+<ul>
+<li>当你不需要使用构建工具，或者打算主要在低复杂度的场景中使用 Vue，例如渐进增强的应用场景，推荐<br>采用选项式 API</li>
+<li>当你打算用 Vue 构建完整的单页应用，推荐采用组合式 API+ 单文件组件</li>
+</ul>
+<h1 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h1><p><img data-src="https://img.jyhmw.cn/image-20241206101118170.png" alt="image-20241206101118170"></p>
+<ul>
+<li>node_moudles   —   vue项目的运行依赖文件夹</li>
+<li>public                       —   资源文件夹（浏览器图标..）</li>
+<li>src                              —    源码文件夹</li>
+<li>.gitignore                —    git忽略文件</li>
+<li>index.html              —    入口html文件</li>
+<li>package.json          —    信息描述文件</li>
+<li>README.md           —    注释文件</li>
+<li>vite.config.js            —    Vue配置文件</li>
+</ul>
+<h1 id="vite构建"><a href="#vite构建" class="headerlink" title="vite构建"></a>vite构建</h1><blockquote>
+<p>vite是新一代前端构建工具</p>
+</blockquote>
+<ul>
+<li>轻量快速的热重载（HMR），能实现极速的服务启动</li>
+<li>对<code>TypeScript</code>、<code>JSX</code>、<code>CSS</code> 等支持开箱即用</li>
+<li>真正的按需编译，不再等待整个应用编译完成</li>
+</ul>
+<h2 id="具体操作"><a href="#具体操作" class="headerlink" title="具体操作"></a>具体操作</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 1.创建命令</span></span></span><br><span class="line">npm create vue@latest</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 2.具体配置</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 配置项目名称</span></span></span><br><span class="line">√ Project name: vue3_test</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 是否添加TypeScript支持</span></span></span><br><span class="line">√ Add TypeScript?  Yes</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 是否添加JSX支持</span></span></span><br><span class="line">√ Add JSX Support?  No</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 是否添加路由环境</span></span></span><br><span class="line">√ Add Vue Router for Single Page Application development?  No</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 是否添加pinia环境</span></span></span><br><span class="line">√ Add Pinia for state management?  No</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 是否添加单元测试</span></span></span><br><span class="line">√ Add Vitest for Unit Testing?  No</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 是否添加端到端测试方案</span></span></span><br><span class="line">√ Add an End-to-End Testing Solution? » No</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 是否添加ESLint语法检查</span></span></span><br><span class="line">√ Add ESLint for code quality?  Yes</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 是否添加Prettiert代码格式化</span></span></span><br><span class="line">√ Add Prettier for code formatting?  No</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="核心语法"><a href="#核心语法" class="headerlink" title="核心语法"></a>核心语法</h1><h2 id="setup"><a href="#setup" class="headerlink" title="setup"></a>setup</h2><blockquote>
+<p><code>setup</code>是<code>Vue3</code>中一个新的配置项，值是一个函数，它是 <code>Composition API</code> <strong>“表演的舞台</strong><em><strong>”</strong></em>，组件中所用到的：数据、方法、计算属性、监视…等等，均配置在<code>setup</code>中</p>
+</blockquote>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li><code>setup</code>函数返回的对象中的内容，可直接在模板中使用。</li>
+<li><code>setup</code>中访问<code>this</code>是<code>undefined</code>。</li>
+<li><code>setup</code>函数会在<code>beforeCreate</code>之前调用，它是“领先”所有钩子执行的</li>
+</ul>
+<p>代码示例：</p>
+<p>注意这里由于安装了eslint插件，校验代码格式和规范，不按照它的来会直接报错。我在此之后关闭了校验。（这里是因为name用的person，不是eslint插件规定的多个单词驼峰命名—坑）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;person&quot;&gt;</span><br><span class="line">    &lt;h2&gt;姓名: &#123;&#123;name&#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;年龄: &#123;&#123;age&#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;button @click=&quot;changeName&quot;&gt;修改名字&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;changeAge&quot;&gt;年龄+1&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;showTel&quot;&gt;点我查看联系方式&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    name: &#x27;myPerson&#x27;,</span><br><span class="line">    setup() &#123;</span><br><span class="line">      let name = &#x27;张三&#x27;</span><br><span class="line">      let age = 18</span><br><span class="line">      let tel = &#x27;13888888888&#x27;</span><br><span class="line">      function changeName() &#123;</span><br><span class="line">        name = &#x27;zhang-san&#x27;</span><br><span class="line">        console.log(name)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      function changeAge() &#123;</span><br><span class="line">        age += 1</span><br><span class="line">        console.log(age)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      function showTel() &#123;</span><br><span class="line">        alert(tel)</span><br><span class="line">      &#125;</span><br><span class="line">      return &#123;name, age, tel, changeName, changeAge, showTel&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><ul>
+<li><p>若返回一个对象：则对象中的：属性、方法等，在模板中均可以直接使用<strong>（重点关注）</strong></p>
+</li>
+<li><p>若返回一个<strong>函数</strong>：则可以自定义渲染内容，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setup()&#123;</span><br><span class="line">  return ()=&gt; &#x27;你好啊！&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="setup与OptionsAPI的关系"><a href="#setup与OptionsAPI的关系" class="headerlink" title="setup与OptionsAPI的关系"></a>setup与OptionsAPI的关系</h3><ul>
+<li><code>Vue2</code> 的配置（<code>data</code>、<code>methos</code>…）中<strong>可以访问到</strong> <code>setup</code>中的属性、方法。</li>
+<li>但在<code>setup</code>中<strong>不能访问到</strong><code>Vue2</code>的配置（<code>data</code>、<code>methos</code>…）。</li>
+<li>如果与<code>Vue2</code>冲突，则<code>setup</code>优先。</li>
+</ul>
+<h3 id="setup语法糖"><a href="#setup语法糖" class="headerlink" title="setup语法糖"></a>setup语法糖</h3><p><code>setup</code>函数有一个语法糖，这个语法糖，可以让我们把<code>setup</code>独立出去，代码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line"> &lt;div class=&quot;person&quot;&gt;</span><br><span class="line">  &lt;h2&gt;姓名：&#123;&#123;name&#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;h2&gt;年龄：&#123;&#123;age&#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;button @click=&quot;changeName&quot;&gt;修改名字&lt;/button&gt;</span><br><span class="line">  &lt;button @click=&quot;changAge&quot;&gt;年龄+1&lt;/button&gt;</span><br><span class="line">  &lt;button @click=&quot;showTel&quot;&gt;查看联系方式&lt;/button&gt;</span><br><span class="line"> &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    name:&#x27;Person&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">  console.log(this)</span><br><span class="line">  let name = &#x27;张三&#x27;</span><br><span class="line">  let age = 18</span><br><span class="line">  let tel = &#x27;13888888888&#x27;</span><br><span class="line">  function changeName() &#123;</span><br><span class="line">    name=&#x27;李四&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">  function changAge()&#123;</span><br><span class="line">    console.log(age)</span><br><span class="line">    age += 1 </span><br><span class="line">  &#125;</span><br><span class="line">  function showTel()&#123;</span><br><span class="line">    alert(tel)</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>扩展：</strong>上述代码还需要编写一个不写setup的script标签，去指定组件名字，比较麻烦，我们可以借助vite中的插件简化</p>
+<ol>
+<li><p>npm i vite-plugin-vue-setup-extend -D</p>
+</li>
+<li><p>vite.config.ts 中</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; defineConfig &#125; <span class="keyword">from</span> <span class="string">&#x27;vite&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">VueSetupExtend</span> <span class="keyword">from</span> <span class="string">&#x27;vite-plugin-vue-setup-extend&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineConfig</span>(&#123;</span><br><span class="line">  <span class="attr">plugins</span>: [ <span class="title class_">VueSetupExtend</span>() ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><script setup lang="ts" name="Person"></li>
+</ol>
+<h2 id="ref创建-基本类型"><a href="#ref创建-基本类型" class="headerlink" title="ref创建:基本类型"></a>ref创建:基本类型</h2><blockquote>
+<p>ref基本类型的响应式数据</p>
+</blockquote>
+<ul>
+<li><strong>作用</strong>：定义响应式变量</li>
+<li><strong>语法</strong>：let xxx &#x3D; ref(初始值)</li>
+<li><strong>返回值</strong>：一个RefImpl的实例对象，简称ref对像或ref，ref对象的value属性是响应式的</li>
+<li>注意点：<ul>
+<li>ts中操作数据需要：xxx.value，但模板中不需要.value，直接使用即可</li>
+<li>何时需要.value?模板中不需要；包裹在响应式对象里面的ref不需要；未包裹的ref需要</li>
+<li>对于let name &#x3D; ref(‘张三’)来说，name不是响应式的，name.value是响应式的</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>注意到此，作者JYH发现vite的好处，所以说重新用vite构建项目</strong>（目录中可以找到vite构建的步骤及好处）</p>
+</blockquote>
+<p>ref创建代码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;person&quot;&gt;</span><br><span class="line">    &lt;h2&gt;姓名：&#123;&#123;name&#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;年龄：&#123;&#123;age&#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;button @click=&quot;changName&quot;&gt;修改名字&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;changAge&quot;&gt;年龄+1&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;showTel&quot;&gt;点我查看联系方式&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- 下面的写法是setup语法糖 --&gt;</span><br><span class="line">&lt;script setup lang=&quot;ts&quot; name=&quot;Person&quot;&gt;</span><br><span class="line">  import &#123;ref&#125; from &#x27;vue&#x27;</span><br><span class="line">  let name = ref(&#x27;张三&#x27;)</span><br><span class="line">  let age = ref(18)</span><br><span class="line">  //tel就是一个普通的字符串不是响应式的</span><br><span class="line">  let tel = &#x27;13888888888&#x27;</span><br><span class="line"></span><br><span class="line">  // 方法</span><br><span class="line">  function changName()&#123;</span><br><span class="line">    name.value = &#x27;李四&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">  function changAge()&#123;</span><br><span class="line">    console.log(age)</span><br><span class="line">    age.value += 1 //注意：此时这么修改age页面是不变化的</span><br><span class="line">  &#125;</span><br><span class="line">  function showTel()&#123;</span><br><span class="line">    alert(tel)</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="reactive创建-对象类型"><a href="#reactive创建-对象类型" class="headerlink" title="reactive创建:对象类型"></a>reactive创建:对象类型</h2><blockquote>
+<p>对象类型的响应式数据</p>
+</blockquote>
+<ul>
+<li><strong>作用</strong>：定义一个响应式对象（基本类型不要用它，要用ref，否则报错）</li>
+<li><strong>语法</strong>：let 响应式对象&#x3D;reactive(源对象)</li>
+<li><strong>返回值</strong>：一个Proxy的实例对象，简称：响应式对象</li>
+<li><strong>注意点</strong>：reactive定义的响应式数据是“深层次的”</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;person&quot;&gt;</span><br><span class="line">    &lt;h2&gt;汽车信息：一台&#123;&#123; car.brand &#125;&#125;汽车，价值&#123;&#123; car.price &#125;&#125;万&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;游戏列表：&lt;/h2&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">      &lt;li v-for=&quot;g in games&quot; :key=&quot;g.id&quot;&gt;&#123;&#123; g.name &#125;&#125;&lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">    &lt;h2&gt;测试：&#123;&#123; obj.a.b.c.d &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;button @click=&quot;changeCarPrice&quot;&gt;修改汽车价格&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;changeFirstGame&quot;&gt;修改第一游戏&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;test&quot;&gt;测试&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot; setup name=&quot;Person&quot;&gt;</span><br><span class="line">  import &#123; reactive &#125; from &#x27;vue&#x27;;</span><br><span class="line">  let car = reactive(&#123;brand:&#x27;奔驰&#x27;, price:100&#125;)</span><br><span class="line">  let games = reactive([</span><br><span class="line">    &#123;id:&#x27;ahsgdyfa01&#x27;, name: &#x27;英雄联盟&#x27;&#125;,</span><br><span class="line">    &#123;id:&#x27;ahsgdyfa02&#x27;, name: &#x27;王者荣耀&#x27;&#125;,</span><br><span class="line">    &#123;id:&#x27;ahsgdyfa03&#x27;, name: &#x27;原神！&#x27;&#125;,</span><br><span class="line"></span><br><span class="line">  ])</span><br><span class="line">  let obj = reactive(&#123;</span><br><span class="line">    a:&#123;</span><br><span class="line">      b:&#123;</span><br><span class="line">        c:&#123;</span><br><span class="line">          d:666</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  function changeCarPrice() &#123;</span><br><span class="line">    car.price += 10;</span><br><span class="line">  &#125;</span><br><span class="line">  function changeFirstGame() &#123;</span><br><span class="line">    games[0].name = &#x27;流星蝴蝶剑&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">  function test() &#123;</span><br><span class="line">    obj.a.b.c.d = 999</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ref创建-对象类型"><a href="#ref创建-对象类型" class="headerlink" title="ref创建:对象类型"></a>ref创建:对象类型</h2><blockquote>
+<ul>
+<li>其实<code>ref</code>接收的数据可以是：<strong>基本类型</strong>、<strong>对象类型</strong>。</li>
+<li>若<code>ref</code>接收的是对象类型，内部其实也是调用了<code>reactive</code>函数。</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;person&quot;&gt;</span><br><span class="line">    &lt;h2&gt;汽车信息：一台&#123;&#123; car.brand &#125;&#125;汽车，价值&#123;&#123; car.price &#125;&#125;万&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;游戏列表：&lt;/h2&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">      &lt;li v-for=&quot;g in games&quot; :key=&quot;g.id&quot;&gt;&#123;&#123; g.name &#125;&#125;&lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">    &lt;h2&gt;测试：&#123;&#123;obj.a.b.c.d&#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;button @click=&quot;changeCarPrice&quot;&gt;修改汽车价格&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;changeFirstGame&quot;&gt;修改第一游戏&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;test&quot;&gt;测试&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot; setup name=&quot;Person&quot;&gt;</span><br><span class="line">import &#123; ref &#125; from &#x27;vue&#x27;</span><br><span class="line"></span><br><span class="line">// 数据</span><br><span class="line">let car = ref(&#123; brand: &#x27;奔驰&#x27;, price: 100 &#125;)</span><br><span class="line">let games = ref([</span><br><span class="line">  &#123; id: &#x27;ahsgdyfa01&#x27;, name: &#x27;英雄联盟&#x27; &#125;,</span><br><span class="line">  &#123; id: &#x27;ahsgdyfa02&#x27;, name: &#x27;王者荣耀&#x27; &#125;,</span><br><span class="line">  &#123; id: &#x27;ahsgdyfa03&#x27;, name: &#x27;原神&#x27; &#125;</span><br><span class="line">])</span><br><span class="line">let obj = ref(&#123;</span><br><span class="line">  a:&#123;</span><br><span class="line">    b:&#123;</span><br><span class="line">      c:&#123;</span><br><span class="line">        d:666</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">console.log(car)</span><br><span class="line"></span><br><span class="line">function changeCarPrice() &#123;</span><br><span class="line">  car.value.price += 10</span><br><span class="line">&#125;</span><br><span class="line">function changeFirstGame() &#123;</span><br><span class="line">  games.value[0].name = &#x27;流星蝴蝶剑&#x27;</span><br><span class="line">&#125;</span><br><span class="line">function test()&#123;</span><br><span class="line">  obj.value.a.b.c.d = 999</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="ref与reactive"><a href="#ref与reactive" class="headerlink" title="ref与reactive"></a>ref与reactive</h2><ul>
+<li>宏观角度<ol>
+<li>ref定义：基本类型数据、对象类型数据</li>
+<li>reactive用来定义：对象类型数据</li>
+</ol>
+</li>
+<li>区别<ol>
+<li><code>ref</code>创建的变量必须使用<code>.value</code>（可以使用<code>volar</code>插件自动添加<code>.value</code>）</li>
+<li><code>reactive</code>重新分配一个新对象，会<strong>失去</strong>响应式</li>
+</ol>
+</li>
+<li>使用原则<ol>
+<li>若需要一个基本类型的响应式数据，必须使用<code>ref</code></li>
+<li>若需要一个响应式对象，层级不深，<code>ref</code>、<code>reactive</code>都可以</li>
+<li>若需要一个响应式对象，且层级较深，推荐使用<code>reactive</code></li>
+</ol>
+</li>
+</ul>
+<h2 id="toRefs与toRef"><a href="#toRefs与toRef" class="headerlink" title="toRefs与toRef"></a>toRefs与toRef</h2><ul>
+<li><p>作用：将一个响应式对象中的每一个属性，转换为<code>ref</code>对象。并且改变解构的值，也会影响到原响应式对象的值。</p>
+</li>
+<li><p>备注：<code>toRefs</code>与<code>toRef</code>功能一致，但<code>toRefs</code>可以批量转换。</p>
+</li>
+<li><p>语法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class=&quot;person&quot;&gt;</span><br><span class="line">        &lt;h2&gt;姓名：&#123;&#123;person.name&#125;&#125;&lt;/h2&gt;</span><br><span class="line">        &lt;h2&gt;年龄：&#123;&#123;person.age&#125;&#125;&lt;/h2&gt;</span><br><span class="line">        &lt;h2&gt;性别：&#123;&#123;person.gender&#125;&#125;&lt;/h2&gt;</span><br><span class="line">        &lt;button @click=&quot;changeName&quot;&gt;修改名字&lt;/button&gt;</span><br><span class="line">        &lt;button @click=&quot;changeAge&quot;&gt;修改年龄&lt;/button&gt;</span><br><span class="line">        &lt;button @click=&quot;changeGender&quot;&gt;修改性别&lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot; setup name=&quot;Person&quot;&gt;</span><br><span class="line">    import &#123;ref, reactive, toRefs, toRef&#125; from &#x27;vue&#x27;</span><br><span class="line">    let person = reactive(&#123;name:&#x27;张三&#x27;, age:18, gender:&#x27;男&#x27;&#125;)</span><br><span class="line">    // 通过toRefs将person对象中的n个属性批量取出，且依然保持响应式的能力</span><br><span class="line">    //改变name和gender的值，也会影响到person里面的值</span><br><span class="line">    let &#123;name,gender&#125; = toRefs(person)</span><br><span class="line">    // 通过toRef将person对象中的gender属性取出，且依然保持响应式的能力</span><br><span class="line">    let age = toRef(person,&#x27;age&#x27;)</span><br><span class="line">    function changeName() &#123;</span><br><span class="line">        name.value += &#x27;~&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">    function changeAge() &#123;</span><br><span class="line">        age.value += 1;</span><br><span class="line">    &#125;</span><br><span class="line">    function changeGender() &#123;</span><br><span class="line">        gender.value = &#x27;女&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="computed"><a href="#computed" class="headerlink" title="computed"></a>computed</h2><blockquote>
+<p>根据已有数据计算出新的数据</p>
+</blockquote>
+<ul>
+<li><p>实现同样的功能，方法function没有缓存，模板调用几次，函数就执行几次；计算属性computed有缓存，模板调用多次，实际上只执行一次<br>比如我要打印两次某个计算的结果function就要执行两次，而computed会执行第一次后缓存，只执行一次。</p>
+</li>
+<li><p>计算属性实际上是一个ref响应式对象，因此赋值的时候要加上<code>.value</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class=&quot;person&quot;&gt;</span><br><span class="line">      姓：&lt;input type=&quot;text&quot; v-model=&quot;firstName&quot;&gt; &lt;br&gt;</span><br><span class="line">      名：&lt;input type=&quot;text&quot; v-model=&quot;lastName&quot;&gt; &lt;br&gt;</span><br><span class="line">      全名：&lt;span&gt;&#123;&#123;fullName&#125;&#125;&lt;/span&gt; &lt;br&gt;</span><br><span class="line">      全名：&lt;span&gt;&#123;&#123;fullName&#125;&#125;&lt;/span&gt; &lt;br&gt;</span><br><span class="line">      &lt;button @click=&quot;changeFullName&quot;&gt;全名改为：li-si&lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/template&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;script setup lang=&quot;ts&quot; name=&quot;App&quot;&gt;</span><br><span class="line">    import &#123;ref,computed&#125; from &#x27;vue&#x27;	//引入computed</span><br><span class="line">  </span><br><span class="line">    let firstName = ref(&#x27;zhang&#x27;)</span><br><span class="line">    let lastName = ref(&#x27;san&#x27;)</span><br><span class="line">  </span><br><span class="line">    // 计算属性——只读取，不修改</span><br><span class="line">    /* let fullName = computed(()=&gt;&#123;</span><br><span class="line">      return firstName.value + &#x27;-&#x27; + lastName.value</span><br><span class="line">    &#125;) */</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    // 计算属性——既读取又修改</span><br><span class="line">    let fullName = computed(&#123;</span><br><span class="line">      // 读取</span><br><span class="line">      get()&#123;</span><br><span class="line">        return firstName.value + &#x27;-&#x27; + lastName.value</span><br><span class="line">      &#125;,</span><br><span class="line">      // 修改</span><br><span class="line">      set(val)&#123;	1</span><br><span class="line">        console.log(&#x27;有人修改了fullName&#x27;,val)</span><br><span class="line">        firstName.value = val.split(&#x27;-&#x27;)[0]</span><br><span class="line">        lastName.value = val.split(&#x27;-&#x27;)[1]</span><br><span class="line">        //第二种写法  </span><br><span class="line">        //const [str1,str2] = val.split(&#x27;-&#x27;)</span><br><span class="line">        //firstName.value = str1</span><br><span class="line">        //lastName.value = str2</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  </span><br><span class="line">    function changeFullName()&#123;</span><br><span class="line">      fullName.value = &#x27;li-si&#x27;	//引起set的val变化</span><br><span class="line">    &#125; </span><br><span class="line">  &lt;/script&gt;</span><br><span class="line">  </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><ul>
+<li>作用：监视数据的变化</li>
+<li>特点：Vue3中的watch只能监视一下四种数据<ol>
+<li>ref定义的数据</li>
+<li>reactive定义的数据</li>
+<li>函数返回一个值（getter函数）</li>
+<li>一个包含上述内容的数组</li>
+</ol>
+</li>
+</ul>
+<p>vue3中使用watch会有以下<strong>五种情况</strong></p>
+<h3 id="情况一"><a href="#情况一" class="headerlink" title="情况一"></a>情况一</h3><blockquote>
+<p>监视ref定义的基本类型数据：直接写数据名即可，监视的是其value值的改变</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;person&quot;&gt;</span><br><span class="line">    &lt;h1&gt;情况一：监视【ref】定义的【基本类型】数据&lt;/h1&gt;</span><br><span class="line">    &lt;h2&gt;当前求和为：&#123;&#123;sum&#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;button @click=&quot;changeSum&quot;&gt;点我sum+1&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot; setup name=&quot;Person&quot;&gt;</span><br><span class="line">  import &#123;ref,watch&#125; from &#x27;vue&#x27;</span><br><span class="line">  // 数据</span><br><span class="line">  let sum = ref(0)</span><br><span class="line">  // 方法</span><br><span class="line">  function changeSum()&#123;</span><br><span class="line">    sum.value += 1</span><br><span class="line">  &#125;</span><br><span class="line">  // 监视，情况一：监视【ref】定义的【基本类型】数据</span><br><span class="line">  const stopWatch = watch(sum,(newValue,oldValue)=&gt;&#123;</span><br><span class="line">    console.log(&#x27;sum变化了&#x27;,newValue,oldValue)</span><br><span class="line">    if(newValue &gt;= 10)&#123;</span><br><span class="line">      stopWatch()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="情况二"><a href="#情况二" class="headerlink" title="情况二"></a>情况二</h3><blockquote>
+<p>监视<code>ref</code>定义的【对象类型】数据：直接写数据名，监视的是对象的【地址值】，若想监视对象内部的数据，要手动开启深度监视。</p>
+<ul>
+<li>若修改的是<code>ref</code>定义的对象中的属性，<code>newValue</code> 和 <code>oldValue</code> 都是新值，因为它们是同一个对象。</li>
+<li>若修改整个<code>ref</code>定义的对象，<code>newValue</code> 是新值， <code>oldValue</code> 是旧值，因为不是同一个对象了。</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;person&quot;&gt;</span><br><span class="line">    &lt;h1&gt;情况二：监视【ref】定义的【对象类型】数据&lt;/h1&gt;</span><br><span class="line">    &lt;h2&gt;姓名：&#123;&#123; person.name &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;年龄：&#123;&#123; person.age &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;button @click=&quot;changeName&quot;&gt;修改名字&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;changeAge&quot;&gt;修改年龄&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;changePerson&quot;&gt;修改整个人&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot; setup name=&quot;Person&quot;&gt;</span><br><span class="line">  import &#123;ref,watch&#125; from &#x27;vue&#x27;</span><br><span class="line">  // 数据</span><br><span class="line">  let person = ref(&#123;</span><br><span class="line">    name:&#x27;张三&#x27;,</span><br><span class="line">    age:18</span><br><span class="line">  &#125;)</span><br><span class="line">  // 方法</span><br><span class="line">  function changeName()&#123;</span><br><span class="line">    person.value.name += &#x27;~&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">  function changeAge()&#123;</span><br><span class="line">    person.value.age += 1</span><br><span class="line">  &#125;</span><br><span class="line">  function changePerson()&#123;</span><br><span class="line">    person.value = &#123;name:&#x27;李四&#x27;,age:90&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  /* </span><br><span class="line">    监视，情况一：监视【ref】定义的【对象类型】数据，监视的是对象的地址值，若想监视对象内部属性的变化，需要手动开启深度监视</span><br><span class="line">    watch的第一个参数是：被监视的数据</span><br><span class="line">    watch的第二个参数是：监视的回调</span><br><span class="line">    watch的第三个参数是：配置对象（deep、immediate等等.....） </span><br><span class="line">  */</span><br><span class="line">  watch(person,(newValue,oldValue)=&gt;&#123;</span><br><span class="line">    console.log(&#x27;person变化了&#x27;,newValue,oldValue)</span><br><span class="line">  &#125;,&#123;deep:true,immediate:true&#125;)</span><br><span class="line">  </span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="情况三"><a href="#情况三" class="headerlink" title="情况三"></a>情况三</h3><blockquote>
+<p>监视reactive定义的【对象类型】数据，且默认开启了深度监视，且深层监视无法关闭。</p>
+<p>无法监视地址值，因为对象地址值没有改变，本质上assign在原对象上进行的是赋值。</p>
+<p>newValue和oldValue值相同，都是新值，还是因为对象地址值没有改变，本质上assign在原对象上进行的是赋值。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;person&quot;&gt;</span><br><span class="line">    &lt;h1&gt;情况三：监视【reactive】定义的【对象类型】数据&lt;/h1&gt;</span><br><span class="line">    &lt;h2&gt;姓名：&#123;&#123; person.name &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;年龄：&#123;&#123; person.age &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;button @click=&quot;changeName&quot;&gt;修改名字&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;changeAge&quot;&gt;修改年龄&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;changePerson&quot;&gt;修改整个人&lt;/button&gt;</span><br><span class="line">    &lt;hr&gt;</span><br><span class="line">    &lt;h2&gt;测试：&#123;&#123;obj.a.b.c&#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;button @click=&quot;test&quot;&gt;修改obj.a.b.c&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot; setup name=&quot;Person&quot;&gt;</span><br><span class="line">  import &#123;reactive,watch&#125; from &#x27;vue&#x27;</span><br><span class="line">  // 数据</span><br><span class="line">  let person = reactive(&#123;</span><br><span class="line">    name:&#x27;张三&#x27;,</span><br><span class="line">    age:18</span><br><span class="line">  &#125;)</span><br><span class="line">  let obj = reactive(&#123;</span><br><span class="line">    a:&#123;</span><br><span class="line">      b:&#123;</span><br><span class="line">        c:666</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  // 方法</span><br><span class="line">  function changeName()&#123;</span><br><span class="line">    person.name += &#x27;~&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">  function changeAge()&#123;</span><br><span class="line">    person.age += 1</span><br><span class="line">  &#125;</span><br><span class="line">  function changePerson()&#123;</span><br><span class="line">   	// person = &#123; name: &#x27;李四&#x27;, age: 80 &#125;//直接修改，不行</span><br><span class="line">  	// person = reactive(&#123; name: &#x27;李四&#x27;, age: 80 &#125;)//reactive包裹修改，也不行</span><br><span class="line">    Object.assign(person,&#123;name:&#x27;李四&#x27;,age:80&#125;)//本质上替换了原person的每个属性值</span><br><span class="line">  &#125;</span><br><span class="line">  function test()&#123;</span><br><span class="line">    obj.a.b.c = 888</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 监视，情况三：监视【reactive】定义的【对象类型】数据，且默认是开启深度监视的</span><br><span class="line">  watch(person,(newValue,oldValue)=&gt;&#123;</span><br><span class="line">    console.log(&#x27;person变化了&#x27;,newValue,oldValue)</span><br><span class="line">  &#125;)</span><br><span class="line">  watch(obj,(newValue,oldValue)=&gt;&#123;</span><br><span class="line">    console.log(&#x27;Obj变化了&#x27;,newValue,oldValue)</span><br><span class="line">  &#125;)</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="情况四"><a href="#情况四" class="headerlink" title="情况四"></a>情况四</h3><blockquote>
+<p>监视<code>ref</code>或<code>reactive</code>定义的【对象类型】数据中的<strong>某个属性</strong>，注意点如下：</p>
+</blockquote>
+<ol>
+<li>若该属性值<strong>不是</strong>【对象类型】即【基本类型】，需要写成函数形式，此时oldValue是旧值，newValue是新值。</li>
+<li>若该属性值是<strong>依然</strong>是【对象类型】，可直接编，也可写成函数，建议写成函数。</li>
+</ol>
+<ul>
+<li><p>直接写：可以监视到对象内部属性a，b…的变化，但是监视不到整体的变化。整体改变时，对象地址值变化了，所以监视不到了。</p>
+</li>
+<li><p>写函数（不开启深度监视）：监视不到对象内部属性a，b…的变化，但是可以监视到整体的变化，函数返回值监视的是对象的地址值，改变整体是产生一个新对象，所以能监视到，并且新值是新值，旧值是旧值。（不过对象内部属性a，b…的新旧值都是新值）</p>
+</li>
+<li><p>写函数（开启深度监视）推荐：既能监视到对象内部属性a，b…的变化，也可以监视到整体的变化，函数返回值监视的是对象的地址值，改变整体是产生一个新对象，所以能监视到，并且新值是新值，旧值是旧值。（不过对象内部属性a，b…的新旧值都是新值）</p>
+</li>
+</ul>
+<h3 id="情况五"><a href="#情况五" class="headerlink" title="情况五"></a>情况五</h3><blockquote>
+<p>监视上述的多个数据</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;情况五：监视上述的多个数据&lt;/h1&gt;</span><br><span class="line">        &lt;h2&gt;姓名：&#123;&#123; person.name &#125;&#125;&lt;/h2&gt;</span><br><span class="line">        &lt;h2&gt;年龄：&#123;&#123; person.age &#125;&#125;&lt;/h2&gt;</span><br><span class="line">        &lt;h2&gt;汽车：&#123;&#123; person.car.c1 &#125;&#125;、&#123;&#123; person.car.c2 &#125;&#125;&lt;/h2&gt;</span><br><span class="line">        &lt;button @click=&quot;changeName&quot;&gt;修改名字&lt;/button&gt;</span><br><span class="line">        &lt;button @click=&quot;changeAge&quot;&gt;修改年龄&lt;/button&gt;</span><br><span class="line">        &lt;button @click=&quot;changeC1&quot;&gt;修改第一台车&lt;/button&gt;</span><br><span class="line">        &lt;button @click=&quot;changeC2&quot;&gt;修改第二台车&lt;/button&gt;</span><br><span class="line">        &lt;button @click=&quot;changeCar&quot;&gt;修改整个车&lt;/button&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot; setup name=&quot;Person&quot;&gt;</span><br><span class="line">    import &#123; reactive,watch &#125; from &quot;vue&quot;;</span><br><span class="line">    let person = reactive(&#123;</span><br><span class="line">        name:&#x27;张三&#x27;,</span><br><span class="line">        age:18,</span><br><span class="line">        car:&#123;</span><br><span class="line">            c1:&#x27;奔驰&#x27;,</span><br><span class="line">            c2:&#x27;宝马&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    function changeName() &#123;</span><br><span class="line">        person.name += &#x27;~&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">    function changeAge() &#123;</span><br><span class="line">        person.age += 1</span><br><span class="line">    &#125;</span><br><span class="line">    function changeC1()&#123;</span><br><span class="line">    person.car.c1 = &#x27;奥迪&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">  function changeC2()&#123;</span><br><span class="line">    person.car.c2 = &#x27;大众&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">  function changeCar()&#123;</span><br><span class="line">    person.car = &#123;c1:&#x27;雅迪&#x27;,c2:&#x27;爱玛&#x27;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  watch([() =&gt; person.name, person.car], (newValue, oldValue) =&gt;&#123;</span><br><span class="line">    console.log(&#x27;person.car变化了&#x27;, newValue, oldValue)</span><br><span class="line">  &#125;, &#123;deep:true&#125;)</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="watchEffect"><a href="#watchEffect" class="headerlink" title="watchEffect"></a>watchEffect</h2><blockquote>
+<p>立即运行一个函数，同时响应式地追踪其依赖，并在依赖更改时重新执行该函数</p>
+</blockquote>
+<ul>
+<li>watch对比watchEffect<ol>
+<li>都能监听响应式数据的变化，不同的是监听数据变化的方式不同</li>
+<li>watch：要明确指出监视的数据</li>
+<li>watchEffect：不用明确指出监视的数据（函数中用到哪些属性，就监视哪些属性）</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;person&quot;&gt;</span><br><span class="line">    &lt;h1&gt;需求：水温达到50℃，或水位达到20cm，则联系服务器&lt;/h1&gt;</span><br><span class="line">    &lt;h2 id=&quot;demo&quot;&gt;水温：&#123;&#123;temp&#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;水位：&#123;&#123;height&#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;button @click=&quot;changePrice&quot;&gt;水温+1&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;changeSum&quot;&gt;水位+10&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot; setup name=&quot;Person&quot;&gt;</span><br><span class="line">  import &#123;ref,watch,watchEffect&#125; from &#x27;vue&#x27;</span><br><span class="line">  // 数据</span><br><span class="line">  let temp = ref(0)</span><br><span class="line">  let height = ref(0)</span><br><span class="line"></span><br><span class="line">  // 方法</span><br><span class="line">  function changePrice()&#123;</span><br><span class="line">    temp.value += 10</span><br><span class="line">  &#125;</span><br><span class="line">  function changeSum()&#123;</span><br><span class="line">    height.value += 1</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 用watch实现，需要明确的指出要监视：temp、height</span><br><span class="line">  watch([temp,height],(value)=&gt;&#123;</span><br><span class="line">    // 从value中获取最新的temp值、height值</span><br><span class="line">    const [newTemp,newHeight] = value</span><br><span class="line">    // 室温达到50℃，或水位达到20cm，立刻联系服务器</span><br><span class="line">    if(newTemp &gt;= 50 || newHeight &gt;= 20)&#123;</span><br><span class="line">      console.log(&#x27;联系服务器&#x27;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  // 用watchEffect实现，不用</span><br><span class="line">  const stopWtach = watchEffect(()=&gt;&#123;</span><br><span class="line">    // 室温达到50℃，或水位达到20cm，立刻联系服务器</span><br><span class="line">    if(temp.value &gt;= 50 || height.value &gt;= 20)&#123;</span><br><span class="line">      console.log(document.getElementById(&#x27;demo&#x27;)?.innerText)</span><br><span class="line">      console.log(&#x27;联系服务器&#x27;)</span><br><span class="line">    &#125;</span><br><span class="line">    // 水温达到100，或水位达到50，取消监视</span><br><span class="line">    if(temp.value === 100 || height.value === 50)&#123;</span><br><span class="line">      console.log(&#x27;清理了&#x27;)</span><br><span class="line">      stopWtach()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="标签的ref属性"><a href="#标签的ref属性" class="headerlink" title="标签的ref属性"></a>标签的ref属性</h2><blockquote>
+<p>用于注册模板的引用</p>
+</blockquote>
+<ul>
+<li>用在普通的DOM标签上，获取的是DOM节点</li>
+<li>用在组件标签上，获取的是组件实例对象</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;person&quot;&gt;</span><br><span class="line">    &lt;h1 ref=&quot;title1&quot;&gt;尚硅谷&lt;/h1&gt;</span><br><span class="line">    &lt;h2 ref=&quot;title2&quot;&gt;前端&lt;/h2&gt;</span><br><span class="line">    &lt;h3 ref=&quot;title3&quot;&gt;Vue&lt;/h3&gt;</span><br><span class="line">    &lt;input type=&quot;text&quot; ref=&quot;input&quot;&gt; &lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;button @click=&quot;showLog&quot;&gt;点我打印内容&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot; setup name=&quot;Person&quot;&gt;</span><br><span class="line">  import &#123;ref&#125; from &#x27;vue&#x27;</span><br><span class="line">  let title1 = ref()</span><br><span class="line">  let title2 = ref()</span><br><span class="line">  let title3 = ref()</span><br><span class="line">  function showLog() &#123;</span><br><span class="line">    //通过id获取元素</span><br><span class="line">    // const t1 = document.getElementById(&#x27;title1&#x27;)</span><br><span class="line">    // console.log((t1 as HTMLElement).innerText)</span><br><span class="line">    // console.log((&lt;HTMLElement&gt;t1).innerText)</span><br><span class="line">    // console.log(t1?.innerText)</span><br><span class="line">    //通过ref获取元素</span><br><span class="line">    console.log(title1.value)</span><br><span class="line">    console.log(title2.value)</span><br><span class="line">    console.log(title3.value)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>未完待续…</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
+              <a href="/tags/vue/" rel="tag"># vue</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/05/Zookeeper/" rel="prev" title="Zookeeper">
+                  <i class="fa fa-angle-left"></i> Zookeeper
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn">晋ICP备2024041642号-1</a> </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jyh</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
