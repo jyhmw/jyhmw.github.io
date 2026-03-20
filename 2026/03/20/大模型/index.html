@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="简介大模型以及各种类别">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大模型">
+<meta property="og:url" content="https://jyhmw.github.io/2026/03/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="MWBlog">
+<meta property="og:description" content="简介大模型以及各种类别">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-20T06:46:00.000Z">
+<meta property="article:modified_time" content="2026-03-20T07:00:54.010Z">
+<meta property="article:author" content="Jyh">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://jyhmw.github.io/2026/03/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jyhmw.github.io/2026/03/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B/","path":"2026/03/20/大模型/","title":"大模型"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>大模型 | MWBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MWBlog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">麻木的智力抑制状态</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=2076615067&auto=0&height=66""></iframe>
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">大模型简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%A4%A7%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什么是大模型？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E7%82%B9"><span class="nav-number">1.1.1.</span> <span class="nav-text">核心特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">发展历程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B-vs-%E5%90%91%E9%87%8F%E5%8C%96%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">大语言模型 vs 向量化模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%EF%BC%88LLM%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">大语言模型（LLM）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">2.1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.2.</span> <span class="nav-text">代表模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B"><span class="nav-number">2.1.3.</span> <span class="nav-text">核心能力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E7%89%B9%E7%82%B9"><span class="nav-number">2.1.4.</span> <span class="nav-text">技术特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E5%8C%96%E6%A8%A1%E5%9E%8B%EF%BC%88Embedding-Model%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">向量化模型（Embedding Model）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E6%A8%A1%E5%9E%8B-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">代表模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">核心能力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E7%89%B9%E7%82%B9-1"><span class="nav-number">2.2.4.</span> <span class="nav-text">技术特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%8C%BA%E5%88%AB%E5%AF%B9%E6%AF%94"><span class="nav-number">2.3.</span> <span class="nav-text">关键区别对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E4%BD%9C%E5%85%B3%E7%B3%BB"><span class="nav-number">2.3.1.</span> <span class="nav-text">协作关系</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">其他类型的大模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">1. 多模态大模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-2"><span class="nav-number">3.1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E6%A8%A1%E5%9E%8B-2"><span class="nav-number">3.1.2.</span> <span class="nav-text">代表模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">3.1.3.</span> <span class="nav-text">应用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%BB%A3%E7%A0%81%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text">2. 代码大模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-3"><span class="nav-number">3.2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E6%A8%A1%E5%9E%8B-3"><span class="nav-number">3.2.2.</span> <span class="nav-text">代表模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B-2"><span class="nav-number">3.2.3.</span> <span class="nav-text">核心能力</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.3.</span> <span class="nav-text">3. 科学计算大模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-4"><span class="nav-number">3.3.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E6%A8%A1%E5%9E%8B-4"><span class="nav-number">3.3.2.</span> <span class="nav-text">代表模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="nav-number">3.3.3.</span> <span class="nav-text">应用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%96%87%E7%94%9F%E5%9B%BE-%E8%A7%86%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.4.</span> <span class="nav-text">4. 文生图&#x2F;视频大模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-5"><span class="nav-number">3.4.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E6%A8%A1%E5%9E%8B-5"><span class="nav-number">3.4.2.</span> <span class="nav-text">代表模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-2"><span class="nav-number">3.4.3.</span> <span class="nav-text">应用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%AF%AD%E9%9F%B3%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.5.</span> <span class="nav-text">5. 语音大模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-6"><span class="nav-number">3.5.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E6%A8%A1%E5%9E%8B-6"><span class="nav-number">3.5.2.</span> <span class="nav-text">代表模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-3"><span class="nav-number">3.5.3.</span> <span class="nav-text">应用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.6.</span> <span class="nav-text">6. 图神经网络大模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-7"><span class="nav-number">3.6.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E6%A8%A1%E5%9E%8B-7"><span class="nav-number">3.6.2.</span> <span class="nav-text">代表模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-4"><span class="nav-number">3.6.3.</span> <span class="nav-text">应用场景</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="nav-number">4.</span> <span class="nav-text">模型选型建议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%89%E5%9C%BA%E6%99%AF%E9%80%89%E6%8B%A9"><span class="nav-number">4.1.</span> <span class="nav-text">按场景选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E5%9E%8B%E8%80%83%E8%99%91%E5%9B%A0%E7%B4%A0"><span class="nav-number">4.2.</span> <span class="nav-text">选型考虑因素</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jyh"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jyh</p>
+  <div class="site-description" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jyhmw.github.io/2026/03/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jyh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MWBlog">
+      <meta itemprop="description" content="莫听穿林打叶声，何妨吟啸且徐行。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="大模型 | MWBlog">
+      <meta itemprop="description" content="简介大模型以及各种类别">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          大模型
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-03-20 14:46:00 / 修改时间：15:00:54" itemprop="dateCreated datePublished" datetime="2026-03-20T14:46:00+08:00">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" itemprop="url" rel="index"><span itemprop="name">人工智能</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">简介大模型以及各种类别</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="大模型简介"><a href="#大模型简介" class="headerlink" title="大模型简介"></a>大模型简介</h1><h2 id="什么是大模型？"><a href="#什么是大模型？" class="headerlink" title="什么是大模型？"></a>什么是大模型？</h2><p><strong>大模型（Large Language Model，LLM）</strong> 是指具有海量参数规模、经过大规模数据训练的深度学习模型。这些模型通常基于 Transformer 架构，通过自监督学习从海量文本数据中学习语言模式和知识。</p>
+<h3 id="核心特点"><a href="#核心特点" class="headerlink" title="核心特点"></a>核心特点</h3><table>
+<thead>
+<tr>
+<th>特点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>参数规模大</strong></td>
+<td>从数十亿到数千亿甚至万亿级别参数</td>
+</tr>
+<tr>
+<td><strong>数据量大</strong></td>
+<td>训练数据通常达到 TB 甚至 PB 级别</td>
+</tr>
+<tr>
+<td><strong>计算资源多</strong></td>
+<td>需要数百甚至数千张 GPU&#x2F;TPU 进行训练</td>
+</tr>
+<tr>
+<td><strong>涌现能力</strong></td>
+<td>达到一定规模后会出现意想不到的能力</td>
+</tr>
+<tr>
+<td><strong>通用性强</strong></td>
+<td>一个模型可处理多种任务</td>
+</tr>
+</tbody></table>
+<h3 id="发展历程"><a href="#发展历程" class="headerlink" title="发展历程"></a>发展历程</h3><ul>
+<li><strong>2018年</strong>：BERT（3.4亿参数）、GPT-1（1.17亿参数）</li>
+<li><strong>2019年</strong>：GPT-2（15亿参数）</li>
+<li><strong>2020年</strong>：GPT-3（1750亿参数）</li>
+<li><strong>2022年</strong>：ChatGPT、PaLM（5400亿参数）</li>
+<li><strong>2023年</strong>：GPT-4、Claude、文心一言、通义千问</li>
+<li><strong>2024-2025年</strong>：多模态大模型爆发，参数规模持续扩大</li>
+</ul>
+<hr>
+<h1 id="大语言模型-vs-向量化模型"><a href="#大语言模型-vs-向量化模型" class="headerlink" title="大语言模型 vs 向量化模型"></a>大语言模型 vs 向量化模型</h1><h2 id="大语言模型（LLM）"><a href="#大语言模型（LLM）" class="headerlink" title="大语言模型（LLM）"></a>大语言模型（LLM）</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>大语言模型是专门用于理解和生成自然语言的深度学习模型，以文本为输入输出。</p>
+<h3 id="代表模型"><a href="#代表模型" class="headerlink" title="代表模型"></a>代表模型</h3><ul>
+<li><strong>GPT 系列</strong>：GPT-3、GPT-4、ChatGPT</li>
+<li><strong>Claude 系列</strong>：Claude 2、Claude 3</li>
+<li><strong>国产模型</strong>：文心一言、通义千问、讯飞星火、智谱清言</li>
+</ul>
+<h3 id="核心能力"><a href="#核心能力" class="headerlink" title="核心能力"></a>核心能力</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">✅ 文本生成（写作、翻译、摘要）</span><br><span class="line">✅ 问答对话（智能客服、知识问答）</span><br><span class="line">✅ 代码生成（GitHub Copilot、CodeWhisperer）</span><br><span class="line">✅ 推理分析（逻辑推理、数学计算）</span><br><span class="line">✅ 多轮对话（上下文理解、记忆保持）</span><br></pre></td></tr></table></figure>
+
+<h3 id="技术特点"><a href="#技术特点" class="headerlink" title="技术特点"></a>技术特点</h3><ul>
+<li><strong>自回归生成</strong>：逐字预测下一个token</li>
+<li><strong>上下文窗口</strong>：支持长文本理解（4K-128K tokens）</li>
+<li><strong>指令遵循</strong>：通过 RLHF 对齐人类偏好</li>
+</ul>
+<hr>
+<h2 id="向量化模型（Embedding-Model）"><a href="#向量化模型（Embedding-Model）" class="headerlink" title="向量化模型（Embedding Model）"></a>向量化模型（Embedding Model）</h2><h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p>向量化模型是将文本、图像、音频等数据转换为<strong>固定维度的数值向量</strong>的模型，用于表示语义信息。</p>
+<h3 id="代表模型-1"><a href="#代表模型-1" class="headerlink" title="代表模型"></a>代表模型</h3><ul>
+<li><strong>文本向量化</strong>：Word2Vec、GloVe、BERT、Sentence-BERT</li>
+<li><strong>多模态向量化</strong>：CLIP、OpenAI Embedding</li>
+<li><strong>国产模型</strong>：BGE、M3E、text2vec</li>
+</ul>
+<h3 id="核心能力-1"><a href="#核心能力-1" class="headerlink" title="核心能力"></a>核心能力</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">✅ 语义相似度计算</span><br><span class="line">✅ 信息检索（RAG 核心组件）</span><br><span class="line">✅ 文本聚类与分类</span><br><span class="line">✅ 推荐系统</span><br><span class="line">✅ 向量数据库检索</span><br></pre></td></tr></table></figure>
+
+<h3 id="技术特点-1"><a href="#技术特点-1" class="headerlink" title="技术特点"></a>技术特点</h3><ul>
+<li><strong>固定维度输出</strong>：通常 384、768、1024、1536 维</li>
+<li><strong>语义相似度</strong>：余弦相似度衡量语义接近程度</li>
+<li><strong>无生成能力</strong>：只负责编码，不负责生成</li>
+</ul>
+<hr>
+<h2 id="关键区别对比"><a href="#关键区别对比" class="headerlink" title="关键区别对比"></a>关键区别对比</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>大语言模型（LLM）</th>
+<th>向量化模型（Embedding）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>输出</strong></td>
+<td>生成文本&#x2F;代码</td>
+<td>输出向量表示</td>
+</tr>
+<tr>
+<td><strong>功能</strong></td>
+<td>理解 + 生成</td>
+<td>仅编码&#x2F;表示</td>
+</tr>
+<tr>
+<td><strong>应用场景</strong></td>
+<td>对话、写作、推理</td>
+<td>检索、聚类、推荐</td>
+</tr>
+<tr>
+<td><strong>计算成本</strong></td>
+<td>高（逐token生成）</td>
+<td>低（单次前向传播）</td>
+</tr>
+<tr>
+<td><strong>响应速度</strong></td>
+<td>较慢（流式输出）</td>
+<td>极快（毫秒级）</td>
+</tr>
+<tr>
+<td><strong>典型用法</strong></td>
+<td>ChatGPT、Claude</td>
+<td>向量数据库、RAG</td>
+</tr>
+</tbody></table>
+<h3 id="协作关系"><a href="#协作关系" class="headerlink" title="协作关系"></a>协作关系</h3><p>在实际应用中，两者经常<strong>配合使用</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">用户提问 → 向量化模型 → 向量数据库检索 → 相关文档</span><br><span class="line">                              ↓</span><br><span class="line">                    大语言模型（结合检索结果）</span><br><span class="line">                              ↓</span><br><span class="line">                        生成最终回答</span><br></pre></td></tr></table></figure>
+
+<p>这就是 <strong>RAG（检索增强生成）</strong> 架构的核心原理。</p>
+<hr>
+<h1 id="其他类型的大模型"><a href="#其他类型的大模型" class="headerlink" title="其他类型的大模型"></a>其他类型的大模型</h1><h2 id="1-多模态大模型"><a href="#1-多模态大模型" class="headerlink" title="1. 多模态大模型"></a>1. 多模态大模型</h2><h3 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h3><p>能够同时处理和理解<strong>多种模态</strong>（文本、图像、音频、视频）的模型。</p>
+<h3 id="代表模型-2"><a href="#代表模型-2" class="headerlink" title="代表模型"></a>代表模型</h3><ul>
+<li><strong>GPT-4V</strong>：OpenAI 的视觉版本</li>
+<li><strong>Claude 3</strong>：支持图像理解</li>
+<li><strong>Gemini</strong>：Google 的多模态模型</li>
+<li><strong>Qwen-VL</strong>：阿里通义千问视觉版</li>
+<li><strong>LLaVA</strong>：开源多模态模型</li>
+</ul>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">📷 图像描述生成</span><br><span class="line">🔍 视觉问答（VQA）</span><br><span class="line">🎨 文生图理解（反向理解）</span><br><span class="line">📄 文档 OCR + 理解</span><br><span class="line">🎬 视频内容分析</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-代码大模型"><a href="#2-代码大模型" class="headerlink" title="2. 代码大模型"></a>2. 代码大模型</h2><h3 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h3><p>专门针对<strong>代码理解和生成</strong>训练的模型。</p>
+<h3 id="代表模型-3"><a href="#代表模型-3" class="headerlink" title="代表模型"></a>代表模型</h3><ul>
+<li><strong>GitHub Copilot</strong>：基于 Codex</li>
+<li><strong>CodeLlama</strong>：Meta 开源代码模型</li>
+<li><strong>StarCoder</strong>：Hugging Face 开源</li>
+<li><strong>CodeQwen</strong>：阿里代码模型</li>
+<li><strong>DeepSeek-Coder</strong>：深度求索代码模型</li>
+</ul>
+<h3 id="核心能力-2"><a href="#核心能力-2" class="headerlink" title="核心能力"></a>核心能力</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">💻 代码自动补全</span><br><span class="line">🐛 Bug 检测与修复</span><br><span class="line">📝 代码注释生成</span><br><span class="line">🔄 代码翻译（Python → Java）</span><br><span class="line">📊 代码解释与文档生成</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-科学计算大模型"><a href="#3-科学计算大模型" class="headerlink" title="3. 科学计算大模型"></a>3. 科学计算大模型</h2><h3 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h3><p>专注于<strong>数学、物理、化学</strong>等科学领域的推理和计算。</p>
+<h3 id="代表模型-4"><a href="#代表模型-4" class="headerlink" title="代表模型"></a>代表模型</h3><ul>
+<li><strong>AlphaFold</strong>：蛋白质结构预测</li>
+<li><strong>DeepMind AlphaTensor</strong>：矩阵乘法优化</li>
+<li><strong>MathGPT</strong>：数学专用模型</li>
+<li><strong>Galactica</strong>：科学文献理解</li>
+</ul>
+<h3 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">🔬 分子结构预测</span><br><span class="line">📐 数学定理证明</span><br><span class="line">⚛️ 物理仿真计算</span><br><span class="line">🧬 基因组分析</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="4-文生图-视频大模型"><a href="#4-文生图-视频大模型" class="headerlink" title="4. 文生图&#x2F;视频大模型"></a>4. 文生图&#x2F;视频大模型</h2><h3 id="定义-5"><a href="#定义-5" class="headerlink" title="定义"></a>定义</h3><p>根据<strong>文本描述生成图像或视频</strong>的生成式模型。</p>
+<h3 id="代表模型-5"><a href="#代表模型-5" class="headerlink" title="代表模型"></a>代表模型</h3><ul>
+<li><strong>DALL-E 3</strong>：OpenAI 文生图</li>
+<li><strong>Midjourney</strong>：高质量艺术创作</li>
+<li><strong>Stable Diffusion</strong>：开源文生图</li>
+<li><strong>Sora</strong>：OpenAI 文生视频</li>
+<li><strong>Runway Gen-2</strong>：视频生成</li>
+<li><strong>可灵</strong>：快手视频生成模型</li>
+</ul>
+<h3 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a>应用场景</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">🎨 AI 艺术创作</span><br><span class="line">📱 产品设计原型</span><br><span class="line">🎬 视频素材生成</span><br><span class="line">🎮 游戏场景生成</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-语音大模型"><a href="#5-语音大模型" class="headerlink" title="5. 语音大模型"></a>5. 语音大模型</h2><h3 id="定义-6"><a href="#定义-6" class="headerlink" title="定义"></a>定义</h3><p>处理<strong>语音信号</strong>的大模型，包括识别、合成、转换。</p>
+<h3 id="代表模型-6"><a href="#代表模型-6" class="headerlink" title="代表模型"></a>代表模型</h3><ul>
+<li><strong>Whisper</strong>：OpenAI 语音识别</li>
+<li><strong>VALL-E</strong>：微软语音合成</li>
+<li><strong>ChatTTS</strong>：开源中文语音合成</li>
+<li><strong>GPT-SoVITS</strong>：声音克隆</li>
+</ul>
+<h3 id="应用场景-3"><a href="#应用场景-3" class="headerlink" title="应用场景"></a>应用场景</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">🎤 实时语音转文字</span><br><span class="line">🗣️ 文本转语音（TTS）</span><br><span class="line">🎭 声音克隆与模仿</span><br><span class="line">🌐 实时语音翻译</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="6-图神经网络大模型"><a href="#6-图神经网络大模型" class="headerlink" title="6. 图神经网络大模型"></a>6. 图神经网络大模型</h2><h3 id="定义-7"><a href="#定义-7" class="headerlink" title="定义"></a>定义</h3><p>专门处理<strong>图结构数据</strong>（社交网络、分子结构、知识图谱）的模型。</p>
+<h3 id="代表模型-7"><a href="#代表模型-7" class="headerlink" title="代表模型"></a>代表模型</h3><ul>
+<li><strong>GraphGPT</strong>：图结构 + 语言模型</li>
+<li><strong>GNN-LLM</strong>：图神经网络与大模型结合</li>
+</ul>
+<h3 id="应用场景-4"><a href="#应用场景-4" class="headerlink" title="应用场景"></a>应用场景</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">🌐 社交网络分析</span><br><span class="line">💊 药物分子设计</span><br><span class="line">🔗 知识图谱推理</span><br><span class="line">🛡️ 欺诈检测</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="模型选型建议"><a href="#模型选型建议" class="headerlink" title="模型选型建议"></a>模型选型建议</h1><h2 id="按场景选择"><a href="#按场景选择" class="headerlink" title="按场景选择"></a>按场景选择</h2><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐模型类型</th>
+<th>代表产品</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>智能客服&#x2F;对话</td>
+<td>大语言模型</td>
+<td>GPT-4、Claude、文心一言</td>
+</tr>
+<tr>
+<td>企业知识库</td>
+<td>LLM + Embedding</td>
+<td>RAG 架构</td>
+</tr>
+<tr>
+<td>代码辅助</td>
+<td>代码大模型</td>
+<td>Copilot、CodeLlama</td>
+</tr>
+<tr>
+<td>内容创作</td>
+<td>多模态&#x2F;文生图</td>
+<td>GPT-4V、Midjourney</td>
+</tr>
+<tr>
+<td>语音交互</td>
+<td>语音大模型</td>
+<td>Whisper、ChatTTS</td>
+</tr>
+<tr>
+<td>科研计算</td>
+<td>科学计算模型</td>
+<td>AlphaFold、MathGPT</td>
+</tr>
+</tbody></table>
+<h2 id="选型考虑因素"><a href="#选型考虑因素" class="headerlink" title="选型考虑因素"></a>选型考虑因素</h2><ol>
+<li><strong>任务类型</strong>：生成 vs 理解 vs 检索</li>
+<li><strong>数据敏感性</strong>：是否可上云</li>
+<li><strong>成本预算</strong>：API 调用 vs 本地部署</li>
+<li><strong>响应速度</strong>：实时性要求</li>
+<li><strong>准确率要求</strong>：通用 vs 专业领域</li>
+</ol>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>大模型正在从单一的语言理解向<strong>多模态、多领域、多场景</strong>方向快速发展。不同类型的模型各有所长：</p>
+<ul>
+<li><strong>大语言模型</strong>：通用智能的核心</li>
+<li><strong>向量化模型</strong>：检索系统的基石</li>
+<li><strong>多模态模型</strong>：连接数字世界的桥梁</li>
+<li><strong>专用模型</strong>：垂直领域的专家</li>
+</ul>
+<p>理解这些模型的特点和区别，有助于在实际项目中做出合适的技术选型。</p>
+<hr>
+<blockquote>
+<p>💡 <strong>延伸阅读</strong></p>
+<ul>
+<li>关注模型参数规模与能力的 Scaling Law</li>
+<li>了解 MoE（混合专家）架构的新趋势</li>
+<li>探索端侧小模型与云端大模型的协同</li>
+</ul>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" rel="tag"># 大模型</a>
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag"># 深度学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/06/Vue/" rel="prev" title="Vue">
+                  <i class="fa fa-angle-left"></i> Vue
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/03/20/QClaw&OpenClaw/" rel="next" title="QClaw&OpenClaw">
+                  QClaw&OpenClaw <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn">晋ICP备2024041642号-1</a> </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jyh</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
