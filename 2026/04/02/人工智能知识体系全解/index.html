@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="全面梳理人工智能核心知识体系，涵盖大模型发展历程、LLM前身、提示词工程、RAG检索增强、Embedding向量化、Agent智能体、MCP协议、Skills技能、微调技术等核心概念">
+<meta property="og:type" content="article">
+<meta property="og:title" content="人工智能知识体系全解">
+<meta property="og:url" content="https://jyhmw.github.io/2026/04/02/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E5%85%A8%E8%A7%A3/index.html">
+<meta property="og:site_name" content="MWBlog">
+<meta property="og:description" content="全面梳理人工智能核心知识体系，涵盖大模型发展历程、LLM前身、提示词工程、RAG检索增强、Embedding向量化、Agent智能体、MCP协议、Skills技能、微调技术等核心概念">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-04-02T07:55:00.000Z">
+<meta property="article:modified_time" content="2026-04-02T08:38:19.223Z">
+<meta property="article:author" content="Jyh">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="MCP">
+<meta property="article:tag" content="Prompt">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="Embedding">
+<meta property="article:tag" content="Fine-tuning">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://jyhmw.github.io/2026/04/02/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E5%85%A8%E8%A7%A3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jyhmw.github.io/2026/04/02/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E5%85%A8%E8%A7%A3/","path":"2026/04/02/人工智能知识体系全解/","title":"人工智能知识体系全解"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>人工智能知识体系全解 | MWBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MWBlog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">麻木的智力抑制状态</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=2076615067&auto=0&height=66""></iframe>
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%8F%91%E5%B1%95%E7%AE%80%E5%8F%B2"><span class="nav-number">1.</span> <span class="nav-text">人工智能发展简史</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A9%E6%9C%9F%E6%8E%A2%E7%B4%A2%EF%BC%881950s-2000s%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">早期探索（1950s-2000s）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%B4%9B%E8%B5%B7%EF%BC%882012-2017%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">深度学习崛起（2012-2017）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%97%B6%E4%BB%A3%EF%BC%882018-%E8%87%B3%E4%BB%8A%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">大模型时代（2018-至今）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A7%E6%A8%A1%E5%9E%8B%EF%BC%88LLM%EF%BC%89%E8%AF%A6%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">大模型（LLM）详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%A4%A7%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">什么是大模型？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transformer-%E6%9E%B6%E6%9E%84"><span class="nav-number">2.2.</span> <span class="nav-text">Transformer 架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B"><span class="nav-number">2.3.</span> <span class="nav-text">大模型训练流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E6%AF%94"><span class="nav-number">2.4.</span> <span class="nav-text">主流大模型对比</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%89%8D%E8%BA%AB%E4%B8%8E%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B"><span class="nav-number">3.</span> <span class="nav-text">大模型的前身与技术演进</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B%E8%B7%AF%E7%BA%BF%E5%9B%BE"><span class="nav-number">3.1.</span> <span class="nav-text">技术演进路线图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%EF%BC%88N-gram%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">统计语言模型（N-gram）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E5%90%91%E9%87%8F%E6%97%B6%E4%BB%A3%EF%BC%88Word2Vec%E3%80%81GloVe%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">词向量时代（Word2Vec、GloVe）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RNN-LSTM-%E6%97%B6%E4%BB%A3"><span class="nav-number">3.4.</span> <span class="nav-text">RNN&#x2F;LSTM 时代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Seq2Seq-%E4%B8%8E-Attention"><span class="nav-number">3.5.</span> <span class="nav-text">Seq2Seq 与 Attention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transformer-%E9%9D%A9%E5%91%BD%EF%BC%882017%EF%BC%89"><span class="nav-number">3.6.</span> <span class="nav-text">Transformer 革命（2017）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BERT-vs-GPT"><span class="nav-number">3.7.</span> <span class="nav-text">BERT vs GPT</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B%EF%BC%88Prompt-Engineering%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">提示词工程（Prompt Engineering）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B%EF%BC%9F"><span class="nav-number">4.1.</span> <span class="nav-text">什么是提示词工程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">4.2.</span> <span class="nav-text">设计原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%A4%BA%E4%BE%8B%E5%AF%B9%E6%AF%94"><span class="nav-number">4.3.</span> <span class="nav-text">提示词示例对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF"><span class="nav-number">4.4.</span> <span class="nav-text">核心技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Few-shot-Learning%EF%BC%88%E5%B0%91%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0%EF%BC%89"><span class="nav-number">4.4.1.</span> <span class="nav-text">Few-shot Learning（少样本学习）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chain-of-Thought%EF%BC%88%E6%80%9D%E7%BB%B4%E9%93%BE%EF%BC%89"><span class="nav-number">4.4.2.</span> <span class="nav-text">Chain-of-Thought（思维链）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%8A%80%E6%9C%AF"><span class="nav-number">4.4.3.</span> <span class="nav-text">其他技术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%8F%90%E7%A4%BA%E8%AF%8D"><span class="nav-number">4.5.</span> <span class="nav-text">系统提示词</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RAG%EF%BC%88%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">RAG（检索增强生成）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-RAG%EF%BC%9F"><span class="nav-number">5.1.</span> <span class="nav-text">什么是 RAG？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-RAG%EF%BC%9F"><span class="nav-number">5.2.</span> <span class="nav-text">为什么需要 RAG？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RAG-%E6%9E%B6%E6%9E%84%E6%B5%81%E7%A8%8B"><span class="nav-number">5.3.</span> <span class="nav-text">RAG 架构流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Embedding%EF%BC%88%E5%90%91%E9%87%8F%E5%8C%96%EF%BC%89"><span class="nav-number">5.4.</span> <span class="nav-text">Embedding（向量化）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">5.5.</span> <span class="nav-text">向量数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RAG-%E8%BF%9B%E9%98%B6%E6%8A%80%E6%9C%AF"><span class="nav-number">5.6.</span> <span class="nav-text">RAG 进阶技术</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Function-Calling%EF%BC%88%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">Function Calling（函数调用）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Function-Calling%EF%BC%9F"><span class="nav-number">6.1.</span> <span class="nav-text">什么是 Function Calling？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">6.2.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%AE%9A%E4%B9%89%E7%A4%BA%E4%BE%8B"><span class="nav-number">6.3.</span> <span class="nav-text">函数定义示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B%E7%A4%BA%E4%BE%8B"><span class="nav-number">6.4.</span> <span class="nav-text">调用流程示例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AE%E8%B0%83%EF%BC%88Fine-tuning%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">微调（Fine-tuning）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E8%B0%83%EF%BC%9F"><span class="nav-number">7.1.</span> <span class="nav-text">什么是微调？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%BE%AE%E8%B0%83%EF%BC%9F"><span class="nav-number">7.2.</span> <span class="nav-text">为什么需要微调？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E8%B0%83%E6%96%B9%E6%B3%95%E5%AF%B9%E6%AF%94"><span class="nav-number">7.3.</span> <span class="nav-text">微调方法对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RLHF-%E4%B8%8E-DPO"><span class="nav-number">7.4.</span> <span class="nav-text">RLHF 与 DPO</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8F%82%E6%95%B0"><span class="nav-number">8.</span> <span class="nav-text">模型推理参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Token-%E4%B8%8E-Tokenizer"><span class="nav-number">8.1.</span> <span class="nav-text">Token 与 Tokenizer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Context-Window%EF%BC%88%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AA%97%E5%8F%A3%EF%BC%89"><span class="nav-number">8.2.</span> <span class="nav-text">Context Window（上下文窗口）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Temperature%EF%BC%88%E6%B8%A9%E5%BA%A6%EF%BC%89"><span class="nav-number">8.3.</span> <span class="nav-text">Temperature（温度）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%8F%82%E6%95%B0"><span class="nav-number">8.4.</span> <span class="nav-text">其他参数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84%E8%BF%9B%E9%98%B6"><span class="nav-number">9.</span> <span class="nav-text">模型架构进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MoE%EF%BC%88%E6%B7%B7%E5%90%88%E4%B8%93%E5%AE%B6%E6%A8%A1%E5%9E%8B%EF%BC%89"><span class="nav-number">9.1.</span> <span class="nav-text">MoE（混合专家模型）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E6%A8%A1%E6%80%81%E6%9E%B6%E6%9E%84"><span class="nav-number">9.2.</span> <span class="nav-text">多模态架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87%E6%8A%80%E6%9C%AF"><span class="nav-number">9.3.</span> <span class="nav-text">长上下文技术</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%BB%E8%A7%89%E9%97%AE%E9%A2%98%E4%B8%8E%E5%AE%89%E5%85%A8"><span class="nav-number">10.</span> <span class="nav-text">幻觉问题与安全</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hallucination%EF%BC%88%E5%B9%BB%E8%A7%89%EF%BC%89"><span class="nav-number">10.1.</span> <span class="nav-text">Hallucination（幻觉）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E9%BD%90%E4%B8%8E%E5%AE%89%E5%85%A8"><span class="nav-number">10.2.</span> <span class="nav-text">对齐与安全</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Agent%EF%BC%88%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%89"><span class="nav-number">11.</span> <span class="nav-text">Agent（智能体）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Agent%EF%BC%9F"><span class="nav-number">11.1.</span> <span class="nav-text">什么是 Agent？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Agent-%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="nav-number">11.2.</span> <span class="nav-text">Agent 核心组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ReAct-%E6%A8%A1%E5%BC%8F"><span class="nav-number">11.3.</span> <span class="nav-text">ReAct 模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%B5%81-Agent-%E6%A1%86%E6%9E%B6"><span class="nav-number">11.4.</span> <span class="nav-text">主流 Agent 框架</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MCP%EF%BC%88Model-Context-Protocol%EF%BC%89"><span class="nav-number">12.</span> <span class="nav-text">MCP（Model Context Protocol）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-MCP%EF%BC%9F"><span class="nav-number">12.1.</span> <span class="nav-text">什么是 MCP？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCP-%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">12.2.</span> <span class="nav-text">MCP 解决的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCP-%E6%9E%B6%E6%9E%84"><span class="nav-number">12.3.</span> <span class="nav-text">MCP 架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCP-Server-%E6%8F%90%E4%BE%9B%E7%9A%84%E8%83%BD%E5%8A%9B"><span class="nav-number">12.4.</span> <span class="nav-text">MCP Server 提供的能力</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Resources%EF%BC%88%E8%B5%84%E6%BA%90%EF%BC%89"><span class="nav-number">12.4.1.</span> <span class="nav-text">Resources（资源）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prompts%EF%BC%88%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%A8%A1%E6%9D%BF%EF%BC%89"><span class="nav-number">12.4.2.</span> <span class="nav-text">Prompts（提示词模板）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tools%EF%BC%88%E5%B7%A5%E5%85%B7%EF%BC%89"><span class="nav-number">12.4.3.</span> <span class="nav-text">Tools（工具）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCP-%E7%94%9F%E6%80%81"><span class="nav-number">12.5.</span> <span class="nav-text">MCP 生态</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Skills%EF%BC%88%E6%8A%80%E8%83%BD%EF%BC%89"><span class="nav-number">13.</span> <span class="nav-text">Skills（技能）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Skills%EF%BC%9F"><span class="nav-number">13.1.</span> <span class="nav-text">什么是 Skills？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Skills-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">13.2.</span> <span class="nav-text">Skills 的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Skill-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">13.3.</span> <span class="nav-text">Skill 目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Skills-%E4%B8%8E-MCP-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">13.4.</span> <span class="nav-text">Skills 与 MCP 的关系</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E6%80%BB%E7%BB%93"><span class="nav-number">14.</span> <span class="nav-text">知识图谱总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AI-%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E5%85%A8%E6%99%AF%E5%9B%BE"><span class="nav-number">14.1.</span> <span class="nav-text">AI 知识体系全景图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E5%85%B3%E7%B3%BB"><span class="nav-number">14.2.</span> <span class="nav-text">核心概念关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84%E5%BB%BA%E8%AE%AE"><span class="nav-number">14.3.</span> <span class="nav-text">学习路径建议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E5%BB%BA%E8%AE%AE"><span class="nav-number">15.</span> <span class="nav-text">实践建议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B"><span class="nav-number">15.1.</span> <span class="nav-text">技术选型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E6%A0%88"><span class="nav-number">15.2.</span> <span class="nav-text">开发工具栈</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">16.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jyh"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jyh</p>
+  <div class="site-description" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jyhmw.github.io/2026/04/02/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E5%85%A8%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jyh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MWBlog">
+      <meta itemprop="description" content="莫听穿林打叶声，何妨吟啸且徐行。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="人工智能知识体系全解 | MWBlog">
+      <meta itemprop="description" content="全面梳理人工智能核心知识体系，涵盖大模型发展历程、LLM前身、提示词工程、RAG检索增强、Embedding向量化、Agent智能体、MCP协议、Skills技能、微调技术等核心概念">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          人工智能知识体系全解
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-04-02 15:55:00 / 修改时间：16:38:19" itemprop="dateCreated datePublished" datetime="2026-04-02T15:55:00+08:00">2026-04-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" itemprop="url" rel="index"><span itemprop="name">人工智能</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">全面梳理人工智能核心知识体系，涵盖大模型发展历程、LLM前身、提示词工程、RAG检索增强、Embedding向量化、Agent智能体、MCP协议、Skills技能、微调技术等核心概念</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本文系统梳理人工智能领域的核心知识体系，从大模型发展历程到前沿的 Agent、MCP、Skills 等概念，帮助你建立完整的 AI 知识图谱。</p>
+<hr>
+<h1 id="人工智能发展简史"><a href="#人工智能发展简史" class="headerlink" title="人工智能发展简史"></a>人工智能发展简史</h1><h2 id="早期探索（1950s-2000s）"><a href="#早期探索（1950s-2000s）" class="headerlink" title="早期探索（1950s-2000s）"></a>早期探索（1950s-2000s）</h2><table>
+<thead>
+<tr>
+<th align="center">时期</th>
+<th align="left">里程碑事件</th>
+<th align="left">意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1950</td>
+<td align="left">图灵提出”图灵测试”</td>
+<td align="left">AI 思想的起源</td>
+</tr>
+<tr>
+<td align="center">1956</td>
+<td align="left">达特茅斯会议</td>
+<td align="left">“人工智能”术语诞生</td>
+</tr>
+<tr>
+<td align="center">1966</td>
+<td align="left">ELIZA 聊天程序</td>
+<td align="left">早期自然语言处理</td>
+</tr>
+<tr>
+<td align="center">1997</td>
+<td align="left">深蓝击败卡斯帕罗夫</td>
+<td align="left">符号主义 AI 的巅峰</td>
+</tr>
+<tr>
+<td align="center">2011</td>
+<td align="left">Watson 赢得 Jeopardy!</td>
+<td align="left">知识推理的突破</td>
+</tr>
+</tbody></table>
+<h2 id="深度学习崛起（2012-2017）"><a href="#深度学习崛起（2012-2017）" class="headerlink" title="深度学习崛起（2012-2017）"></a>深度学习崛起（2012-2017）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">2012  AlexNet 在 ImageNet 夺冠        →  深度学习时代开启</span><br><span class="line">2013  Word2Vec 发布                   →  词向量表示学习</span><br><span class="line">2014  GAN、Seq2Seq 提出                →  生成模型新方向</span><br><span class="line">2015  ResNet、FastText                 →  深度网络突破</span><br><span class="line">2016  AlphaGo 击败李世石              →  强化学习里程碑</span><br><span class="line">2017  Transformer 架构提出            →  大模型的基础</span><br></pre></td></tr></table></figure>
+
+<h2 id="大模型时代（2018-至今）"><a href="#大模型时代（2018-至今）" class="headerlink" title="大模型时代（2018-至今）"></a>大模型时代（2018-至今）</h2><table>
+<thead>
+<tr>
+<th align="center">年份</th>
+<th align="center">模型</th>
+<th align="center">参数规模</th>
+<th align="left">重大意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">2018</td>
+<td align="center">BERT、GPT-1</td>
+<td align="center">1-3亿</td>
+<td align="left">预训练+微调范式</td>
+</tr>
+<tr>
+<td align="center">2019</td>
+<td align="center">GPT-2</td>
+<td align="center">15亿</td>
+<td align="left">零样本学习能力</td>
+</tr>
+<tr>
+<td align="center">2020</td>
+<td align="center">GPT-3</td>
+<td align="center">1750亿</td>
+<td align="left">涌现能力显现</td>
+</tr>
+<tr>
+<td align="center">2022</td>
+<td align="center">ChatGPT</td>
+<td align="center">-</td>
+<td align="left">RLHF 对齐，引爆应用</td>
+</tr>
+<tr>
+<td align="center">2023</td>
+<td align="center">GPT-4、Claude</td>
+<td align="center">-</td>
+<td align="left">多模态、长上下文</td>
+</tr>
+<tr>
+<td align="center">2024</td>
+<td align="center">Claude 3、Gemini</td>
+<td align="center">-</td>
+<td align="left">多模态成熟</td>
+</tr>
+<tr>
+<td align="center">2025</td>
+<td align="center">DeepSeek、Qwen</td>
+<td align="center">-</td>
+<td align="left">开源生态繁荣</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="大模型（LLM）详解"><a href="#大模型（LLM）详解" class="headerlink" title="大模型（LLM）详解"></a>大模型（LLM）详解</h1><h2 id="什么是大模型？"><a href="#什么是大模型？" class="headerlink" title="什么是大模型？"></a>什么是大模型？</h2><p><strong>大模型（Large Language Model，LLM）</strong> 是基于 Transformer 架构、具有海量参数、经过大规模数据训练的深度学习模型。</p>
+<p><strong>核心特征：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">特征</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">参数规模</td>
+<td align="left">数十亿到万亿级别</td>
+</tr>
+<tr>
+<td align="left">训练数据</td>
+<td align="left">TB 到 PB 级别文本</td>
+</tr>
+<tr>
+<td align="left">计算资源</td>
+<td align="left">数千张 GPU&#x2F;TPU</td>
+</tr>
+<tr>
+<td align="left">涌现能力</td>
+<td align="left">规模达到临界点后出现新能力</td>
+</tr>
+<tr>
+<td align="left">通用性</td>
+<td align="left">一个模型处理多种任务</td>
+</tr>
+</tbody></table>
+<h2 id="Transformer-架构"><a href="#Transformer-架构" class="headerlink" title="Transformer 架构"></a>Transformer 架构</h2><p>Transformer 是大模型的核心架构，由 Google 于 2017 年提出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│                                                 │</span><br><span class="line">│  输入嵌入 → 多头自注意力 → 前馈网络 → 层归一化 → 输出  │</span><br><span class="line">│                ↑_____________|                  │</span><br><span class="line">│                   残差连接                        │</span><br><span class="line">│                                                 │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p><strong>核心组件：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">组件</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Self-Attention</td>
+<td align="left">计算序列内部的相关性</td>
+</tr>
+<tr>
+<td align="left">Multi-Head Attention</td>
+<td align="left">多角度捕捉信息</td>
+</tr>
+<tr>
+<td align="left">Position Encoding</td>
+<td align="left">保留位置信息</td>
+</tr>
+<tr>
+<td align="left">Feed-Forward Network</td>
+<td align="left">非线性变换</td>
+</tr>
+</tbody></table>
+<h2 id="大模型训练流程"><a href="#大模型训练流程" class="headerlink" title="大模型训练流程"></a>大模型训练流程</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────────┐</span><br><span class="line">│  阶段1：预训练（Pre-training）                                │</span><br><span class="line">│  ├── 目标：学习语言模式和世界知识                              │</span><br><span class="line">│  ├── 数据：海量无标注文本（网页、书籍、代码）                    │</span><br><span class="line">│  ├── 方法：自监督学习（预测下一个token）                        │</span><br><span class="line">│  └── 产出：基座模型（Base Model）                              │</span><br><span class="line">├─────────────────────────────────────────────────────────────┤</span><br><span class="line">│  阶段2：有监督微调（SFT）                                      │</span><br><span class="line">│  ├── 目标：学习指令遵循能力                                    │</span><br><span class="line">│  ├── 数据：高质量指令-回答对                                   │</span><br><span class="line">│  ├── 方法：监督学习                                            │</span><br><span class="line">│  └── 产出：SFT 模型                                            │</span><br><span class="line">├─────────────────────────────────────────────────────────────┤</span><br><span class="line">│  阶段3：对齐训练（RLHF/DPO）                                   │</span><br><span class="line">│  ├── 目标：对齐人类偏好                                        │</span><br><span class="line">│  ├── 数据：人类偏好标注                                        │</span><br><span class="line">│  ├── 方法：强化学习/直接偏好优化                                │</span><br><span class="line">│  └── 产出：对话模型（Chat Model）                              │</span><br><span class="line">└─────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h2 id="主流大模型对比"><a href="#主流大模型对比" class="headerlink" title="主流大模型对比"></a>主流大模型对比</h2><table>
+<thead>
+<tr>
+<th align="left">模型</th>
+<th align="left">厂商</th>
+<th align="left">特点</th>
+<th align="center">上下文长度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">GPT-4</td>
+<td align="left">OpenAI</td>
+<td align="left">综合能力最强</td>
+<td align="center">128K</td>
+</tr>
+<tr>
+<td align="left">Claude 3</td>
+<td align="left">Anthropic</td>
+<td align="left">长上下文、安全</td>
+<td align="center">200K</td>
+</tr>
+<tr>
+<td align="left">Gemini</td>
+<td align="left">Google</td>
+<td align="left">多模态原生</td>
+<td align="center">1M</td>
+</tr>
+<tr>
+<td align="left">文心一言</td>
+<td align="left">百度</td>
+<td align="left">中文优化</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="left">通义千问</td>
+<td align="left">阿里</td>
+<td align="left">开源生态好</td>
+<td align="center">128K</td>
+</tr>
+<tr>
+<td align="left">DeepSeek</td>
+<td align="left">深度求索</td>
+<td align="left">高性价比、开源</td>
+<td align="center">128K</td>
+</tr>
+<tr>
+<td align="left">GLM-4</td>
+<td align="left">智谱AI</td>
+<td align="left">国产开源代表</td>
+<td align="center">128K</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="大模型的前身与技术演进"><a href="#大模型的前身与技术演进" class="headerlink" title="大模型的前身与技术演进"></a>大模型的前身与技术演进</h1><h2 id="技术演进路线图"><a href="#技术演进路线图" class="headerlink" title="技术演进路线图"></a>技术演进路线图</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">统计语言模型(N-gram) → 神经网络语言模型(NNLM) → 词向量(Word2Vec)</span><br><span class="line">        ↓</span><br><span class="line">循环神经网络(RNN) → 长短期记忆网络(LSTM) → Seq2Seq</span><br><span class="line">        ↓</span><br><span class="line">注意力机制(Attention) → Transformer → BERT/GPT</span><br><span class="line">        ↓</span><br><span class="line">大模型(LLM) → 多模态大模型 → Agent智能体</span><br></pre></td></tr></table></figure>
+
+<h2 id="统计语言模型（N-gram）"><a href="#统计语言模型（N-gram）" class="headerlink" title="统计语言模型（N-gram）"></a>统计语言模型（N-gram）</h2><p>最早的语言建模方法，基于统计概率：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(w1,w2,...,wn) ≈ Π P(wi|wi-1,wi-2,...,wi-n+1)</span><br></pre></td></tr></table></figure>
+
+<p><strong>局限性</strong>：无法捕捉长距离依赖、维度灾难</p>
+<h2 id="词向量时代（Word2Vec、GloVe）"><a href="#词向量时代（Word2Vec、GloVe）" class="headerlink" title="词向量时代（Word2Vec、GloVe）"></a>词向量时代（Word2Vec、GloVe）</h2><p><strong>Word2Vec（2013）</strong> 两种训练方式：</p>
+<table>
+<thead>
+<tr>
+<th align="left">方式</th>
+<th align="left">原理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">CBOW</td>
+<td align="left">上下文预测中心词</td>
+</tr>
+<tr>
+<td align="left">Skip-gram</td>
+<td align="left">中心词预测上下文</td>
+</tr>
+</tbody></table>
+<p>经典示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vec(&quot;king&quot;) - vec(&quot;man&quot;) + vec(&quot;woman&quot;) ≈ vec(&quot;queen&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="RNN-LSTM-时代"><a href="#RNN-LSTM-时代" class="headerlink" title="RNN&#x2F;LSTM 时代"></a>RNN&#x2F;LSTM 时代</h2><p><strong>RNN</strong> 存在梯度消失&#x2F;爆炸问题，<strong>LSTM</strong> 引入门控机制：</p>
+<table>
+<thead>
+<tr>
+<th align="left">门控</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">遗忘门</td>
+<td align="left">决定丢弃哪些信息</td>
+</tr>
+<tr>
+<td align="left">输入门</td>
+<td align="left">决定存储哪些新信息</td>
+</tr>
+<tr>
+<td align="left">输出门</td>
+<td align="left">决定输出哪些信息</td>
+</tr>
+</tbody></table>
+<h2 id="Seq2Seq-与-Attention"><a href="#Seq2Seq-与-Attention" class="headerlink" title="Seq2Seq 与 Attention"></a>Seq2Seq 与 Attention</h2><p><strong>Seq2Seq（2014）</strong>：编码器-解码器架构</p>
+<p><strong>Attention 机制（2015）</strong>：解决固定长度向量瓶颈</p>
+<h2 id="Transformer-革命（2017）"><a href="#Transformer-革命（2017）" class="headerlink" title="Transformer 革命（2017）"></a>Transformer 革命（2017）</h2><p><strong>论文</strong>：《Attention Is All You Need》</p>
+<p><strong>核心创新</strong>：</p>
+<ul>
+<li>完全基于注意力机制，抛弃循环</li>
+<li>并行计算，训练效率大幅提升</li>
+<li>多头注意力，多角度捕捉信息</li>
+</ul>
+<h2 id="BERT-vs-GPT"><a href="#BERT-vs-GPT" class="headerlink" title="BERT vs GPT"></a>BERT vs GPT</h2><table>
+<thead>
+<tr>
+<th align="left">维度</th>
+<th align="left">BERT</th>
+<th align="left">GPT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">架构</td>
+<td align="left">Encoder-only</td>
+<td align="left">Decoder-only</td>
+</tr>
+<tr>
+<td align="left">方向</td>
+<td align="left">双向</td>
+<td align="left">单向</td>
+</tr>
+<tr>
+<td align="left">任务</td>
+<td align="left">理解类</td>
+<td align="left">生成类</td>
+</tr>
+<tr>
+<td align="left">预训练</td>
+<td align="left">MLM</td>
+<td align="left">自回归</td>
+</tr>
+<tr>
+<td align="left">代表应用</td>
+<td align="left">分类、NER</td>
+<td align="left">对话、写作</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="提示词工程（Prompt-Engineering）"><a href="#提示词工程（Prompt-Engineering）" class="headerlink" title="提示词工程（Prompt Engineering）"></a>提示词工程（Prompt Engineering）</h1><h2 id="什么是提示词工程？"><a href="#什么是提示词工程？" class="headerlink" title="什么是提示词工程？"></a>什么是提示词工程？</h2><p><strong>提示词工程</strong> 是设计和优化输入提示词，以引导大模型产生期望输出的技术和方法。</p>
+<h2 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h2><table>
+<thead>
+<tr>
+<th align="left">原则</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">明确性</td>
+<td align="left">指令清晰，避免歧义</td>
+<td align="left">“请用3句话总结”</td>
+</tr>
+<tr>
+<td align="left">具体性</td>
+<td align="left">提供具体示例和约束</td>
+<td align="left">“字数控制在500字以内”</td>
+</tr>
+<tr>
+<td align="left">结构化</td>
+<td align="left">使用分隔符、编号</td>
+<td align="left">“请按以下格式输出…”</td>
+</tr>
+<tr>
+<td align="left">角色设定</td>
+<td align="left">赋予模型特定角色</td>
+<td align="left">“你是一位资深技术专家”</td>
+</tr>
+<tr>
+<td align="left">上下文</td>
+<td align="left">提供必要的背景信息</td>
+<td align="left">“假设用户是初学者…”</td>
+</tr>
+<tr>
+<td align="left">格式指定</td>
+<td align="left">明确输出格式要求</td>
+<td align="left">“请以JSON格式输出”</td>
+</tr>
+</tbody></table>
+<h2 id="提示词示例对比"><a href="#提示词示例对比" class="headerlink" title="提示词示例对比"></a>提示词示例对比</h2><p><strong>差的提示词：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">写一篇文章</span><br></pre></td></tr></table></figure>
+
+<p><strong>好的提示词：</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">你是一位资深技术博主，擅长将复杂技术概念用通俗易懂的方式讲解。</span><br><span class="line"></span><br><span class="line">请写一篇关于&quot;Transformer架构&quot;的技术博客文章，要求：</span><br><span class="line"><span class="bullet">1.</span> 目标读者：有基础编程经验的开发者</span><br><span class="line"><span class="bullet">2.</span> 篇幅：1500-2000字</span><br><span class="line"><span class="bullet">3.</span> 结构：包含原理讲解、代码示例、应用场景</span><br><span class="line"><span class="bullet">4.</span> 风格：通俗易懂，配合类比</span><br><span class="line"><span class="bullet">5.</span> 格式：Markdown格式，代码块使用语法高亮</span><br></pre></td></tr></table></figure>
+
+<h2 id="核心技术"><a href="#核心技术" class="headerlink" title="核心技术"></a>核心技术</h2><h3 id="Few-shot-Learning（少样本学习）"><a href="#Few-shot-Learning（少样本学习）" class="headerlink" title="Few-shot Learning（少样本学习）"></a>Few-shot Learning（少样本学习）</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">任务：情感分析</span><br><span class="line"></span><br><span class="line">示例：</span><br><span class="line">文本：&quot;这部电影太精彩了！&quot; → 标签：正面</span><br><span class="line">文本：&quot;浪费时间，不推荐&quot; → 标签：负面</span><br><span class="line"></span><br><span class="line">文本：&quot;服务态度很差，再也不会来了&quot; → 标签：？</span><br></pre></td></tr></table></figure>
+
+<h3 id="Chain-of-Thought（思维链）"><a href="#Chain-of-Thought（思维链）" class="headerlink" title="Chain-of-Thought（思维链）"></a>Chain-of-Thought（思维链）</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">问题：小明有5个苹果，给了小红2个，又买了3个，请问小明现在有几个苹果？</span><br><span class="line"></span><br><span class="line">请一步步思考：</span><br><span class="line"><span class="bullet">1.</span> 小明原来有几个苹果？→ 5个</span><br><span class="line"><span class="bullet">2.</span> 给了小红2个后，还剩几个？→ 5-2=3个</span><br><span class="line"><span class="bullet">3.</span> 又买了3个，现在有几个？→ 3+3=6个</span><br><span class="line">答案：6个</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他技术"><a href="#其他技术" class="headerlink" title="其他技术"></a>其他技术</h3><table>
+<thead>
+<tr>
+<th align="left">技术</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Self-Consistency</td>
+<td align="left">多次采样，选择最一致的答案</td>
+</tr>
+<tr>
+<td align="left">Tree-of-Thought</td>
+<td align="left">探索多个推理路径，搜索最优解</td>
+</tr>
+<tr>
+<td align="left">ReAct</td>
+<td align="left">推理与行动交替进行</td>
+</tr>
+</tbody></table>
+<h2 id="系统提示词"><a href="#系统提示词" class="headerlink" title="系统提示词"></a>系统提示词</h2><p>用于设定模型的基本行为：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">你是一个专业的AI助手，具有以下特点：</span><br><span class="line"><span class="bullet">-</span> 回答准确、专业</span><br><span class="line"><span class="bullet">-</span> 态度友好、耐心</span><br><span class="line"><span class="bullet">-</span> 遇到不确定的问题会诚实说明</span><br><span class="line"><span class="bullet">-</span> 按照用户要求的格式输出</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="RAG（检索增强生成）"><a href="#RAG（检索增强生成）" class="headerlink" title="RAG（检索增强生成）"></a>RAG（检索增强生成）</h1><h2 id="什么是-RAG？"><a href="#什么是-RAG？" class="headerlink" title="什么是 RAG？"></a>什么是 RAG？</h2><p><strong>RAG（Retrieval-Augmented Generation，检索增强生成）</strong> 是一种结合信息检索与文本生成的技术架构。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────┐</span><br><span class="line">│                                                         │</span><br><span class="line">│  用户问题 ──→ 检索器 ──→ 相关文档 ──→ 大模型 ──→ 回答    │</span><br><span class="line">│                │                           ↑            │</span><br><span class="line">│                ↓                           │            │</span><br><span class="line">│           知识库/向量数据库 ←─────────────┘            │</span><br><span class="line">│                                                         │</span><br><span class="line">└─────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h2 id="为什么需要-RAG？"><a href="#为什么需要-RAG？" class="headerlink" title="为什么需要 RAG？"></a>为什么需要 RAG？</h2><table>
+<thead>
+<tr>
+<th align="left">大模型局限</th>
+<th align="left">RAG 优势</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">知识截止：训练数据有时间截止点</td>
+<td align="left">实时知识：可检索最新信息</td>
+</tr>
+<tr>
+<td align="left">幻觉问题：可能编造不存在的信息</td>
+<td align="left">减少幻觉：基于真实文档生成</td>
+</tr>
+<tr>
+<td align="left">领域缺失：缺乏特定领域知识</td>
+<td align="left">领域适配：接入专业知识库</td>
+</tr>
+<tr>
+<td align="left">私有数据：无法访问企业内部数据</td>
+<td align="left">数据安全：私有知识库部署</td>
+</tr>
+</tbody></table>
+<h2 id="RAG-架构流程"><a href="#RAG-架构流程" class="headerlink" title="RAG 架构流程"></a>RAG 架构流程</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">【索引阶段】</span><br><span class="line">文档 → 分块 → Embedding → 向量数据库</span><br><span class="line"></span><br><span class="line">【检索阶段】</span><br><span class="line">问题 → Embedding → 相似度搜索 → Top-K 文档</span><br><span class="line"></span><br><span class="line">【生成阶段】</span><br><span class="line">问题 + 检索文档 → Prompt → LLM → 回答</span><br></pre></td></tr></table></figure>
+
+<h2 id="Embedding（向量化）"><a href="#Embedding（向量化）" class="headerlink" title="Embedding（向量化）"></a>Embedding（向量化）</h2><p><strong>Embedding</strong> 是将文本转换为向量表示的过程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;人工智能&quot; → [0.12, -0.34, 0.56, ..., 0.78]  (1536维)</span><br><span class="line">&quot;AI技术&quot;   → [0.11, -0.32, 0.58, ..., 0.76]  (语义相近)</span><br><span class="line">&quot;苹果手机&quot; → [0.89, 0.12, -0.45, ..., 0.23]  (语义较远)</span><br></pre></td></tr></table></figure>
+
+<p><strong>主流 Embedding 模型：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">模型</th>
+<th align="center">维度</th>
+<th align="left">特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">text-embedding-ada-002</td>
+<td align="center">1536</td>
+<td align="left">OpenAI，通用性强</td>
+</tr>
+<tr>
+<td align="left">text-embedding-3-small</td>
+<td align="center">1536</td>
+<td align="left">OpenAI 新版，性价比高</td>
+</tr>
+<tr>
+<td align="left">BGE-large-zh</td>
+<td align="center">1024</td>
+<td align="left">中文开源，效果优秀</td>
+</tr>
+<tr>
+<td align="left">M3E</td>
+<td align="center">768</td>
+<td align="left">多语言，开源</td>
+</tr>
+</tbody></table>
+<h2 id="向量数据库"><a href="#向量数据库" class="headerlink" title="向量数据库"></a>向量数据库</h2><table>
+<thead>
+<tr>
+<th align="left">数据库</th>
+<th align="left">特点</th>
+<th align="left">适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Pinecone</td>
+<td align="left">全托管，易用</td>
+<td align="left">生产环境</td>
+</tr>
+<tr>
+<td align="left">Milvus</td>
+<td align="left">开源，高性能</td>
+<td align="left">企业级应用</td>
+</tr>
+<tr>
+<td align="left">Qdrant</td>
+<td align="left">Rust 实现，快</td>
+<td align="left">高性能需求</td>
+</tr>
+<tr>
+<td align="left">Chroma</td>
+<td align="left">轻量级，易上手</td>
+<td align="left">开发测试</td>
+</tr>
+<tr>
+<td align="left">FAISS</td>
+<td align="left">Meta 开源，快</td>
+<td align="left">本地部署</td>
+</tr>
+</tbody></table>
+<h2 id="RAG-进阶技术"><a href="#RAG-进阶技术" class="headerlink" title="RAG 进阶技术"></a>RAG 进阶技术</h2><table>
+<thead>
+<tr>
+<th align="left">技术</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Hybrid Search</td>
+<td align="left">关键词检索（BM25）+ 向量检索</td>
+</tr>
+<tr>
+<td align="left">Rerank</td>
+<td align="left">检索结果重排序，提高精度</td>
+</tr>
+<tr>
+<td align="left">Query Rewriting</td>
+<td align="left">查询改写&#x2F;扩展</td>
+</tr>
+<tr>
+<td align="left">Multi-turn RAG</td>
+<td align="left">多轮对话检索</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="Function-Calling（函数调用）"><a href="#Function-Calling（函数调用）" class="headerlink" title="Function Calling（函数调用）"></a>Function Calling（函数调用）</h1><h2 id="什么是-Function-Calling？"><a href="#什么是-Function-Calling？" class="headerlink" title="什么是 Function Calling？"></a>什么是 Function Calling？</h2><p><strong>Function Calling</strong> 是大模型调用外部函数&#x2F;工具的能力，是实现 Agent 自主执行任务的基础。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户请求 ──→ LLM分析 ──→ 决定调用函数 ──→ 执行函数 ──→ 返回结果 ──→ 生成回答</span><br></pre></td></tr></table></figure>
+
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 函数定义：告知模型可用的函数及其参数</span><br><span class="line">2. 模型决策：模型判断是否需要调用函数</span><br><span class="line">3. 参数生成：模型生成函数调用参数</span><br><span class="line">4. 函数执行：外部系统执行函数</span><br><span class="line">5. 结果处理：将结果返回给模型</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数定义示例"><a href="#函数定义示例" class="headerlink" title="函数定义示例"></a>函数定义示例</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;get_weather&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;获取指定城市的天气信息&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;parameters&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;city&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;城市名称&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;unit&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;enum&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;celsius&quot;</span><span class="punctuation">,</span> <span class="string">&quot;fahrenheit&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;温度单位&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;city&quot;</span><span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="调用流程示例"><a href="#调用流程示例" class="headerlink" title="调用流程示例"></a>调用流程示例</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">用户：北京今天天气怎么样？</span><br><span class="line"></span><br><span class="line">模型决策：需要调用 get_weather 函数</span><br><span class="line">函数调用：get_weather(city=&quot;北京&quot;, unit=&quot;celsius&quot;)</span><br><span class="line">执行结果：&#123;&quot;temp&quot;: 25, &quot;condition&quot;: &quot;晴&quot;, &quot;humidity&quot;: 45&#125;</span><br><span class="line">模型回答：北京今天天气晴朗，气温25℃，湿度45%，适合出行。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="微调（Fine-tuning）"><a href="#微调（Fine-tuning）" class="headerlink" title="微调（Fine-tuning）"></a>微调（Fine-tuning）</h1><h2 id="什么是微调？"><a href="#什么是微调？" class="headerlink" title="什么是微调？"></a>什么是微调？</h2><p><strong>Fine-tuning（微调）</strong> 是在预训练模型基础上，使用特定领域或任务的数据继续训练。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">预训练模型（通用） + 领域数据 → 微调模型（专业）</span><br></pre></td></tr></table></figure>
+
+<h2 id="为什么需要微调？"><a href="#为什么需要微调？" class="headerlink" title="为什么需要微调？"></a>为什么需要微调？</h2><table>
+<thead>
+<tr>
+<th align="left">场景</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">领域适配</td>
+<td align="left">让模型理解专业术语和知识</td>
+</tr>
+<tr>
+<td align="left">风格定制</td>
+<td align="left">调整输出风格和格式</td>
+</tr>
+<tr>
+<td align="left">任务优化</td>
+<td align="left">提升特定任务的准确率</td>
+</tr>
+<tr>
+<td align="left">成本降低</td>
+<td align="left">比从头训练便宜得多</td>
+</tr>
+</tbody></table>
+<h2 id="微调方法对比"><a href="#微调方法对比" class="headerlink" title="微调方法对比"></a>微调方法对比</h2><table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">原理</th>
+<th align="left">优点</th>
+<th align="left">缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Full Fine-tuning</td>
+<td align="left">更新所有参数</td>
+<td align="left">效果最好</td>
+<td align="left">成本高</td>
+</tr>
+<tr>
+<td align="left">LoRA</td>
+<td align="left">低秩分解矩阵</td>
+<td align="left">参数少、快</td>
+<td align="left">效果略差</td>
+</tr>
+<tr>
+<td align="left">QLoRA</td>
+<td align="left">LoRA + 4-bit量化</td>
+<td align="left">单卡可行</td>
+<td align="left">精度有损</td>
+</tr>
+</tbody></table>
+<p><strong>LoRA 原理：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">原权重矩阵 W → W + ΔW = W + BA</span><br><span class="line"></span><br><span class="line">优点：</span><br><span class="line">- 参数量减少 99%</span><br><span class="line">- 训练速度快</span><br><span class="line">- 可合并回原模型</span><br></pre></td></tr></table></figure>
+
+<h2 id="RLHF-与-DPO"><a href="#RLHF-与-DPO" class="headerlink" title="RLHF 与 DPO"></a>RLHF 与 DPO</h2><table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">流程</th>
+<th align="left">特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">RLHF</td>
+<td align="left">SFT → RM → PPO</td>
+<td align="left">效果好，流程复杂</td>
+</tr>
+<tr>
+<td align="left">DPO</td>
+<td align="left">直接偏好优化</td>
+<td align="left">无需RM，简化流程</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="模型推理参数"><a href="#模型推理参数" class="headerlink" title="模型推理参数"></a>模型推理参数</h1><h2 id="Token-与-Tokenizer"><a href="#Token-与-Tokenizer" class="headerlink" title="Token 与 Tokenizer"></a>Token 与 Tokenizer</h2><p><strong>Token</strong> 是模型处理文本的最小单位：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;人工智能很强大&quot; → [&quot;人工&quot;, &quot;智能&quot;, &quot;很&quot;, &quot;强大&quot;] (4 tokens)</span><br><span class="line">&quot;Hello World&quot;   → [&quot;Hello&quot;, &quot; World&quot;] (2 tokens)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Context-Window（上下文窗口）"><a href="#Context-Window（上下文窗口）" class="headerlink" title="Context Window（上下文窗口）"></a>Context Window（上下文窗口）</h2><table>
+<thead>
+<tr>
+<th align="left">模型</th>
+<th align="center">上下文长度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">GPT-3.5</td>
+<td align="center">4K &#x2F; 16K</td>
+</tr>
+<tr>
+<td align="left">GPT-4</td>
+<td align="center">128K</td>
+</tr>
+<tr>
+<td align="left">Claude 3</td>
+<td align="center">200K</td>
+</tr>
+<tr>
+<td align="left">Gemini 1.5</td>
+<td align="center">1M</td>
+</tr>
+</tbody></table>
+<h2 id="Temperature（温度）"><a href="#Temperature（温度）" class="headerlink" title="Temperature（温度）"></a>Temperature（温度）</h2><p>控制输出随机性：</p>
+<table>
+<thead>
+<tr>
+<th align="center">值</th>
+<th align="left">效果</th>
+<th align="left">适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="left">输出最确定</td>
+<td align="left">事实性任务</td>
+</tr>
+<tr>
+<td align="center">0.3</td>
+<td align="left">较确定</td>
+<td align="left">问答、分析</td>
+</tr>
+<tr>
+<td align="center">0.7</td>
+<td align="left">平衡</td>
+<td align="left">一般对话</td>
+</tr>
+<tr>
+<td align="center">1.0</td>
+<td align="left">默认值</td>
+<td align="left">-</td>
+</tr>
+<tr>
+<td align="center">1.5+</td>
+<td align="left">更随机</td>
+<td align="left">创意写作</td>
+</tr>
+</tbody></table>
+<h2 id="其他参数"><a href="#其他参数" class="headerlink" title="其他参数"></a>其他参数</h2><table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Top-P</td>
+<td align="left">核采样，从概率累计达到P的候选词中采样</td>
+</tr>
+<tr>
+<td align="left">Top-K</td>
+<td align="left">只从概率最高的K个候选词中采样</td>
+</tr>
+<tr>
+<td align="left">Max Tokens</td>
+<td align="left">限制生成的最大Token数量</td>
+</tr>
+<tr>
+<td align="left">Frequency Penalty</td>
+<td align="left">惩罚重复出现的词</td>
+</tr>
+<tr>
+<td align="left">Presence Penalty</td>
+<td align="left">惩罚已出现过的词</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="模型架构进阶"><a href="#模型架构进阶" class="headerlink" title="模型架构进阶"></a>模型架构进阶</h1><h2 id="MoE（混合专家模型）"><a href="#MoE（混合专家模型）" class="headerlink" title="MoE（混合专家模型）"></a>MoE（混合专家模型）</h2><p><strong>MoE（Mixture of Experts）</strong> 是稀疏激活架构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输入 → 路由门控 → 选择Top-K专家 → 专家计算 → 加权融合 → 输出</span><br></pre></td></tr></table></figure>
+
+<p><strong>代表模型</strong>：Mixtral 8x7B、DeepSeek-V2&#x2F;V3</p>
+<p><strong>优势</strong>：参数量大但激活参数少，推理成本低</p>
+<h2 id="多模态架构"><a href="#多模态架构" class="headerlink" title="多模态架构"></a>多模态架构</h2><table>
+<thead>
+<tr>
+<th align="left">模型</th>
+<th align="left">支持模态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">GPT-4V</td>
+<td align="left">文本 + 图像</td>
+</tr>
+<tr>
+<td align="left">Claude 3</td>
+<td align="left">文本 + 图像</td>
+</tr>
+<tr>
+<td align="left">Gemini</td>
+<td align="left">文本 + 图像 + 音频 + 视频</td>
+</tr>
+<tr>
+<td align="left">LLaVA</td>
+<td align="left">文本 + 图像（开源）</td>
+</tr>
+</tbody></table>
+<h2 id="长上下文技术"><a href="#长上下文技术" class="headerlink" title="长上下文技术"></a>长上下文技术</h2><table>
+<thead>
+<tr>
+<th align="left">技术</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">窗口注意力</td>
+<td align="left">只关注局部窗口</td>
+</tr>
+<tr>
+<td align="left">稀疏注意力</td>
+<td align="left">选择性计算注意力</td>
+</tr>
+<tr>
+<td align="left">Ring Attention</td>
+<td align="left">分布式计算长序列</td>
+</tr>
+<tr>
+<td align="left">RoPE 扩展</td>
+<td align="left">位置编码外推</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="幻觉问题与安全"><a href="#幻觉问题与安全" class="headerlink" title="幻觉问题与安全"></a>幻觉问题与安全</h1><h2 id="Hallucination（幻觉）"><a href="#Hallucination（幻觉）" class="headerlink" title="Hallucination（幻觉）"></a>Hallucination（幻觉）</h2><p><strong>幻觉</strong> 是模型生成看似合理但实际上不正确或不存在的信息。</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">事实幻觉</td>
+<td align="left">编造不存在的事实</td>
+</tr>
+<tr>
+<td align="left">来源幻觉</td>
+<td align="left">引用不存在的来源</td>
+</tr>
+<tr>
+<td align="left">推理幻觉</td>
+<td align="left">逻辑推理错误</td>
+</tr>
+</tbody></table>
+<p><strong>减少幻觉的方法：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">RAG</td>
+<td align="left">基于真实文档生成</td>
+</tr>
+<tr>
+<td align="left">引用验证</td>
+<td align="left">要求提供来源</td>
+</tr>
+<tr>
+<td align="left">多次采样</td>
+<td align="left">检查一致性</td>
+</tr>
+<tr>
+<td align="left">自我反思</td>
+<td align="left">让模型检查输出</td>
+</tr>
+</tbody></table>
+<h2 id="对齐与安全"><a href="#对齐与安全" class="headerlink" title="对齐与安全"></a>对齐与安全</h2><p><strong>对齐目标：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">目标</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">有用性</td>
+<td align="left">帮助用户完成任务</td>
+</tr>
+<tr>
+<td align="left">诚实性</td>
+<td align="left">不欺骗、不编造</td>
+</tr>
+<tr>
+<td align="left">无害性</td>
+<td align="left">不产生有害内容</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="Agent（智能体）"><a href="#Agent（智能体）" class="headerlink" title="Agent（智能体）"></a>Agent（智能体）</h1><h2 id="什么是-Agent？"><a href="#什么是-Agent？" class="headerlink" title="什么是 Agent？"></a>什么是 Agent？</h2><p><strong>Agent（智能体）</strong> 是具有自主决策能力、能够感知环境、规划行动并执行任务的智能系统。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">┌───────────────────────────────────────────────────────────┐</span><br><span class="line">│                        Agent                               │</span><br><span class="line">│  ┌─────────┐      ┌─────────┐      ┌─────────┐           │</span><br><span class="line">│  │  感知   │ ───→ │  规划   │ ───→ │  执行   │           │</span><br><span class="line">│  │Perceive │      │  Plan   │      │ Execute │           │</span><br><span class="line">│  └─────────┘      └─────────┘      └─────────┘           │</span><br><span class="line">│       ↑                ↑                ↓                │</span><br><span class="line">│       │                │                │                │</span><br><span class="line">│  ┌────┴─────┐    ┌─────┴────┐    ┌──────┴─────┐          │</span><br><span class="line">│  │  记忆    │ ←──│  工具    │ ←──│  环境      │          │</span><br><span class="line">│  │ Memory   │    │ Tools   │    │ Environment│          │</span><br><span class="line">│  └──────────┘    └─────────┘    └───────────┘          │</span><br><span class="line">└───────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h2 id="Agent-核心组件"><a href="#Agent-核心组件" class="headerlink" title="Agent 核心组件"></a>Agent 核心组件</h2><table>
+<thead>
+<tr>
+<th align="left">组件</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">感知</td>
+<td align="left">接收用户输入、环境状态、工具返回</td>
+</tr>
+<tr>
+<td align="left">规划</td>
+<td align="left">任务分解、目标设定、行动序列规划</td>
+</tr>
+<tr>
+<td align="left">记忆</td>
+<td align="left">短期记忆（上下文）、长期记忆（向量库）</td>
+</tr>
+<tr>
+<td align="left">执行</td>
+<td align="left">调用工具完成任务</td>
+</tr>
+<tr>
+<td align="left">工具</td>
+<td align="left">搜索、代码执行、文件操作、API调用</td>
+</tr>
+</tbody></table>
+<h2 id="ReAct-模式"><a href="#ReAct-模式" class="headerlink" title="ReAct 模式"></a>ReAct 模式</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">循环执行：</span><br><span class="line">  Thought: 思考下一步行动</span><br><span class="line">  Action:  选择并执行工具</span><br><span class="line">  Observation: 观察执行结果</span><br><span class="line">  ...重复直到任务完成</span><br><span class="line">  Final Answer: 输出最终结果</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">用户：北京今天天气怎么样？</span><br><span class="line"></span><br><span class="line">Thought: 用户想知道北京今天的天气，我需要查询天气信息</span><br><span class="line">Action: weather_search(&quot;北京&quot;)</span><br><span class="line">Observation: 北京今天晴，气温18-28℃，微风</span><br><span class="line">Thought: 我已经获取到天气信息，可以回答用户了</span><br><span class="line">Final Answer: 北京今天天气晴朗，气温18-28℃，微风，适合出行。</span><br></pre></td></tr></table></figure>
+
+<h2 id="主流-Agent-框架"><a href="#主流-Agent-框架" class="headerlink" title="主流 Agent 框架"></a>主流 Agent 框架</h2><table>
+<thead>
+<tr>
+<th align="left">框架</th>
+<th align="left">特点</th>
+<th align="left">适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">LangChain</td>
+<td align="left">生态丰富，组件完善</td>
+<td align="left">通用 Agent 开发</td>
+</tr>
+<tr>
+<td align="left">AutoGPT</td>
+<td align="left">自主性强，目标驱动</td>
+<td align="left">自动化任务</td>
+</tr>
+<tr>
+<td align="left">CrewAI</td>
+<td align="left">多 Agent 协作</td>
+<td align="left">复杂任务分工</td>
+</tr>
+<tr>
+<td align="left">OpenClaw</td>
+<td align="left">个人助理 Agent</td>
+<td align="left">日常任务自动化</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="MCP（Model-Context-Protocol）"><a href="#MCP（Model-Context-Protocol）" class="headerlink" title="MCP（Model Context Protocol）"></a>MCP（Model Context Protocol）</h1><h2 id="什么是-MCP？"><a href="#什么是-MCP？" class="headerlink" title="什么是 MCP？"></a>什么是 MCP？</h2><p><strong>MCP（Model Context Protocol）</strong> 是 Anthropic 提出的开放协议，用于标准化 AI 应用与外部数据源、工具之间的连接。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">┌───────────────────┐          MCP          ┌───────────────────┐</span><br><span class="line">│                   │  ←───────────────────→ │                   │</span><br><span class="line">│     AI 应用       │                        │    MCP Server     │</span><br><span class="line">│    (Client)      │                        │   (工具/数据源)    │</span><br><span class="line">│                   │                        │                   │</span><br><span class="line">└───────────────────┘                        └───────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h2 id="MCP-解决的问题"><a href="#MCP-解决的问题" class="headerlink" title="MCP 解决的问题"></a>MCP 解决的问题</h2><table>
+<thead>
+<tr>
+<th align="left">之前</th>
+<th align="left">现在</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">每个 AI 应用需要单独集成每个工具</td>
+<td align="left">通过 MCP 协议统一连接</td>
+</tr>
+<tr>
+<td align="left">重复开发、标准不一</td>
+<td align="left">一次开发，多处使用</td>
+</tr>
+<tr>
+<td align="left">维护困难</td>
+<td align="left">标准化接口，易于扩展</td>
+</tr>
+</tbody></table>
+<h2 id="MCP-架构"><a href="#MCP-架构" class="headerlink" title="MCP 架构"></a>MCP 架构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MCP Host（宿主）</span><br><span class="line">├── MCP Client（客户端）</span><br><span class="line">│   ├── 连接管理</span><br><span class="line">│   └── 协议处理</span><br><span class="line">└── MCP Server（服务端）</span><br><span class="line">    ├── Resources（资源）</span><br><span class="line">    ├── Prompts（提示词模板）</span><br><span class="line">    └── Tools（工具）</span><br></pre></td></tr></table></figure>
+
+<p><strong>通信方式：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">方式</th>
+<th align="left">说明</th>
+<th align="left">适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Stdio</td>
+<td align="left">标准输入输出</td>
+<td align="left">本地进程通信</td>
+</tr>
+<tr>
+<td align="left">HTTP&#x2F;SSE</td>
+<td align="left">HTTP + Server-Sent Events</td>
+<td align="left">远程通信</td>
+</tr>
+</tbody></table>
+<h2 id="MCP-Server-提供的能力"><a href="#MCP-Server-提供的能力" class="headerlink" title="MCP Server 提供的能力"></a>MCP Server 提供的能力</h2><h3 id="Resources（资源）"><a href="#Resources（资源）" class="headerlink" title="Resources（资源）"></a>Resources（资源）</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;uri&quot;</span><span class="punctuation">:</span> <span class="string">&quot;file:///path/to/document.pdf&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;项目文档&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;mimeType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/pdf&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Prompts（提示词模板）"><a href="#Prompts（提示词模板）" class="headerlink" title="Prompts（提示词模板）"></a>Prompts（提示词模板）</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;analyze-code&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;代码分析模板&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;arguments&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;language&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Tools（工具）"><a href="#Tools（工具）" class="headerlink" title="Tools（工具）"></a>Tools（工具）</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;search_web&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;搜索互联网&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;inputSchema&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="attr">&quot;query&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="MCP-生态"><a href="#MCP-生态" class="headerlink" title="MCP 生态"></a>MCP 生态</h2><p><strong>官方 Servers：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">Server</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">filesystem</td>
+<td align="left">文件系统访问</td>
+</tr>
+<tr>
+<td align="left">postgres</td>
+<td align="left">PostgreSQL 数据库</td>
+</tr>
+<tr>
+<td align="left">slack</td>
+<td align="left">Slack 集成</td>
+</tr>
+<tr>
+<td align="left">github</td>
+<td align="left">GitHub 操作</td>
+</tr>
+</tbody></table>
+<p><strong>社区 Servers：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">Server</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">playwright</td>
+<td align="left">浏览器自动化</td>
+</tr>
+<tr>
+<td align="left">google-drive</td>
+<td align="left">Google Drive</td>
+</tr>
+<tr>
+<td align="left">puppeteer</td>
+<td align="left">网页抓取</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="Skills（技能）"><a href="#Skills（技能）" class="headerlink" title="Skills（技能）"></a>Skills（技能）</h1><h2 id="什么是-Skills？"><a href="#什么是-Skills？" class="headerlink" title="什么是 Skills？"></a>什么是 Skills？</h2><p><strong>Skills（技能）</strong> 是封装了特定领域知识、工作流程或工具集成的模块化能力包。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Skill = 领域知识 + 工作流程 + 工具集成 + 提示词模板</span><br></pre></td></tr></table></figure>
+
+<h2 id="Skills-的作用"><a href="#Skills-的作用" class="headerlink" title="Skills 的作用"></a>Skills 的作用</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────┐</span><br><span class="line">│                      AI Agent                            │</span><br><span class="line">│                                                         │</span><br><span class="line">│  ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐          │</span><br><span class="line">│  │ Skill  │ │ Skill  │ │ Skill  │ │ Skill  │          │</span><br><span class="line">│  │   1    │ │   2    │ │   3    │ │   4    │          │</span><br><span class="line">│  └────────┘ └────────┘ └────────┘ └────────┘          │</span><br><span class="line">│                                                         │</span><br><span class="line">│  每个 Skill 提供特定领域的专业能力                        │</span><br><span class="line">└─────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p><strong>优势：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">特点</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">模块化</td>
+<td align="left">能力独立封装</td>
+</tr>
+<tr>
+<td align="left">可复用</td>
+<td align="left">一次开发，多处使用</td>
+</tr>
+<tr>
+<td align="left">可组合</td>
+<td align="left">多个 Skill 协作</td>
+</tr>
+<tr>
+<td align="left">易维护</td>
+<td align="left">单独更新，不影响其他</td>
+</tr>
+</tbody></table>
+<h2 id="Skill-目录结构"><a href="#Skill-目录结构" class="headerlink" title="Skill 目录结构"></a>Skill 目录结构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">skill-name/</span><br><span class="line">├── SKILL.md          # 技能说明文档</span><br><span class="line">├── prompts/          # 提示词模板</span><br><span class="line">│   └── template.md</span><br><span class="line">├── scripts/          # 执行脚本</span><br><span class="line">│   └── execute.py</span><br><span class="line">├── tools/            # 工具定义</span><br><span class="line">│   └── tools.json</span><br><span class="line">└── examples/         # 使用示例</span><br><span class="line">    └── example.md</span><br></pre></td></tr></table></figure>
+
+<h2 id="Skills-与-MCP-的关系"><a href="#Skills-与-MCP-的关系" class="headerlink" title="Skills 与 MCP 的关系"></a>Skills 与 MCP 的关系</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Skills（技能）</span><br><span class="line">├── 封装领域知识</span><br><span class="line">├── 定义工作流程</span><br><span class="line">└── 调用 MCP Server</span><br><span class="line">         ↓</span><br><span class="line">    MCP（协议）</span><br><span class="line">    ├── 标准化接口</span><br><span class="line">    └── 工具/数据连接</span><br></pre></td></tr></table></figure>
+
+<p><strong>Skills 是更高层次的抽象，MCP 是底层协议支持</strong></p>
+<hr>
+<h1 id="知识图谱总结"><a href="#知识图谱总结" class="headerlink" title="知识图谱总结"></a>知识图谱总结</h1><h2 id="AI-知识体系全景图"><a href="#AI-知识体系全景图" class="headerlink" title="AI 知识体系全景图"></a>AI 知识体系全景图</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">人工智能</span><br><span class="line">│</span><br><span class="line">├── 基础技术</span><br><span class="line">│   ├── 机器学习</span><br><span class="line">│   ├── 深度学习</span><br><span class="line">│   └── 神经网络</span><br><span class="line">│</span><br><span class="line">├── 语言模型演进</span><br><span class="line">│   ├── 统计模型（N-gram）</span><br><span class="line">│   ├── 词向量（Word2Vec）</span><br><span class="line">│   ├── 序列模型（RNN/LSTM）</span><br><span class="line">│   ├── 注意力机制（Attention）</span><br><span class="line">│   ├── Transformer</span><br><span class="line">│   └── 大模型（LLM）</span><br><span class="line">│</span><br><span class="line">├── 大模型应用</span><br><span class="line">│   ├── 提示词工程</span><br><span class="line">│   ├── RAG（检索增强）</span><br><span class="line">│   ├── 微调（Fine-tuning）</span><br><span class="line">│   └── Agent（智能体）</span><br><span class="line">│</span><br><span class="line">├── Agent 生态</span><br><span class="line">│   ├── 框架（LangChain、AutoGPT）</span><br><span class="line">│   ├── MCP 协议</span><br><span class="line">│   └── Skills 技能</span><br><span class="line">│</span><br><span class="line">└── 前沿方向</span><br><span class="line">    ├── 多模态</span><br><span class="line">    ├── 具身智能</span><br><span class="line">    └── AGI 探索</span><br></pre></td></tr></table></figure>
+
+<h2 id="核心概念关系"><a href="#核心概念关系" class="headerlink" title="核心概念关系"></a>核心概念关系</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">LLM（大模型）</span><br><span class="line">    ↓</span><br><span class="line">Prompt Engineering（提示词工程）</span><br><span class="line">    ↓</span><br><span class="line">Agent（智能体）</span><br><span class="line">    ├── Memory（记忆）</span><br><span class="line">    ├── Planning（规划）</span><br><span class="line">    ├── Tools（工具）</span><br><span class="line">    │     ↓</span><br><span class="line">    │   MCP（协议）</span><br><span class="line">    │</span><br><span class="line">    └── Skills（技能）</span><br></pre></td></tr></table></figure>
+
+<h2 id="学习路径建议"><a href="#学习路径建议" class="headerlink" title="学习路径建议"></a>学习路径建议</h2><table>
+<thead>
+<tr>
+<th align="left">阶段</th>
+<th align="left">学习内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">入门</td>
+<td align="left">理解大模型基本概念 → 学习提示词工程 → 使用 ChatGPT&#x2F;Claude</td>
+</tr>
+<tr>
+<td align="left">进阶</td>
+<td align="left">学习 Transformer 原理 → 了解 RAG 架构 → 开发简单 Agent</td>
+</tr>
+<tr>
+<td align="left">高级</td>
+<td align="left">深入模型架构 → 掌握 MCP 协议 → 开发 Skills → 构建复杂 Agent 系统</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="实践建议"><a href="#实践建议" class="headerlink" title="实践建议"></a>实践建议</h1><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><table>
+<thead>
+<tr>
+<th align="left">场景</th>
+<th align="left">推荐方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">简单对话</td>
+<td align="left">直接使用 ChatGPT&#x2F;Claude</td>
+</tr>
+<tr>
+<td align="left">知识问答</td>
+<td align="left">RAG + 向量数据库</td>
+</tr>
+<tr>
+<td align="left">自动化任务</td>
+<td align="left">Agent + MCP</td>
+</tr>
+<tr>
+<td align="left">专业领域</td>
+<td align="left">Skills + 定制化</td>
+</tr>
+<tr>
+<td align="left">企业应用</td>
+<td align="left">私有化部署 + Agent</td>
+</tr>
+</tbody></table>
+<h2 id="开发工具栈"><a href="#开发工具栈" class="headerlink" title="开发工具栈"></a>开发工具栈</h2><table>
+<thead>
+<tr>
+<th align="left">层级</th>
+<th align="left">工具</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">模型层</td>
+<td align="left">OpenAI API、Claude API、本地部署</td>
+</tr>
+<tr>
+<td align="left">框架层</td>
+<td align="left">LangChain、LlamaIndex</td>
+</tr>
+<tr>
+<td align="left">协议层</td>
+<td align="left">MCP</td>
+</tr>
+<tr>
+<td align="left">工具层</td>
+<td align="left">各种 MCP Server</td>
+</tr>
+<tr>
+<td align="left">应用层</td>
+<td align="left">Agent、Skills</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>人工智能正在从”单一模型”向”智能体生态”演进：</p>
+<table>
+<thead>
+<tr>
+<th align="left">概念</th>
+<th align="left">定位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">LLM</td>
+<td align="left">基础能力</td>
+</tr>
+<tr>
+<td align="left">Prompt</td>
+<td align="left">交互方式</td>
+</tr>
+<tr>
+<td align="left">RAG</td>
+<td align="left">知识增强</td>
+</tr>
+<tr>
+<td align="left">Agent</td>
+<td align="left">自主执行</td>
+</tr>
+<tr>
+<td align="left">MCP</td>
+<td align="left">连接协议</td>
+</tr>
+<tr>
+<td align="left">Skills</td>
+<td align="left">能力扩展</td>
+</tr>
+</tbody></table>
+<p>理解这些概念的关系，是构建 AI 应用的关键。</p>
+<hr>
+<blockquote>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">Transformer 论文</a></li>
+<li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">MCP 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://python.langchain.com/">LangChain 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/openclaw/openclaw">OpenClaw 项目</a></li>
+</ul>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" rel="tag"># 大模型</a>
+              <a href="/tags/LLM/" rel="tag"># LLM</a>
+              <a href="/tags/Agent/" rel="tag"># Agent</a>
+              <a href="/tags/MCP/" rel="tag"># MCP</a>
+              <a href="/tags/Prompt/" rel="tag"># Prompt</a>
+              <a href="/tags/RAG/" rel="tag"># RAG</a>
+              <a href="/tags/Embedding/" rel="tag"># Embedding</a>
+              <a href="/tags/Fine-tuning/" rel="tag"># Fine-tuning</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/20/QClaw&OpenClaw/" rel="prev" title="QClaw&OpenClaw">
+                  <i class="fa fa-angle-left"></i> QClaw&OpenClaw
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn">晋ICP备2024041642号-1</a> </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jyh</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
