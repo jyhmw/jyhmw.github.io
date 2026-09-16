@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="图数据库、GraphRAG 与 KAG（知识增强生成）的原理、架构与应用场景">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图数据库RAG与KAG">
+<meta property="og:url" content="https://jyhmw.github.io/2026/09/16/%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93RAG%E4%B8%8EKAG/index.html">
+<meta property="og:site_name" content="MWBlog">
+<meta property="og:description" content="图数据库、GraphRAG 与 KAG（知识增强生成）的原理、架构与应用场景">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-16T08:35:00.000Z">
+<meta property="article:modified_time" content="2026-09-16T08:38:52.052Z">
+<meta property="article:author" content="Jyh">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="图数据库">
+<meta property="article:tag" content="KAG">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://jyhmw.github.io/2026/09/16/%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93RAG%E4%B8%8EKAG/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jyhmw.github.io/2026/09/16/%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93RAG%E4%B8%8EKAG/","path":"2026/09/16/图数据库RAG与KAG/","title":"图数据库RAG与KAG"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>图数据库RAG与KAG | MWBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MWBlog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">麻木的智力抑制状态</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=2076615067&auto=0&height=66""></iframe>
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93-RAG-%E4%B8%8E-KAG"><span class="nav-number">1.</span> <span class="nav-text">图数据库 RAG 与 KAG</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-RAG%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什么是 RAG？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E5%90%91%E9%87%8F-RAG-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">传统向量 RAG 的工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E5%90%91%E9%87%8F-RAG-%E7%9A%84%E7%97%9B%E7%82%B9"><span class="nav-number">1.1.3.</span> <span class="nav-text">传统向量 RAG 的痛点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88Graph-Database%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">图数据库（Graph Database）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">什么是图数据库？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.1.1.</span> <span class="nav-text">常见图数据库</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GraphRAG%EF%BC%9A%E6%8A%8A%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E5%BC%95%E5%85%A5-RAG"><span class="nav-number">3.</span> <span class="nav-text">GraphRAG：把知识图谱引入 RAG</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-GraphRAG%EF%BC%9F"><span class="nav-number">3.1.</span> <span class="nav-text">什么是 GraphRAG？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.1.</span> <span class="nav-text">核心流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GraphRAG-%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">3.1.2.</span> <span class="nav-text">GraphRAG 解决了什么？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KAG%EF%BC%9A%E7%9F%A5%E8%AF%86%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90"><span class="nav-number">4.</span> <span class="nav-text">KAG：知识增强生成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-KAG%EF%BC%9F"><span class="nav-number">4.1.</span> <span class="nav-text">什么是 KAG？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KAG-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF"><span class="nav-number">4.2.</span> <span class="nav-text">KAG 的核心技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%9F%A5%E8%AF%86%E4%BA%92%E7%B4%A2%E5%BC%95%EF%BC%88Knowledge-Text-Mutual-Index%EF%BC%89"><span class="nav-number">4.2.1.</span> <span class="nav-text">1. 知识互索引（Knowledge-Text Mutual Index）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8F%97-Schema-%E7%BA%A6%E6%9D%9F%E7%9A%84%E7%9F%A5%E8%AF%86%E6%9E%84%E5%BB%BA%EF%BC%88Schema-Constraint%EF%BC%89"><span class="nav-number">4.2.2.</span> <span class="nav-text">2. 受 Schema 约束的知识构建（Schema-Constraint）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%80%BB%E8%BE%91%E5%BD%A2%E5%BC%8F%E5%BC%95%E5%AF%BC%E7%9A%84%E6%B7%B7%E5%90%88%E6%8E%A8%E7%90%86%E6%B1%82%E8%A7%A3%E5%99%A8%EF%BC%88Logical-Form-Solver%EF%BC%89"><span class="nav-number">4.2.3.</span> <span class="nav-text">3. 逻辑形式引导的混合推理求解器（Logical-Form Solver）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%9B%BE%E8%B0%B1%E4%B8%8E%E5%8E%9F%E6%96%87%E5%8D%8F%E5%90%8C%E7%9A%84%E6%A3%80%E7%B4%A2"><span class="nav-number">4.2.4.</span> <span class="nav-text">4. 图谱与原文协同的检索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GraphRAG-vs-KAG-%E5%AF%B9%E6%AF%94"><span class="nav-number">4.3.</span> <span class="nav-text">GraphRAG vs KAG 对比</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93-RAG-KAG-%E8%83%BD%E5%BA%94%E7%94%A8%E5%88%B0%E5%93%AA%E9%87%8C%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">图数据库 RAG &#x2F; KAG 能应用到哪里？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%87%91%E8%9E%8D%E9%A3%8E%E6%8E%A7%E4%B8%8E%E5%90%88%E8%A7%84"><span class="nav-number">5.1.</span> <span class="nav-text">1. 金融风控与合规</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%8C%BB%E7%96%97%E4%B8%8E%E7%94%9F%E5%91%BD%E7%A7%91%E5%AD%A6"><span class="nav-number">5.2.</span> <span class="nav-text">2. 医疗与生命科学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%B3%95%E5%BE%8B%E4%B8%8E%E6%94%BF%E5%8A%A1"><span class="nav-number">5.3.</span> <span class="nav-text">3. 法律与政务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%BC%81%E4%B8%9A%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86"><span class="nav-number">5.4.</span> <span class="nav-text">4. 企业知识管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%A7%91%E7%A0%94%E4%B8%8E%E6%83%85%E6%8A%A5%E5%88%86%E6%9E%90"><span class="nav-number">5.5.</span> <span class="nav-text">5. 科研与情报分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8"><span class="nav-number">5.6.</span> <span class="nav-text">6. 网络安全</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E5%BB%BA%E8%AE%AE"><span class="nav-number">6.</span> <span class="nav-text">实践建议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E7%94%A8%E5%93%AA%E7%A7%8D%E6%96%B9%E6%A1%88%EF%BC%9F"><span class="nav-number">6.1.</span> <span class="nav-text">什么时候用哪种方案？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B"><span class="nav-number">6.2.</span> <span class="nav-text">技术选型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%90%BD%E5%9C%B0%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="nav-number">6.3.</span> <span class="nav-text">落地注意点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jyh"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jyh</p>
+  <div class="site-description" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">53</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jyhmw.github.io/2026/09/16/%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93RAG%E4%B8%8EKAG/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jyh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MWBlog">
+      <meta itemprop="description" content="莫听穿林打叶声，何妨吟啸且徐行。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="图数据库RAG与KAG | MWBlog">
+      <meta itemprop="description" content="图数据库、GraphRAG 与 KAG（知识增强生成）的原理、架构与应用场景">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图数据库RAG与KAG
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-09-16 16:35:00 / 修改时间：16:38:52" itemprop="dateCreated datePublished" datetime="2026-09-16T16:35:00+08:00">2026-09-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" itemprop="url" rel="index"><span itemprop="name">人工智能</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">图数据库、GraphRAG 与 KAG（知识增强生成）的原理、架构与应用场景</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="图数据库-RAG-与-KAG"><a href="#图数据库-RAG-与-KAG" class="headerlink" title="图数据库 RAG 与 KAG"></a>图数据库 RAG 与 KAG</h1><h2 id="什么是-RAG？"><a href="#什么是-RAG？" class="headerlink" title="什么是 RAG？"></a>什么是 RAG？</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p><strong>RAG（Retrieval-Augmented Generation，检索增强生成）</strong> 是一种将「外部知识检索」与「大语言模型生成」相结合的架构。它让 LLM 在回答问题时，先去知识库检索相关资料，再基于检索到的内容生成答案，从而缓解大模型的「幻觉」问题、知识时效性问题与私有知识缺失问题。</p>
+<h3 id="传统向量-RAG-的工作流程"><a href="#传统向量-RAG-的工作流程" class="headerlink" title="传统向量 RAG 的工作流程"></a>传统向量 RAG 的工作流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">用户提问</span><br><span class="line">   ↓</span><br><span class="line">向量化（Embedding）问题</span><br><span class="line">   ↓</span><br><span class="line">向量数据库相似度检索（余弦距离）</span><br><span class="line">   ↓</span><br><span class="line">召回 Top-K 相关文本片段</span><br><span class="line">   ↓</span><br><span class="line">拼接进 Prompt 上下文</span><br><span class="line">   ↓</span><br><span class="line">LLM 生成最终答案</span><br></pre></td></tr></table></figure>
+
+<h3 id="传统向量-RAG-的痛点"><a href="#传统向量-RAG-的痛点" class="headerlink" title="传统向量 RAG 的痛点"></a>传统向量 RAG 的痛点</h3><table>
+<thead>
+<tr>
+<th>痛点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>语义模糊</td>
+<td>「相似」不等于「相关」，向量只捕捉字面&#x2F;浅层语义</td>
+</tr>
+<tr>
+<td>缺乏全局视角</td>
+<td>只能检索孤立片段，无法感知文档间的关联</td>
+</tr>
+<tr>
+<td>多跳推理弱</td>
+<td>一个问题需要串联多个实体关系时，向量检索无能为力</td>
+</tr>
+<tr>
+<td>可解释性差</td>
+<td>不知道答案来自哪里、推理链路是什么</td>
+</tr>
+<tr>
+<td>长尾&#x2F;稀有实体</td>
+<td>低频专业术语容易被向量空间稀释</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>一句话总结：传统 RAG 擅长「找相似的句子」，但不擅长「理清关系和逻辑」。图数据库与 KAG 正是为补齐这些短板而生。</p>
+</blockquote>
+<hr>
+<h1 id="图数据库（Graph-Database）"><a href="#图数据库（Graph-Database）" class="headerlink" title="图数据库（Graph Database）"></a>图数据库（Graph Database）</h1><h2 id="什么是图数据库？"><a href="#什么是图数据库？" class="headerlink" title="什么是图数据库？"></a>什么是图数据库？</h2><p>图数据库是以<strong>图结构</strong>存储数据的数据库，核心由三类元素构成：</p>
+<ul>
+<li><strong>节点（Node）</strong>：实体，如「人物」「公司」「疾病」「概念」</li>
+<li><strong>边（Edge &#x2F; Relationship）</strong>：实体之间的关系，如「属于」「治疗」「发生于」</li>
+<li><strong>属性（Property）</strong>：节点&#x2F;边的附加信息</li>
+</ul>
+<p>与关系型数据库（表 + JOIN）相比，图数据库用「指针」直接关联数据，查询多跳关系时无需昂贵的 JOIN 操作，复杂关联查询性能随跳数增长几乎线性。</p>
+<h3 id="常见图数据库"><a href="#常见图数据库" class="headerlink" title="常见图数据库"></a>常见图数据库</h3><table>
+<thead>
+<tr>
+<th>数据库</th>
+<th>类型</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Neo4j</strong></td>
+<td>原生图，Cypher 查询</td>
+<td>最流行，生态成熟，社区资料多</td>
+</tr>
+<tr>
+<td><strong>Nebula Graph</strong></td>
+<td>分布式，nGQL</td>
+<td>国产，高吞吐，支持万亿级边</td>
+</tr>
+<tr>
+<td><strong>TuGraph</strong></td>
+<td>国产，蚂蚁开源</td>
+<td>高性能，图计算与图存储一体</td>
+</tr>
+<tr>
+<td><strong>JanusGraph</strong></td>
+<td>分布式，可接多种后端</td>
+<td>与 Hadoop &#x2F; HBase 生态融合</td>
+</tr>
+<tr>
+<td><strong>TigerGraph</strong></td>
+<td>分布式 MPP</td>
+<td>实时深度关联分析</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="GraphRAG：把知识图谱引入-RAG"><a href="#GraphRAG：把知识图谱引入-RAG" class="headerlink" title="GraphRAG：把知识图谱引入 RAG"></a>GraphRAG：把知识图谱引入 RAG</h1><h2 id="什么是-GraphRAG？"><a href="#什么是-GraphRAG？" class="headerlink" title="什么是 GraphRAG？"></a>什么是 GraphRAG？</h2><p><strong>GraphRAG</strong> 是微软（Microsoft Research）于 2024 年提出的方案：在检索之前，先用 LLM 从文档中<strong>抽取实体、关系和社区摘要</strong>，构建一张知识图谱；检索时既做向量检索，也做图遍历，从而具备全局、多跳的问答能力。</p>
+<h3 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h3><ol>
+<li><strong>抽取（Extract）</strong>：LLM 从文本中识别实体、关系、声明，写入图数据库</li>
+<li><strong>社区检测（Community Detection）</strong>：用 Leiden 算法把图分割成若干社区</li>
+<li><strong>社区摘要（Summarize）</strong>：对每个社区生成自然语言摘要，形成「鸟瞰视图」</li>
+<li><strong>检索（Query）</strong>：<ul>
+<li>局部检索：针对具体实体的图遍历（精确、可溯源）</li>
+<li>全局检索：基于社区摘要的「全局性问题」回答</li>
+</ul>
+</li>
+<li><strong>生成</strong>：LLM 综合图结构 + 文本生成答案</li>
+</ol>
+<h3 id="GraphRAG-解决了什么？"><a href="#GraphRAG-解决了什么？" class="headerlink" title="GraphRAG 解决了什么？"></a>GraphRAG 解决了什么？</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">✅ 全局性问题（「这份资料整体讲了什么主题？」）</span><br><span class="line">✅ 多跳推理（「A 和 B 通过什么关系关联？」）</span><br><span class="line">✅ 实体关系网络问答（「谁影响了谁？」）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="KAG：知识增强生成"><a href="#KAG：知识增强生成" class="headerlink" title="KAG：知识增强生成"></a>KAG：知识增强生成</h1><h2 id="什么是-KAG？"><a href="#什么是-KAG？" class="headerlink" title="什么是 KAG？"></a>什么是 KAG？</h2><p><strong>KAG（Knowledge Augmented Generation，知识增强生成）</strong> 是<strong>蚂蚁集团</strong>基于 OpenSPG 知识图谱引擎开源的框架，旨在解决专业领域（金融、法律、医疗等）中 RAG「检索不准、推理不深、专业性不足」的问题。</p>
+<p>KAG 的核心思想：<strong>让知识图谱与文本块互索引（mutual index），用逻辑形式引导的符号推理 + 大模型生成</strong>，把「图的可解释推理」和「大模型的语义理解」结合起来。</p>
+<h2 id="KAG-的核心技术"><a href="#KAG-的核心技术" class="headerlink" title="KAG 的核心技术"></a>KAG 的核心技术</h2><h3 id="1-知识互索引（Knowledge-Text-Mutual-Index）"><a href="#1-知识互索引（Knowledge-Text-Mutual-Index）" class="headerlink" title="1. 知识互索引（Knowledge-Text Mutual Index）"></a>1. 知识互索引（Knowledge-Text Mutual Index）</h3><ul>
+<li>知识图谱中的实体&#x2F;关系 <strong>双向链接</strong> 到原始文本块</li>
+<li>图能回溯原文，原文能展开为图谱，避免「图与文脱节」</li>
+</ul>
+<h3 id="2-受-Schema-约束的知识构建（Schema-Constraint）"><a href="#2-受-Schema-约束的知识构建（Schema-Constraint）" class="headerlink" title="2. 受 Schema 约束的知识构建（Schema-Constraint）"></a>2. 受 Schema 约束的知识构建（Schema-Constraint）</h3><ul>
+<li>用领域 Schema（概念、实体类型、关系类型）约束 LLM 抽取</li>
+<li>提升知识抽取的准确率与一致性，减少噪声与幻觉</li>
+</ul>
+<h3 id="3-逻辑形式引导的混合推理求解器（Logical-Form-Solver）"><a href="#3-逻辑形式引导的混合推理求解器（Logical-Form-Solver）" class="headerlink" title="3. 逻辑形式引导的混合推理求解器（Logical-Form Solver）"></a>3. 逻辑形式引导的混合推理求解器（Logical-Form Solver）</h3><ul>
+<li>把自然语言问题转成<strong>逻辑表达式</strong>（类似 SPARQL &#x2F; 谓词组合）</li>
+<li>在图谱上做符号推理（交集、并集、否定、多跳）</li>
+<li>对图谱无法覆盖的部分，回退到大模型语义检索</li>
+<li>既保证<strong>可解释</strong>，又保证<strong>召回完整</strong></li>
+</ul>
+<h3 id="4-图谱与原文协同的检索"><a href="#4-图谱与原文协同的检索" class="headerlink" title="4. 图谱与原文协同的检索"></a>4. 图谱与原文协同的检索</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">用户问题</span><br><span class="line">   ↓</span><br><span class="line">语义解析 → 逻辑形式（Logic Form）</span><br><span class="line">   ↓</span><br><span class="line">├─ 图谱符号推理（精准、可解释）</span><br><span class="line">└─ 原文向量检索（补充、兜底）</span><br><span class="line">   ↓</span><br><span class="line">互索引对齐、去重、排序</span><br><span class="line">   ↓</span><br><span class="line">LLM 融合生成答案 + 引用溯源</span><br></pre></td></tr></table></figure>
+
+<h2 id="GraphRAG-vs-KAG-对比"><a href="#GraphRAG-vs-KAG-对比" class="headerlink" title="GraphRAG vs KAG 对比"></a>GraphRAG vs KAG 对比</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>GraphRAG（微软）</th>
+<th>KAG（蚂蚁）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>提出方</td>
+<td>Microsoft Research</td>
+<td>蚂蚁集团（OpenSPG）</td>
+</tr>
+<tr>
+<td>知识组织</td>
+<td>实体-关系图 + 社区摘要</td>
+<td>Schema 约束的知识图谱 + 文本互索引</td>
+</tr>
+<tr>
+<td>推理方式</td>
+<td>图遍历 + 社区摘要生成</td>
+<td>逻辑形式符号推理 + 语义检索</td>
+</tr>
+<tr>
+<td>专业性</td>
+<td>通用文档</td>
+<td>面向专业领域（金融&#x2F;法律&#x2F;医疗）</td>
+</tr>
+<tr>
+<td>可解释性</td>
+<td>中等</td>
+<td>高（引用可溯源到图与原文）</td>
+</tr>
+<tr>
+<td>构建成本</td>
+<td>中等（自动抽取）</td>
+<td>较高（建议引入领域 Schema）</td>
+</tr>
+<tr>
+<td>适用问题</td>
+<td>全局性、关联性问答</td>
+<td>严谨推理、专业问答</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="图数据库-RAG-KAG-能应用到哪里？"><a href="#图数据库-RAG-KAG-能应用到哪里？" class="headerlink" title="图数据库 RAG &#x2F; KAG 能应用到哪里？"></a>图数据库 RAG &#x2F; KAG 能应用到哪里？</h1><h2 id="1-金融风控与合规"><a href="#1-金融风控与合规" class="headerlink" title="1. 金融风控与合规"></a>1. 金融风控与合规</h2><ul>
+<li><strong>反欺诈</strong>：通过「账户—设备—IP—交易」关系网发现团伙欺诈</li>
+<li><strong>合规审查</strong>：合同条款、监管规则与交易行为的关联检索</li>
+<li><strong>投研问答</strong>：基于公告、研报知识图谱的精准问答与溯源</li>
+</ul>
+<h2 id="2-医疗与生命科学"><a href="#2-医疗与生命科学" class="headerlink" title="2. 医疗与生命科学"></a>2. 医疗与生命科学</h2><ul>
+<li><strong>辅助诊断</strong>：症状—疾病—药物—基因的多跳推理</li>
+<li><strong>药物研发</strong>：分子结构、靶点、通路图谱（参考 GraphGPT &#x2F; AlphaFold 思路）</li>
+<li><strong>医保审核</strong>：规则图谱 + 病例关联判断</li>
+</ul>
+<h2 id="3-法律与政务"><a href="#3-法律与政务" class="headerlink" title="3. 法律与政务"></a>3. 法律与政务</h2><ul>
+<li><strong>类案检索</strong>：法条、判例、案由关系图谱</li>
+<li><strong>政策问答</strong>：政策文件结构化 + 知识图谱，精准溯源到具体条款</li>
+<li><strong>政务知识库</strong>：跨部门事项办理路径推理</li>
+</ul>
+<h2 id="4-企业知识管理"><a href="#4-企业知识管理" class="headerlink" title="4. 企业知识管理"></a>4. 企业知识管理</h2><ul>
+<li><strong>技术文档问答</strong>：API、架构、故障案例的关系网络</li>
+<li><strong>客服知识库</strong>：从「问答对」升级为「知识图谱」，解决多跳问题</li>
+<li><strong>代码与架构治理</strong>：服务依赖图谱、调用链问答</li>
+</ul>
+<h2 id="5-科研与情报分析"><a href="#5-科研与情报分析" class="headerlink" title="5. 科研与情报分析"></a>5. 科研与情报分析</h2><ul>
+<li><strong>文献综述</strong>：自动抽取研究主题、方法、结论构成图谱</li>
+<li><strong>情报关联</strong>：人物—组织—事件网络分析</li>
+</ul>
+<h2 id="6-网络安全"><a href="#6-网络安全" class="headerlink" title="6. 网络安全"></a>6. 网络安全</h2><ul>
+<li><strong>攻击溯源</strong>：资产—漏洞—攻击路径图谱</li>
+<li><strong>威胁情报</strong>：IOC（失陷指标）关联推理</li>
+</ul>
+<hr>
+<h1 id="实践建议"><a href="#实践建议" class="headerlink" title="实践建议"></a>实践建议</h1><h2 id="什么时候用哪种方案？"><a href="#什么时候用哪种方案？" class="headerlink" title="什么时候用哪种方案？"></a>什么时候用哪种方案？</h2><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>简单 FAQ、单文档问答</td>
+<td>传统向量 RAG 即可</td>
+</tr>
+<tr>
+<td>需要多跳关联、全局摘要</td>
+<td>GraphRAG</td>
+</tr>
+<tr>
+<td>专业领域、强可解释、强准确</td>
+<td>KAG</td>
+</tr>
+<tr>
+<td>已有知识图谱资产</td>
+<td>KAG &#x2F; 图数据库增强</td>
+</tr>
+</tbody></table>
+<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul>
+<li><strong>图数据库</strong>：Neo4j（上手快）&#x2F; Nebula Graph（海量分布式）</li>
+<li><strong>GraphRAG</strong>：微软 graphrag 库（Python 生态）</li>
+<li><strong>KAG</strong>：蚂蚁 KAG 开源框架（基于 OpenSPG）</li>
+</ul>
+<h2 id="落地注意点"><a href="#落地注意点" class="headerlink" title="落地注意点"></a>落地注意点</h2><ol>
+<li><strong>知识抽取质量决定上限</strong>：领域 Schema 很关键</li>
+<li><strong>图谱规模与性能</strong>：百亿边要选分布式图库</li>
+<li><strong>图谱 + 原文协同</strong>：不要只信图，也要保留原文检索兜底</li>
+<li><strong>可解释与溯源</strong>：金融&#x2F;医疗必须能给出引用</li>
+</ol>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><blockquote>
+<p>传统 RAG 用「向量」找回相似的片段；GraphRAG 用「图」找回关联的网络；KAG 用「知识图谱 + 逻辑推理」做严谨、可解释的专业问答。</p>
+</blockquote>
+<p>三者并非替代关系，而是<strong>能力递进</strong>：</p>
+<ul>
+<li><strong>向量 RAG</strong>：快、省、够用</li>
+<li><strong>图 RAG（GraphRAG）</strong>：能看到关系与全局</li>
+<li><strong>KAG</strong>：专业、严谨、可溯源</li>
+</ul>
+<p>理解它们的差异，才能在「通用问答」到「专业决策」的不同场景里选对方案。</p>
+<hr>
+<blockquote>
+<p>💡 <strong>延伸阅读</strong></p>
+<ul>
+<li>微软 GraphRAG 官方仓库与论文（<em>From Local to Global</em>）</li>
+<li>蚂蚁 KAG &#x2F; OpenSPG 开源文档</li>
+<li>知识图谱 + LLM 的更多融合范式（GraphGPT、G-Retriever、HippoRAG 等）</li>
+</ul>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/RAG/" rel="tag"># RAG</a>
+              <a href="/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 图数据库</a>
+              <a href="/tags/KAG/" rel="tag"># KAG</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/04/02/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E5%85%A8%E8%A7%A3/" rel="prev" title="人工智能知识体系全解">
+                  <i class="fa fa-angle-left"></i> 人工智能知识体系全解
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn">晋ICP备2024041642号-1</a> </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jyh</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
