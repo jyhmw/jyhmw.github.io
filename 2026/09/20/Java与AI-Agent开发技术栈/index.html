@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jyhmw.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Java + AI Agent 开发所需的技术栈详解，涵盖后端框架、大模型集成、MCP协议、向量数据库等核心组件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java与AI-Agent开发技术栈">
+<meta property="og:url" content="https://jyhmw.github.io/2026/09/20/Java%E4%B8%8EAI-Agent%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E6%A0%88/index.html">
+<meta property="og:site_name" content="MWBlog">
+<meta property="og:description" content="Java + AI Agent 开发所需的技术栈详解，涵盖后端框架、大模型集成、MCP协议、向量数据库等核心组件">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-20T07:15:00.000Z">
+<meta property="article:modified_time" content="2026-09-20T07:15:28.143Z">
+<meta property="article:author" content="Jyh">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="MCP">
+<meta property="article:tag" content="Spring Boot">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://jyhmw.github.io/2026/09/20/Java%E4%B8%8EAI-Agent%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E6%A0%88/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jyhmw.github.io/2026/09/20/Java%E4%B8%8EAI-Agent%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E6%A0%88/","path":"2026/09/20/Java与AI-Agent开发技术栈/","title":"Java与AI-Agent开发技术栈"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Java与AI-Agent开发技术栈 | MWBlog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MWBlog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">麻木的智力抑制状态</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=2076615067&auto=0&height=66""></iframe>
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-%E4%B8%8E-AI-Agent-%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="nav-number">1.</span> <span class="nav-text">Java 与 AI Agent 开发技术栈</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%90%8E%E7%AB%AF%E6%A0%B8%E5%BF%83%E6%A1%86%E6%9E%B6"><span class="nav-number">2.</span> <span class="nav-text">一、后端核心框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Spring-Boot"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 Spring Boot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7"><span class="nav-number">2.1.1.</span> <span class="nav-text">核心特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AI%E7%9B%B8%E5%85%B3starter"><span class="nav-number">2.1.2.</span> <span class="nav-text">AI相关starter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Spring-AI"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 Spring AI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="nav-number">2.2.1.</span> <span class="nav-text">核心功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E7%9A%84%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.2.</span> <span class="nav-text">支持的模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.2.3.</span> <span class="nav-text">基本使用示例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90"><span class="nav-number">3.</span> <span class="nav-text">二、大模型集成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-LangChain4j"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 LangChain4j</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97"><span class="nav-number">3.1.1.</span> <span class="nav-text">核心模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AI-Services-%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.1.2.</span> <span class="nav-text">AI Services 示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-ChatGPT-Claude-SDK"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 ChatGPT &#x2F; Claude SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenAI-Java-SDK"><span class="nav-number">3.2.1.</span> <span class="nav-text">OpenAI Java SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Anthropic-Java-SDK"><span class="nav-number">3.2.2.</span> <span class="nav-text">Anthropic Java SDK</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81MCP-%E5%8D%8F%E8%AE%AE%EF%BC%88Model-Context-Protocol%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">三、MCP 协议（Model Context Protocol）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E4%BB%80%E4%B9%88%E6%98%AF-MCP%EF%BC%9F"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 什么是 MCP？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">4.1.1.</span> <span class="nav-text">核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MCP-%E4%B8%8E-Function-Calling-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.1.2.</span> <span class="nav-text">MCP 与 Function Calling 的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Java-MCP-SDK"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 Java MCP SDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E4%BE%9D%E8%B5%96"><span class="nav-number">4.2.1.</span> <span class="nav-text">核心依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MCP-Server-%E7%A4%BA%E4%BE%8B"><span class="nav-number">4.2.2.</span> <span class="nav-text">MCP Server 示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-MCP-%E7%94%9F%E6%80%81%E5%B7%A5%E5%85%B7"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 MCP 生态工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">5.</span> <span class="nav-text">四、向量数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E4%BB%80%E4%B9%88%E6%98%AF%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9F"><span class="nav-number">5.1.</span> <span class="nav-text">4.1 什么是向量数据库？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E4%B8%BB%E6%B5%81%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AF%B9%E6%AF%94"><span class="nav-number">5.2.</span> <span class="nav-text">4.2 主流向量数据库对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-Java-%E9%9B%86%E6%88%90%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.3.</span> <span class="nav-text">4.3 Java 集成示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Data-Vector%EF%BC%88Spring-AI%EF%BC%89"><span class="nav-number">5.3.1.</span> <span class="nav-text">Spring Data Vector（Spring AI）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.3.2.</span> <span class="nav-text">使用示例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81Agent-%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6"><span class="nav-number">6.</span> <span class="nav-text">五、Agent 开发框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-Java-Agent-%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94"><span class="nav-number">6.1.</span> <span class="nav-text">5.1 Java Agent 框架对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-LangChain4j-Agent-%E7%A4%BA%E4%BE%8B"><span class="nav-number">6.2.</span> <span class="nav-text">5.2 LangChain4j Agent 示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-ReAct-%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.3.</span> <span class="nav-text">5.3 ReAct 模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81Skills-%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F"><span class="nav-number">7.</span> <span class="nav-text">六、Skills 技能系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E4%BB%80%E4%B9%88%E6%98%AF-Skills%EF%BC%9F"><span class="nav-number">7.1.</span> <span class="nav-text">6.1 什么是 Skills？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Skills-vs-MCP"><span class="nav-number">7.1.1.</span> <span class="nav-text">Skills vs MCP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-Java-Skills-%E5%AE%9E%E7%8E%B0"><span class="nav-number">7.2.</span> <span class="nav-text">6.2 Java Skills 实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-Skills-%E7%BC%96%E6%8E%92"><span class="nav-number">7.3.</span> <span class="nav-text">6.3 Skills 编排</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81RAG-%E5%AE%8C%E6%95%B4%E6%9E%B6%E6%9E%84"><span class="nav-number">8.</span> <span class="nav-text">七、RAG 完整架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-RAG-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">8.1.</span> <span class="nav-text">7.1 RAG 工作流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-Java-RAG-%E5%AE%9E%E7%8E%B0"><span class="nav-number">8.2.</span> <span class="nav-text">7.2 Java RAG 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E5%A4%84%E7%90%86"><span class="nav-number">8.2.1.</span> <span class="nav-text">文档处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAG-%E6%9C%8D%E5%8A%A1"><span class="nav-number">8.2.2.</span> <span class="nav-text">RAG 服务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%93%BE"><span class="nav-number">9.</span> <span class="nav-text">八、开发工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-IDE-%E6%8E%A8%E8%8D%90"><span class="nav-number">9.1.</span> <span class="nav-text">8.1 IDE 推荐</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-AI-%E7%9B%B8%E5%85%B3%E6%8F%92%E4%BB%B6"><span class="nav-number">9.2.</span> <span class="nav-text">8.2 AI 相关插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7"><span class="nav-number">9.3.</span> <span class="nav-text">8.3 测试工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E9%83%A8%E7%BD%B2%E4%B8%8E%E8%BF%90%E7%BB%B4"><span class="nav-number">10.</span> <span class="nav-text">九、部署与运维</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#9-1-Docker-%E9%83%A8%E7%BD%B2"><span class="nav-number">10.1.</span> <span class="nav-text">9.1 Docker 部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-2-%E4%BA%91%E6%9C%8D%E5%8A%A1%E9%80%89%E5%9E%8B"><span class="nav-number">10.2.</span> <span class="nav-text">9.2 云服务选型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-3-%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%A5%E5%BF%97"><span class="nav-number">10.3.</span> <span class="nav-text">9.3 监控与日志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E3%80%81%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84%E5%BB%BA%E8%AE%AE"><span class="nav-number">11.</span> <span class="nav-text">十、学习路径建议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A5%E9%97%A8%E8%B7%AF%E7%BA%BF"><span class="nav-number">11.1.</span> <span class="nav-text">入门路线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90"><span class="nav-number">11.2.</span> <span class="nav-text">推荐学习资源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">12.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jyh"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jyh</p>
+  <div class="site-description" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jyhmw.github.io/2026/09/20/Java%E4%B8%8EAI-Agent%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E6%A0%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jyh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MWBlog">
+      <meta itemprop="description" content="莫听穿林打叶声，何妨吟啸且徐行。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Java与AI-Agent开发技术栈 | MWBlog">
+      <meta itemprop="description" content="Java + AI Agent 开发所需的技术栈详解，涵盖后端框架、大模型集成、MCP协议、向量数据库等核心组件">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java与AI-Agent开发技术栈
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-09-20 15:15:00 / 修改时间：15:15:28" itemprop="dateCreated datePublished" datetime="2026-09-20T15:15:00+08:00">2026-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">技术栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" itemprop="url" rel="index"><span itemprop="name">人工智能</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Java + AI Agent 开发所需的技术栈详解，涵盖后端框架、大模型集成、MCP协议、向量数据库等核心组件</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Java-与-AI-Agent-开发技术栈"><a href="#Java-与-AI-Agent-开发技术栈" class="headerlink" title="Java 与 AI Agent 开发技术栈"></a>Java 与 AI Agent 开发技术栈</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>随着大语言模型（LLM）的快速发展，AI Agent（智能体）已成为 AI 应用的重要形态。Java 作为企业级开发的主流语言，拥有丰富的生态系统和强大的工程化能力，是构建生产级 AI Agent 的理想选择。</p>
+<p>本文系统梳理 Java + AI Agent 开发所需的技术栈，帮助开发者快速构建智能化的企业应用。</p>
+<hr>
+<h1 id="一、后端核心框架"><a href="#一、后端核心框架" class="headerlink" title="一、后端核心框架"></a>一、后端核心框架</h1><h2 id="1-1-Spring-Boot"><a href="#1-1-Spring-Boot" class="headerlink" title="1.1 Spring Boot"></a>1.1 Spring Boot</h2><p><strong>Spring Boot</strong> 是 Java 后端开发的基础框架，AI Agent 的后端服务通常基于 Spring Boot 构建。</p>
+<h3 id="核心特性"><a href="#核心特性" class="headerlink" title="核心特性"></a>核心特性</h3><ul>
+<li>快速构建 Spring 应用</li>
+<li>自动配置（Auto-Configuration）</li>
+<li>嵌入式服务器（Tomcat&#x2F;Jetty）</li>
+<li>丰富的starter生态</li>
+</ul>
+<h3 id="AI相关starter"><a href="#AI相关starter" class="headerlink" title="AI相关starter"></a>AI相关starter</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Spring AI (官方AI集成框架) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-Spring-AI"><a href="#1-2-Spring-AI" class="headerlink" title="1.2 Spring AI"></a>1.2 Spring AI</h2><p><strong>Spring AI</strong> 是 Spring 官方提供的 AI 集成框架，简化了大模型与 Java 应用的集成。</p>
+<h3 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h3><ul>
+<li>多模型支持（OpenAI、Claude、Azure OpenAI、本地模型等）</li>
+<li>统一的 API 抽象</li>
+<li>Prompt 模板管理</li>
+<li>Function Calling &#x2F; Tool Calling</li>
+<li>RAG 支持</li>
+</ul>
+<h3 id="支持的模型"><a href="#支持的模型" class="headerlink" title="支持的模型"></a>支持的模型</h3><table>
+<thead>
+<tr>
+<th>模型类型</th>
+<th>支持的模型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OpenAI</td>
+<td>GPT-4o、GPT-4o-mini、o1</td>
+</tr>
+<tr>
+<td>Anthropic</td>
+<td>Claude 3.5、Claude 3</td>
+</tr>
+<tr>
+<td>Google</td>
+<td>Gemini 1.5、Gemini Pro</td>
+</tr>
+<tr>
+<td>开源模型</td>
+<td>Ollama、本地部署的模型</td>
+</tr>
+</tbody></table>
+<h3 id="基本使用示例"><a href="#基本使用示例" class="headerlink" title="基本使用示例"></a>基本使用示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AiController</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ChatClient chatClient;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">AiController</span><span class="params">(ChatClient.Builder builder)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.chatClient = builder</span><br><span class="line">            .defaultSystem(<span class="string">&quot;你是一个有用的AI助手&quot;</span>)</span><br><span class="line">            .build();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@GetMapping(&quot;/chat&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">chat</span><span class="params">(<span class="meta">@RequestParam</span> String message)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> chatClient.prompt()</span><br><span class="line">            .user(message)</span><br><span class="line">            .call()</span><br><span class="line">            .content();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="二、大模型集成"><a href="#二、大模型集成" class="headerlink" title="二、大模型集成"></a>二、大模型集成</h1><h2 id="2-1-LangChain4j"><a href="#2-1-LangChain4j" class="headerlink" title="2.1 LangChain4j"></a>2.1 LangChain4j</h2><p><strong>LangChain4j</strong> 是 Java 版的 LangChain，提供了构建 AI 应用的标准化组件。</p>
+<h3 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h3><table>
+<thead>
+<tr>
+<th>模块</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AI Services</td>
+<td>简化 AI 调用，注解驱动</td>
+</tr>
+<tr>
+<td>Prompt Templates</td>
+<td>动态 Prompt 模板</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>对话记忆管理</td>
+</tr>
+<tr>
+<td>Tools</td>
+<td>工具&#x2F;函数调用</td>
+</tr>
+<tr>
+<td>RAG</td>
+<td>检索增强生成</td>
+</tr>
+<tr>
+<td>Chain</td>
+<td>链式调用</td>
+</tr>
+</tbody></table>
+<h3 id="AI-Services-示例"><a href="#AI-Services-示例" class="headerlink" title="AI Services 示例"></a>AI Services 示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Assistant</span> &#123;</span><br><span class="line">    String <span class="title function_">chat</span><span class="params">(String message)</span>;</span><br><span class="line">    String <span class="title function_">chatWithContext</span><span class="params">(String userId, String message)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@AiService</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">LegalAssistant</span> <span class="keyword">extends</span> <span class="title class_">Assistant</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@SystemMessage(&quot;你是一个法律顾问，请提供专业的法律建议。&quot;)</span></span><br><span class="line">    String <span class="title function_">chat</span><span class="params">(String message)</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@UserMessage(&quot;用户&#123;userId&#125;问: &#123;message&#125;&quot;)</span></span><br><span class="line">    String <span class="title function_">chatWithContext</span><span class="params">(String userId, String message)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-ChatGPT-Claude-SDK"><a href="#2-2-ChatGPT-Claude-SDK" class="headerlink" title="2.2 ChatGPT &#x2F; Claude SDK"></a>2.2 ChatGPT &#x2F; Claude SDK</h2><h3 id="OpenAI-Java-SDK"><a href="#OpenAI-Java-SDK" class="headerlink" title="OpenAI Java SDK"></a>OpenAI Java SDK</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.theokanning.openai-gpt3-java<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>service<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.18.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Anthropic-Java-SDK"><a href="#Anthropic-Java-SDK" class="headerlink" title="Anthropic Java SDK"></a>Anthropic Java SDK</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.sleepycat<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>anthropic-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.8.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="三、MCP-协议（Model-Context-Protocol）"><a href="#三、MCP-协议（Model-Context-Protocol）" class="headerlink" title="三、MCP 协议（Model Context Protocol）"></a>三、MCP 协议（Model Context Protocol）</h1><h2 id="3-1-什么是-MCP？"><a href="#3-1-什么是-MCP？" class="headerlink" title="3.1 什么是 MCP？"></a>3.1 什么是 MCP？</h2><p><strong>MCP（Model Context Protocol）</strong> 是 Anthropic 提出的模型上下文协议，用于标准化 AI 模型与外部工具&#x2F;数据源的连接。</p>
+<h3 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h3><ul>
+<li><strong>MCP Host</strong>：运行 AI 应用的程序</li>
+<li><strong>MCP Client</strong>：在 Host 内与 MCP Server 通信</li>
+<li><strong>MCP Server</strong>：提供工具、资源、提示词的服务端</li>
+<li><strong>Transport</strong>：通信协议（stdio、HTTP&#x2F;SSE）</li>
+</ul>
+<h3 id="MCP-与-Function-Calling-的区别"><a href="#MCP-与-Function-Calling-的区别" class="headerlink" title="MCP 与 Function Calling 的区别"></a>MCP 与 Function Calling 的区别</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Function Calling</th>
+<th>MCP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>标准化</td>
+<td>厂商私有协议</td>
+<td>开放标准</td>
+</tr>
+<tr>
+<td>适用范围</td>
+<td>单模型</td>
+<td>多模型通用</td>
+</tr>
+<tr>
+<td>资源类型</td>
+<td>仅工具</td>
+<td>工具+资源+提示词</td>
+</tr>
+<tr>
+<td>生态</td>
+<td>依赖模型厂商</td>
+<td>独立生态</td>
+</tr>
+</tbody></table>
+<h2 id="3-2-Java-MCP-SDK"><a href="#3-2-Java-MCP-SDK" class="headerlink" title="3.2 Java MCP SDK"></a>3.2 Java MCP SDK</h2><h3 id="核心依赖"><a href="#核心依赖" class="headerlink" title="核心依赖"></a>核心依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.ai<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-ai-mcp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.0-M4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="MCP-Server-示例"><a href="#MCP-Server-示例" class="headerlink" title="MCP Server 示例"></a>MCP Server 示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyMcpServer</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Tool(name = &quot;search_database&quot;, description = &quot;搜索数据库中的记录&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;String&gt; <span class="title function_">searchDatabase</span><span class="params">(<span class="meta">@ToolParam(&quot;查询条件&quot;)</span> String query)</span> &#123;</span><br><span class="line">        <span class="comment">// 实现搜索逻辑</span></span><br><span class="line">        <span class="keyword">return</span> database.search(query);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Tool(name = &quot;send_email&quot;, description = &quot;发送邮件&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendEmail</span><span class="params">(</span></span><br><span class="line"><span class="params">        <span class="meta">@ToolParam(&quot;收件人&quot;)</span> String to,</span></span><br><span class="line"><span class="params">        <span class="meta">@ToolParam(&quot;主题&quot;)</span> String subject,</span></span><br><span class="line"><span class="params">        <span class="meta">@ToolParam(&quot;内容&quot;)</span> String content</span></span><br><span class="line"><span class="params">    )</span> &#123;</span><br><span class="line">        emailService.send(to, subject, content);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-MCP-生态工具"><a href="#3-3-MCP-生态工具" class="headerlink" title="3.3 MCP 生态工具"></a>3.3 MCP 生态工具</h2><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FS MCP</td>
+<td>文件系统</td>
+<td>读写本地文件</td>
+</tr>
+<tr>
+<td>GitHub MCP</td>
+<td>API集成</td>
+<td>操作 GitHub 仓库</td>
+</tr>
+<tr>
+<td>Postgres MCP</td>
+<td>数据库</td>
+<td>PostgreSQL 操作</td>
+</tr>
+<tr>
+<td>Slack&#x2F;Discord MCP</td>
+<td>消息</td>
+<td>发送消息</td>
+</tr>
+<tr>
+<td>Browser MCP</td>
+<td>浏览器</td>
+<td>网页访问&#x2F;爬取</td>
+</tr>
+<tr>
+<td>Memory MCP</td>
+<td>知识库</td>
+<td>持久化记忆</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="四、向量数据库"><a href="#四、向量数据库" class="headerlink" title="四、向量数据库"></a>四、向量数据库</h1><h2 id="4-1-什么是向量数据库？"><a href="#4-1-什么是向量数据库？" class="headerlink" title="4.1 什么是向量数据库？"></a>4.1 什么是向量数据库？</h2><p>向量数据库专门用于存储和检索高维向量（Embedding），是 RAG 架构的核心组件。</p>
+<h2 id="4-2-主流向量数据库对比"><a href="#4-2-主流向量数据库对比" class="headerlink" title="4.2 主流向量数据库对比"></a>4.2 主流向量数据库对比</h2><table>
+<thead>
+<tr>
+<th>数据库</th>
+<th>类型</th>
+<th>特点</th>
+<th>Java支持</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Milvus</strong></td>
+<td>云原生开源</td>
+<td>高性能、万亿级向量</td>
+<td>✅ 成熟</td>
+</tr>
+<tr>
+<td><strong>Qdrant</strong></td>
+<td>开源</td>
+<td>Rust实现、高可用</td>
+<td>✅ 成熟</td>
+</tr>
+<tr>
+<td><strong>Chroma</strong></td>
+<td>轻量开源</td>
+<td>简单易用、本地优先</td>
+<td>✅ 良好</td>
+</tr>
+<tr>
+<td><strong>Weaviate</strong></td>
+<td>云原生开源</td>
+<td>混合搜索、GraphQL</td>
+<td>✅ 良好</td>
+</tr>
+<tr>
+<td><strong>Pinecone</strong></td>
+<td>云服务</td>
+<td>全托管、免运维</td>
+<td>✅ 良好</td>
+</tr>
+<tr>
+<td>**Pgvector</td>
+<td>PostgreSQL扩展</td>
+<td>兼容现有DB、简单场景</td>
+<td>✅ 成熟</td>
+</tr>
+</tbody></table>
+<h2 id="4-3-Java-集成示例"><a href="#4-3-Java-集成示例" class="headerlink" title="4.3 Java 集成示例"></a>4.3 Java 集成示例</h2><h3 id="Spring-Data-Vector（Spring-AI）"><a href="#Spring-Data-Vector（Spring-AI）" class="headerlink" title="Spring Data Vector（Spring AI）"></a>Spring Data Vector（Spring AI）</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.ai<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-ai-embedding<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RagController</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> VectorStore vectorStore;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ChatClient chatClient;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RagController</span><span class="params">(VectorStore vectorStore, ChatClient chatClient)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.vectorStore = vectorStore;</span><br><span class="line">        <span class="built_in">this</span>.chatClient = chatClient;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 文档入库</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/ingest&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">ingestDocument</span><span class="params">(<span class="meta">@RequestParam</span> String text)</span> &#123;</span><br><span class="line">        vectorStore.add(List.of(<span class="keyword">new</span> <span class="title class_">Document</span>(text)));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// RAG 问答</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/rag-chat&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">ragChat</span><span class="params">(<span class="meta">@RequestParam</span> String question)</span> &#123;</span><br><span class="line">        List&lt;Document&gt; relevantDocs = vectorStore.similaritySearch(question);</span><br><span class="line">        </span><br><span class="line">        <span class="type">String</span> <span class="variable">context</span> <span class="operator">=</span> relevantDocs.stream()</span><br><span class="line">            .map(Document::getContent)</span><br><span class="line">            .collect(Collectors.joining(<span class="string">&quot;\n&quot;</span>));</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> chatClient.prompt()</span><br><span class="line">            .system(<span class="string">&quot;基于以下上下文回答：&quot;</span> + context)</span><br><span class="line">            .user(question)</span><br><span class="line">            .call()</span><br><span class="line">            .content();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="五、Agent-开发框架"><a href="#五、Agent-开发框架" class="headerlink" title="五、Agent 开发框架"></a>五、Agent 开发框架</h1><h2 id="5-1-Java-Agent-框架对比"><a href="#5-1-Java-Agent-框架对比" class="headerlink" title="5.1 Java Agent 框架对比"></a>5.1 Java Agent 框架对比</h2><table>
+<thead>
+<tr>
+<th>框架</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>LangChain4j</strong></td>
+<td>功能全面、生态成熟</td>
+<td>通用 Agent</td>
+</tr>
+<tr>
+<td><strong>Spring AI Agent</strong></td>
+<td>Spring 生态集成</td>
+<td>Spring 项目</td>
+</tr>
+<tr>
+<td>**AutoGPT Java</td>
+<td>单Agent自主执行</td>
+<td>实验&#x2F;学习</td>
+</tr>
+<tr>
+<td>**CrewAI Java</td>
+<td>多Agent协作</td>
+<td>复杂任务流</td>
+</tr>
+</tbody></table>
+<h2 id="5-2-LangChain4j-Agent-示例"><a href="#5-2-LangChain4j-Agent-示例" class="headerlink" title="5.2 LangChain4j Agent 示例"></a>5.2 LangChain4j Agent 示例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义工具</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WeatherTools</span> &#123;</span><br><span class="line">    <span class="meta">@Tool(&quot;获取城市天气&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getWeather</span><span class="params">(<span class="meta">@P(&quot;城市名称&quot;)</span> String city)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;北京今天晴，25度&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 构建 Agent</span></span><br><span class="line"><span class="type">ChatLanguageModel</span> <span class="variable">model</span> <span class="operator">=</span> OpenAiChatModel.builder()</span><br><span class="line">    .apiKey(<span class="string">&quot;your-api-key&quot;</span>)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line"><span class="type">Agent</span> <span class="variable">agent</span> <span class="operator">=</span> Agent.builder()</span><br><span class="line">    .name(<span class="string">&quot;助手&quot;</span>)</span><br><span class="line">    .prompt(<span class="string">&quot;你是一个有用的助手，可以回答问题和使用工具。&quot;</span>)</span><br><span class="line">    .tools(<span class="keyword">new</span> <span class="title class_">WeatherTools</span>())</span><br><span class="line">    .chatLanguageModel(model)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line"><span class="type">ChatMemory</span> <span class="variable">memory</span> <span class="operator">=</span> MessageWindowChatMemory.withMaxMessages(<span class="number">10</span>);</span><br><span class="line"><span class="type">ExecutorService</span> <span class="variable">executor</span> <span class="operator">=</span> Executors.newSingleThreadExecutor();</span><br><span class="line"></span><br><span class="line"><span class="type">ChatAgent</span> <span class="variable">chatAgent</span> <span class="operator">=</span> ChatAgent.builder()</span><br><span class="line">    .agent(agent)</span><br><span class="line">    .chatMemory(memory)</span><br><span class="line">    .executorService(executor)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对话</span></span><br><span class="line"><span class="type">String</span> <span class="variable">response</span> <span class="operator">=</span> chatAgent.chat(<span class="string">&quot;北京天气怎么样？&quot;</span>);</span><br><span class="line">System.out.println(response);</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-3-ReAct-模式"><a href="#5-3-ReAct-模式" class="headerlink" title="5.3 ReAct 模式"></a>5.3 ReAct 模式</h2><p><strong>ReAct（Reasoning + Acting）</strong> 是 Agent 的核心决策模式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Thought（思考） → Action（行动） → Observation（观察） → ...</span><br></pre></td></tr></table></figure>
+
+<p>LangChain4j 内置支持 ReAct：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ChatLanguageModel</span> <span class="variable">model</span> <span class="operator">=</span> OpenAiChatModel.builder()</span><br><span class="line">    .apiKey(System.getenv(<span class="string">&quot;OPENAI_API_KEY&quot;</span>))</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line"><span class="type">ReActAgent</span> <span class="variable">agent</span> <span class="operator">=</span> ReActAgent.builder()</span><br><span class="line">    .chatLanguageModel(model)</span><br><span class="line">    .tools(List.of(<span class="keyword">new</span> <span class="title class_">Calculator</span>(), <span class="keyword">new</span> <span class="title class_">WeatherTools</span>()))</span><br><span class="line">    .maxIterations(<span class="number">10</span>)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="六、Skills-技能系统"><a href="#六、Skills-技能系统" class="headerlink" title="六、Skills 技能系统"></a>六、Skills 技能系统</h1><h2 id="6-1-什么是-Skills？"><a href="#6-1-什么是-Skills？" class="headerlink" title="6.1 什么是 Skills？"></a>6.1 什么是 Skills？</h2><p><strong>Skills（技能）</strong> 是 Agent 调用工具&#x2F;执行任务的能力单元，是比 MCP 更上层的抽象。</p>
+<h3 id="Skills-vs-MCP"><a href="#Skills-vs-MCP" class="headerlink" title="Skills vs MCP"></a>Skills vs MCP</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>MCP</th>
+<th>Skills</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>层级</td>
+<td>协议层</td>
+<td>应用层</td>
+</tr>
+<tr>
+<td>粒度</td>
+<td>原子工具</td>
+<td>复合技能</td>
+</tr>
+<tr>
+<td>用途</td>
+<td>工具调用</td>
+<td>任务执行</td>
+</tr>
+<tr>
+<td>生态</td>
+<td>工具市场</td>
+<td>技能市场</td>
+</tr>
+</tbody></table>
+<h2 id="6-2-Java-Skills-实现"><a href="#6-2-Java-Skills-实现" class="headerlink" title="6.2 Java Skills 实现"></a>6.2 Java Skills 实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Skill(name = &quot;文档摘要&quot;, description = &quot;对一篇文章生成摘要&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SummarizeSkill</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ChatClient chatClient;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">SummarizeSkill</span><span class="params">(ChatClient chatClient)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.chatClient = chatClient;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Execute</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">execute</span><span class="params">(<span class="meta">@Param(&quot;content&quot;)</span> String content,</span></span><br><span class="line"><span class="params">                         <span class="meta">@Param(&quot;maxLength&quot;)</span> Integer maxLength)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> chatClient.prompt()</span><br><span class="line">            .system(<span class="string">&quot;你是一个专业的文档摘要助手，请用简洁的语言总结以下内容：&quot;</span>)</span><br><span class="line">            .user(<span class="string">&quot;内容：\n&quot;</span> + content)</span><br><span class="line">            .call()</span><br><span class="line">            .content();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-3-Skills-编排"><a href="#6-3-Skills-编排" class="headerlink" title="6.3 Skills 编排"></a>6.3 Skills 编排</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Skill(name = &quot;研究助手&quot;, description = &quot;完成一项研究任务&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ResearchSkill</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@SkillReference(&quot;网络搜索&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> SearchSkill searchSkill;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@SkillReference(&quot;文档摘要&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> SummarizeSkill summarizeSkill;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@SkillReference(&quot;文档写作&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> WriteSkill writeSkill;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">research</span><span class="params">(String topic)</span> &#123;</span><br><span class="line">        <span class="comment">// 1. 搜索相关信息</span></span><br><span class="line">        List&lt;String&gt; results = searchSkill.search(topic);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 摘要每条结果</span></span><br><span class="line">        List&lt;String&gt; summaries = results.stream()</span><br><span class="line">            .map(summarizeSkill::execute)</span><br><span class="line">            .toList();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3. 整理成报告</span></span><br><span class="line">        <span class="keyword">return</span> writeSkill.write(topic, summaries);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="七、RAG-完整架构"><a href="#七、RAG-完整架构" class="headerlink" title="七、RAG 完整架构"></a>七、RAG 完整架构</h1><h2 id="7-1-RAG-工作流程"><a href="#7-1-RAG-工作流程" class="headerlink" title="7.1 RAG 工作流程"></a>7.1 RAG 工作流程</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────┐</span><br><span class="line">│                      RAG 架构                            │</span><br><span class="line">├─────────────────────────────────────────────────────────┤</span><br><span class="line">│                                                         │</span><br><span class="line">│   文档输入 ──→ 文本分割 ──→ Embedding ──→ 向量存储      │</span><br><span class="line">│                           ↓                             │</span><br><span class="line">│                        原始文本存储                       │</span><br><span class="line">│                                                         │</span><br><span class="line">│   用户查询 ──→ Embedding ──→ 向量检索 ──→ 混合排序       │</span><br><span class="line">│                           ↓                             │</span><br><span class="line">│   上下文构建 ──→ Prompt 组装 ──→ LLM 生成 ──→ 回答     │</span><br><span class="line">│                                                         │</span><br><span class="line">└─────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-2-Java-RAG-实现"><a href="#7-2-Java-RAG-实现" class="headerlink" title="7.2 Java RAG 实现"></a>7.2 Java RAG 实现</h2><h3 id="文档处理"><a href="#文档处理" class="headerlink" title="文档处理"></a>文档处理</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RagConfig</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> DocumentReader <span class="title function_">documentReader</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">TextDocumentReader</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> TextSplitter <span class="title function_">textSplitter</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">TokenTextSplitter</span>(<span class="number">500</span>, <span class="number">100</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> EmbeddingModel <span class="title function_">embeddingModel</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">OpenAiEmbeddingModel</span>(</span><br><span class="line">            OpenAiApi.withApiKey(System.getenv(<span class="string">&quot;OPENAI_API_KEY&quot;</span>))</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> VectorStore <span class="title function_">vectorStore</span><span class="params">(EmbeddingModel model)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">InMemoryVectorStore</span>(model);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="RAG-服务"><a href="#RAG-服务" class="headerlink" title="RAG 服务"></a>RAG 服务</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RagService</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> DocumentReader reader;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> TextSplitter splitter;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> EmbeddingModel embeddingModel;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> VectorStore vectorStore;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ChatClient chatClient;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 文档入库</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">ingest</span><span class="params">(String filePath)</span> &#123;</span><br><span class="line">        <span class="type">Document</span> <span class="variable">doc</span> <span class="operator">=</span> reader.read(filePath);</span><br><span class="line">        List&lt;Document&gt; chunks = splitter.split(doc);</span><br><span class="line">        vectorStore.add(chunks);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// RAG 问答</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">query</span><span class="params">(String question)</span> &#123;</span><br><span class="line">        <span class="comment">// 1. 检索相关文档</span></span><br><span class="line">        List&lt;Document&gt; docs = vectorStore.similaritySearch(question, <span class="number">5</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 构建上下文</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">context</span> <span class="operator">=</span> docs.stream()</span><br><span class="line">            .map(d -&gt; <span class="string">&quot;【文档】&quot;</span> + d.getContent())</span><br><span class="line">            .collect(Collectors.joining(<span class="string">&quot;\n\n&quot;</span>));</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3. 生成回答</span></span><br><span class="line">        <span class="keyword">return</span> chatClient.prompt()</span><br><span class="line">            .system(<span class="string">&quot;基于以下上下文回答用户问题，如果上下文不足，请如实说明。\n\n&quot;</span> + context)</span><br><span class="line">            .user(question)</span><br><span class="line">            .call()</span><br><span class="line">            .content();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="八、开发工具链"><a href="#八、开发工具链" class="headerlink" title="八、开发工具链"></a>八、开发工具链</h1><h2 id="8-1-IDE-推荐"><a href="#8-1-IDE-推荐" class="headerlink" title="8.1 IDE 推荐"></a>8.1 IDE 推荐</h2><table>
+<thead>
+<tr>
+<th>IDE</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>IntelliJ IDEA</strong></td>
+<td>Java 开发首选，AI 插件丰富</td>
+</tr>
+<tr>
+<td><strong>VS Code</strong></td>
+<td>轻量，配合 Spring Tools 也不错</td>
+</tr>
+<tr>
+<td><strong>Cursor</strong></td>
+<td>AI 原生 IDE，代码补全强大</td>
+</tr>
+</tbody></table>
+<h2 id="8-2-AI-相关插件"><a href="#8-2-AI-相关插件" class="headerlink" title="8.2 AI 相关插件"></a>8.2 AI 相关插件</h2><table>
+<thead>
+<tr>
+<th>插件</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>GitHub Copilot</strong></td>
+<td>代码补全</td>
+</tr>
+<tr>
+<td><strong>Alibaba Cloud AI</strong></td>
+<td>国内模型集成</td>
+</tr>
+<tr>
+<td><strong>Continue</strong></td>
+<td>开源 AI 代码助手</td>
+</tr>
+<tr>
+<td><strong>Spring AI</strong></td>
+<td>Spring AI 官方支持</td>
+</tr>
+</tbody></table>
+<h2 id="8-3-测试工具"><a href="#8-3-测试工具" class="headerlink" title="8.3 测试工具"></a>8.3 测试工具</h2><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Postman</strong></td>
+<td>API 测试</td>
+</tr>
+<tr>
+<td><strong>Silicon Flow</strong></td>
+<td>API 调试</td>
+</tr>
+<tr>
+<td><strong>Portkey</strong></td>
+<td>LLM 调用追踪</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="九、部署与运维"><a href="#九、部署与运维" class="headerlink" title="九、部署与运维"></a>九、部署与运维</h1><h2 id="9-1-Docker-部署"><a href="#9-1-Docker-部署" class="headerlink" title="9.1 Docker 部署"></a>9.1 Docker 部署</h2><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> eclipse-temurin:<span class="number">21</span>-jdk-alpine</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /app</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> target/*.jar app.jar</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;app.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="9-2-云服务选型"><a href="#9-2-云服务选型" class="headerlink" title="9.2 云服务选型"></a>9.2 云服务选型</h2><table>
+<thead>
+<tr>
+<th>云服务</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>阿里云</strong></td>
+<td>百炼、通义、魔搭</td>
+</tr>
+<tr>
+<td><strong>百度智能云</strong></td>
+<td>文心、AgentBuilder</td>
+</tr>
+<tr>
+<td><strong>Azure OpenAI</strong></td>
+<td>GPT 全家桶</td>
+</tr>
+<tr>
+<td><strong>AWS Bedrock</strong></td>
+<td>Claude、Mistral</td>
+</tr>
+</tbody></table>
+<h2 id="9-3-监控与日志"><a href="#9-3-监控与日志" class="headerlink" title="9.3 监控与日志"></a>9.3 监控与日志</h2><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>工具</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>日志</td>
+<td>ELK Stack、Loki</td>
+</tr>
+<tr>
+<td>监控</td>
+<td>Prometheus + Grafana</td>
+</tr>
+<tr>
+<td>链路追踪</td>
+<td>SkyWalking、Zipkin</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="十、学习路径建议"><a href="#十、学习路径建议" class="headerlink" title="十、学习路径建议"></a>十、学习路径建议</h1><h2 id="入门路线"><a href="#入门路线" class="headerlink" title="入门路线"></a>入门路线</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">第一阶段：Java 基础 + Spring Boot</span><br><span class="line">    ↓</span><br><span class="line">第二阶段：大模型入门（Prompt Engineering）</span><br><span class="line">    ↓</span><br><span class="line">第三阶段：Spring AI / LangChain4j 集成</span><br><span class="line">    ↓</span><br><span class="line">第四阶段：RAG 实战（向量数据库 + Embedding）</span><br><span class="line">    ↓</span><br><span class="line">第五阶段：MCP 协议 + Agent 开发</span><br><span class="line">    ↓</span><br><span class="line">第六阶段：Skills 编排 + 生产部署</span><br></pre></td></tr></table></figure>
+
+<h2 id="推荐学习资源"><a href="#推荐学习资源" class="headerlink" title="推荐学习资源"></a>推荐学习资源</h2><table>
+<thead>
+<tr>
+<th>资源类型</th>
+<th>推荐</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>官方文档</td>
+<td>Spring AI Docs、LangChain4j Docs</td>
+</tr>
+<tr>
+<td>开源项目</td>
+<td>Spring AI Samples、LangChain4j Examples</td>
+</tr>
+<tr>
+<td>视频课程</td>
+<td>B站 AI + Java 系列</td>
+</tr>
+<tr>
+<td>社区</td>
+<td>Spring AI GitHub Issues、AI Java 开发者社群</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Java + AI Agent 开发技术栈可分为以下几个层次：</p>
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>组件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>基础层</strong></td>
+<td>Spring Boot</td>
+<td>Web 服务基础</td>
+</tr>
+<tr>
+<td><strong>AI层</strong></td>
+<td>Spring AI &#x2F; LangChain4j</td>
+<td>大模型集成</td>
+</tr>
+<tr>
+<td><strong>协议层</strong></td>
+<td>MCP</td>
+<td>标准化工具调用</td>
+</tr>
+<tr>
+<td><strong>存储层</strong></td>
+<td>向量数据库</td>
+<td>语义检索</td>
+</tr>
+<tr>
+<td><strong>应用层</strong></td>
+<td>Agent &#x2F; Skills</td>
+<td>智能任务执行</td>
+</tr>
+<tr>
+<td><strong>运维层</strong></td>
+<td>Docker &#x2F; K8s</td>
+<td>部署运维</td>
+</tr>
+</tbody></table>
+<p>掌握这些技术栈，开发者可以快速构建企业级的 AI 应用，从简单的 AI 助手到复杂的自主 Agent 系统。</p>
+<hr>
+<blockquote>
+<p>💡 <strong>后续学习</strong></p>
+<ul>
+<li>Spring AI 官方文档与示例</li>
+<li>LangChain4j GitHub 仓库</li>
+<li>MCP 官方规范与实现</li>
+<li>RAG 技术深度实践</li>
+</ul>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/Agent/" rel="tag"># Agent</a>
+              <a href="/tags/MCP/" rel="tag"># MCP</a>
+              <a href="/tags/Spring-Boot/" rel="tag"># Spring Boot</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/09/16/%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93RAG%E4%B8%8EKAG/" rel="prev" title="图数据库RAG与KAG">
+                  <i class="fa fa-angle-left"></i> 图数据库RAG与KAG
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn">晋ICP备2024041642号-1</a> </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jyh</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
